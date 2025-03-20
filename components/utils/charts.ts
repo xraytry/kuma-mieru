@@ -1,43 +1,14 @@
 import type { Heartbeat } from '@/types/monitor';
-
-export const STATUS_COLORS = {
-  online: {
-    light: 'bg-success/80',
-    dark: 'bg-success',
-    text: '在线',
-  },
-  maintenance: {
-    light: 'bg-warning/80',
-    dark: 'bg-warning',
-    text: '维护中',
-  },
-  offline: {
-    light: 'bg-danger/80',
-    dark: 'bg-danger',
-    text: '离线',
-  },
-} as const;
-
-export const getPingColor = (ping: number) => {
-  if (ping <= 100) return 'text-success-600 dark:text-success-500'; // 优秀
-  if (ping <= 200) return 'text-warning-600 dark:text-warning-500'; // 一般
-  return 'text-danger-600 dark:text-danger-500'; // 较差
-};
+import { COLOR_SYSTEM, getStatusColorByStats } from './colors';
 
 export const getStatusColor = (heartbeat: Heartbeat, pingStats: PingStats | null) => {
   const { status, ping } = heartbeat;
 
-  if (status !== 1) {
-    return STATUS_COLORS.maintenance;
-  }
+  if (status === 0) return COLOR_SYSTEM.error;
+  if (status === 2) return COLOR_SYSTEM.warning;
 
-  if (!ping || !pingStats) return STATUS_COLORS.online;
-
-  if (ping <= pingStats.p25) return STATUS_COLORS.online;
-  if (ping <= pingStats.p50) return STATUS_COLORS.online;
-  if (ping <= pingStats.p75) return STATUS_COLORS.online;
-  if (ping <= pingStats.max * 0.9) return STATUS_COLORS.online; // 接近peak
-  return STATUS_COLORS.online; // 异常 peak
+  if (!ping || !pingStats) return COLOR_SYSTEM.excellent;
+  return getStatusColorByStats(ping, pingStats);
 };
 
 export interface PingStats {

@@ -6,7 +6,7 @@
 export function formatLatency(ms: number): string {
   if (!ms && ms !== 0) return '-';
 
-  if (ms < 100) {
+  if (ms < 200) {
     return `${ms.toFixed(0)} ms`;
   }
 
@@ -48,7 +48,7 @@ export function formatLatencyForAxis(ms: number): string {
  */
 export function getLatencyColor(ms: number): "success" | "warning" | "danger" {
   if (!ms && ms !== 0) return "danger";
-  if (ms < 100) return "success";
+  if (ms < 200) return "success";
   if (ms < 1000) return "warning";
   return "danger";
 }

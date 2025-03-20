@@ -2,7 +2,7 @@
 
 **Kuma Mieru 是一款基于 Next.js 15、TypeScript 和 Recharts 构建的第三方 Uptime Kuma 监控仪表盘。** 本项目尝试使用 Recharts + Next.js 解决 Uptime Kuma 公开监控页面不够直观、没有延迟图表的缺点。
 
-[中文版](README.zh.md) | [English Version](README.md)
+[中文版](README.md) | [English Version](README.en.md)
 
 ## 功能亮点 :sparkles:
 

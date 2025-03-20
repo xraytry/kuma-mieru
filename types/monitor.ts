@@ -2,7 +2,7 @@ export interface Heartbeat {
   status: number;  // 0: down, 1: up, 2: maintenance
   time: string;
   msg: string;
-  ping: number | null;
+  ping: number | null; // latency in ms
 }
 
 export interface UptimeData {

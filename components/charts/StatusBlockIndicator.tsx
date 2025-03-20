@@ -4,7 +4,8 @@ import { clsx } from 'clsx';
 import { CustomTooltip } from '../ui/CustomTooltip';
 import dayjs from 'dayjs';
 import { PingStats } from './PingStats';
-import { STATUS_COLORS, calculatePingStats, getStatusColor } from '../utils/charts';
+import { calculatePingStats, getStatusColor } from '../utils/charts';
+import { COLOR_SYSTEM } from '../utils/colors';
 
 interface StatusBlockIndicatorProps {
   heartbeats: Heartbeat[];
@@ -34,19 +35,21 @@ export function StatusBlockIndicator({
             isHome && 'ml-auto',
           )}
         >
-          {Object.entries(STATUS_COLORS).map(([key, value]) => (
-            <div key={key} className="flex items-center gap-1">
-              <div className={clsx('w-1.5 h-1.5 rounded-full', value.dark)} />
-              <span>{value.text}</span>
-            </div>
-          ))}
+          {Object.entries(COLOR_SYSTEM)
+            .filter(([_, value]) => value.showInLegend)
+            .map(([key, value]) => (
+              <div key={key} className="flex items-center gap-1">
+                <div className={clsx('w-1.5 h-1.5 rounded-full', value.bg.dark)} />
+                <span>{value.label}</span>
+              </div>
+            ))}
         </div>
       </div>
 
       {/* 状态块 */}
       <div className="flex gap-0.5 h-3 w-full rounded-sm overflow-hidden bg-default-100 dark:bg-default-50">
         {heartbeats.map((hb) => {
-          const { light, dark } = getStatusColor(hb, pingStats);
+          const colorInfo = getStatusColor(hb, pingStats);
           return (
             <CustomTooltip
               key={hb.time}
@@ -54,17 +57,8 @@ export function StatusBlockIndicator({
                 <div className="flex w-full items-center gap-x-2">
                   <div className="flex w-full flex-col gap-y-1">
                     <div className="flex w-full items-center gap-x-1 text-small">
-                      <span
-                        className={clsx(
-                          'text-small font-medium',
-                          hb.status === 1
-                            ? 'text-success-600 dark:text-success-500'
-                            : hb.status === 2
-                              ? 'text-warning-600 dark:text-warning-500'
-                              : 'text-danger-600 dark:text-danger-500',
-                        )}
-                      >
-                        {getStatusColor(hb, pingStats).text}
+                      <span className={clsx('text-small font-medium', colorInfo.text)}>
+                        {colorInfo.label}
                       </span>
                       <span className="text-foreground/60 dark:text-foreground/40">-</span>
                       <span className="text-foreground/60 dark:text-foreground/40">
@@ -79,7 +73,7 @@ export function StatusBlockIndicator({
                 className={clsx(
                   'flex-1 h-full cursor-pointer transition-all hover:opacity-80',
                   'dark:hover:opacity-90',
-                  hb.ping ? dark : light,
+                  hb.ping ? colorInfo.bg.dark : colorInfo.bg.light,
                 )}
               />
             </CustomTooltip>

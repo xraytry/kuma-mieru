@@ -1,8 +1,10 @@
 import React, { useMemo } from 'react';
 import type { Heartbeat } from '@/types/monitor';
 import { clsx } from 'clsx';
-import { calculatePingMetrics, getPingColor } from '../utils/charts';
+import { calculatePingMetrics } from '../utils/charts';
 import { Tooltip } from '@heroui/react';
+import { getPingColorClass } from '../utils/colors';
+import { formatLatency } from '../utils/format';
 
 interface PingStatsProps {
   heartbeats: Heartbeat[];
@@ -38,9 +40,10 @@ export function PingStats({ heartbeats, isHome = false }: PingStatsProps) {
           </Tooltip>
         ) : (
           PING_LABELS.lt.full
-        )}:
-        <span className={clsx('font-medium', getPingColor(stats.latestPing))}>
-          {stats.latestPing}ms
+        )}
+        :
+        <span className={clsx('font-medium', getPingColorClass(stats.latestPing).text)}>
+          {formatLatency(stats.latestPing)}
         </span>
       </div>
       <div className="flex items-center gap-1">
@@ -50,9 +53,10 @@ export function PingStats({ heartbeats, isHome = false }: PingStatsProps) {
           </Tooltip>
         ) : (
           PING_LABELS.av.full
-        )}:
-        <span className={clsx('font-medium', getPingColor(stats.avgPing))}>
-          {stats.avgPing}ms
+        )}
+        :
+        <span className={clsx('font-medium', getPingColorClass(stats.avgPing).text)}>
+          {formatLatency(stats.avgPing)}
         </span>
       </div>
       <div className="flex items-center gap-1">
@@ -62,11 +66,12 @@ export function PingStats({ heartbeats, isHome = false }: PingStatsProps) {
           </Tooltip>
         ) : (
           PING_LABELS.ta.full
-        )}:
-        <span className={clsx('font-medium', getPingColor(stats.trimmedAvgPing))}>
-          {stats.trimmedAvgPing}ms
+        )}
+        :
+        <span className={clsx('font-medium', getPingColorClass(stats.trimmedAvgPing).text)}>
+          {formatLatency(stats.trimmedAvgPing)}
         </span>
       </div>
     </div>
   );
-} 
+}
