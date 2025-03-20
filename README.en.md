@@ -7,7 +7,7 @@ Built with Next.js 15, TypeScript, and Recharts, this project enhances Uptime Ku
 
 > [!NOTE]
 > This project has enabled automatic upstream repository synchronization. Your fork will auto-update daily at 1:30 AM UTC.
-> 
+>
 > To disable auto-sync: Create an empty `auto-update.lock` file in the root directory (please comment out `*.lock` in your .gitignore first).
 
 ## Key Features :sparkles:
@@ -26,15 +26,26 @@ Built with Next.js 15, TypeScript, and Recharts, this project enhances Uptime Ku
 
 ## Deployment :star:
 
-### One-Click Vercel Deployment (Recommended)
+### Vercel Deployment (Recommended)
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Falice39s%2Fkuma-mieru.git&env=UPTIME_KUMA_BASE_URL,PAGE_ID)
+#### 1. Fork Repository
 
-1. Click the button above
-2. Configure environment variables:
-   - `UPTIME_KUMA_BASE_URL`: Your Uptime Kuma instance URL (e.g., `https://status.example.com`)
-   - `PAGE_ID`: Status page ID from Uptime Kuma (found in your status page URL)
-3. Click **Deploy**
+Fork this repository to your GitHub account.
+
+#### 2. Import to Vercel
+
+Go to https://vercel.com/new, select **Import** to import the repository you just forked.
+
+#### 3. Configure Environment Variables
+
+1. Click `Environment Variables` to add the following two environment variables:  
+   `UPTIME_KUMA_BASE_URL` and `PAGE_ID`.
+
+2. Click the `Deploy` button to deploy instantly on Vercel.
+
+#### 4. Update Repository
+
+1. Enter your forked GitHub repository, click the `Sync fork` button, and follow the prompts to automatically synchronize the latest code from this repository.
 
 ### Local Installation
 

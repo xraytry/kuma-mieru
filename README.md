@@ -6,7 +6,7 @@
 
 > [!NOTE]
 > 本项目已启用自动同步上游仓库功能，Fork 后每天凌晨 1:30 (UTC) 会自动同步更新。
-> 
+>
 > 如需禁用自动同步，请在项目根目录创建 `auto-update.lock` 空文件 (请先注释掉 .gitignore 中的 `*.lock` 哦)
 
 ## 功能亮点 :sparkles:
@@ -27,10 +27,35 @@
 
 ### 使用 Vercel 部署 (推荐)
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Falice39s%2Fkuma-mieru.git&env=UPTIME_KUMA_BASE_URL,PAGE_ID)
+<!-- [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Falice39s%2Fkuma-mieru&env=UPTIME_KUMA_BASE_URL,PAGE_ID&demo-title=Kuma%20Mieru%20Demo&demo-description=Kuma%20Mieru%20is%20a%20third-party%20Uptime%20Kuma%20monitoring%20dashboard%20built%20on%20Next.js%2015%2C%20TypeScript%20and%20Recharts.&demo-url=https%3A%2F%2Fkuma-mieru.vercel.app%2F%3Fr%3Dvercel_new&demo-image=https%3A%2F%2Fraw.githubusercontent.com%2FAlice39s%2Fkuma-mieru%2Frefs%2Fheads%2Fmain%2Fdocs%2Fv1.0.0-light.png)
 
 - 点击按钮后，需要填写 `UPTIME_KUMA_BASE_URL` 和 `PAGE_ID` 两个环境变量
-- 最后点击 `Deploy` 按钮即可一键部署到 Vercel。
+- 最后点击 `Deploy` 按钮即可一键部署到 Vercel。 -->
+
+#### 1. Fork 仓库
+
+Fork 本仓库到您的 GitHub 用户下，如图所示：
+
+1. ![Fork 仓库](./docs/git-repo-fork.png)
+2. ![Fork 成功](./docs/git-create-fork.png)
+
+#### 2. 导入到 Vercel
+
+进入 https://vercel.com/new ，选择 Import 刚才 Fork 的仓库，如图所示：
+
+![导入仓库](./docs/vercel-import.png)
+
+#### 3. 配置环境变量
+
+1. 点击 `Environment Variables` 添加 `UPTIME_KUMA_BASE_URL` 和 `PAGE_ID` 两个环境变量，如图所示：
+
+![部署到 Vercel](./docs/vercel-deploy.png)
+
+2. 点击 `Deploy` 按钮即可一键部署到 Vercel
+
+#### 4. 更新仓库
+
+1. 进入你 Fork 的 GitHub 仓库，点击 `Sync fork` 按钮，按照提示操作即可自动同步本仓库的最新代码。
 
 ### 本地部署
 
