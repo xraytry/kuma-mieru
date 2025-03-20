@@ -4,6 +4,8 @@ import React from 'react';
 import type { SiteConfig } from '@/types/config';
 import { Link } from '@heroui/react';
 
+import packageJson from '@/package.json';
+
 interface FooterProps {
   config: SiteConfig;
 }
@@ -33,14 +35,14 @@ export function Footer({ config }: FooterProps) {
                 isExternal
                 className="text-primary text-xs"
               >
-                Kuma Mieru
+                Kuma Mieru v{packageJson.version}
               </Link>
             </>
           ) : (
             <>
               <span>Uptime Kuma</span>
               <span>&</span>
-              <span>Kuma Mieru</span>
+              <span>Kuma Mieru v{packageJson.version}</span>
             </>
           )}
         </div>
