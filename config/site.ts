@@ -28,14 +28,26 @@ export const siteConfig = {
   icon: constructIconUrl(config?.icon) || constructIconUrl(DEFAULT_CONFIG.icon),
   navItems: [
     {
-      label: 'Dashboard',
+      label: '仪表盘',
       href: "/",
+      external: false,
+    },
+    {
+      label: '编辑此页',
+      href: `${apiConfig.baseUrl}/manage-status-page`,
+      external: true,
     }
   ],
   navMenuItems: [
     {
-      label: 'Dashboard',
+      label: '仪表盘',
       href: "/",
+      external: false,
+    },
+    {
+      label: '编辑此页',
+      href: `${apiConfig.baseUrl}/manage-status-page`,
+      external: true,
     }
   ],
   links: {

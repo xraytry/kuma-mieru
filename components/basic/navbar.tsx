@@ -39,7 +39,7 @@ export const Navbar = () => {
       }
       // TODO: 实现节点过滤器
       labelPlacement="outside"
-      placeholder="Search..."
+      placeholder="搜索节点..."
       startContent={
         <SearchIcon className="text-base text-default-400 pointer-events-none flex-shrink-0" />
       }
@@ -88,6 +88,7 @@ export const Navbar = () => {
                 )}
                 color="foreground"
                 href={item.href}
+                target={item.external ? '_blank' : '_self'}
               >
                 {item.label}
               </NextLink>
@@ -123,7 +124,8 @@ export const Navbar = () => {
         <NavbarMenuToggle />
       </NavbarContent>
 
-      <NavbarMenu>
+      {/* 移动端菜单 */}
+      <NavbarMenu className="z-[60]">
         {searchInput}
         <div className="mx-4 mt-2 flex flex-col gap-2">
           {siteConfig.navMenuItems.map((item, index) => (
