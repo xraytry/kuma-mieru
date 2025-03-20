@@ -24,7 +24,7 @@ const generateImageDomains = (): void => {
         domains: [baseUrlHostname || '*'].filter(Boolean)
     };
 
-    const outputPath = join(process.cwd(), 'config', 'generated', 'image-domains.json');
+    const outputPath = join(process.cwd(), 'config', 'generated-image-domains.json');
 
     mkdirSync(dirname(outputPath), { recursive: true });
 

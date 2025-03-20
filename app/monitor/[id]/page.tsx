@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState, use } from 'react';
 import { MonitorCard } from '@/components/MonitorCard';
 import AutoRefresh from '@/components/AutoRefresh';
-import type { Monitor, MonitoringData } from '@/types/monitor';
+import type { Monitor, MonitoringData, MonitorGroup } from '@/types/monitor';
 import { Card } from '@heroui/react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
@@ -46,21 +46,34 @@ export default function MonitorDetail({
     if (!resolvedParams.id) return;
 
     try {
-      const monitorResponse = await fetch(`/api/monitor/${resolvedParams.id}`);
+      const monitorId = Number.parseInt(resolvedParams.id, 10);
+      
+      // 获取监控数据
+      const monitorResponse = await fetch('/api/monitor');
       const monitorData = await monitorResponse.json();
 
-      if (!monitorResponse.ok) {
-        throw new Error(monitorData.error || '获取数据失败');
+      // 在所有监控组中查找指定 ID 的监控项
+      const foundMonitor = monitorData.monitorGroups
+        .flatMap((group: MonitorGroup) => group.monitorList)
+        .find((m: Monitor) => m.id === monitorId);
+
+      if (!foundMonitor) {
+        throw new Error('未找到监控项');
       }
 
-      if (monitorData.monitor) {
-        setMonitor(monitorData.monitor);
-      }
-
-      if (monitorData.data) {
-        setData(monitorData.data);
-      }
-
+      setMonitor(foundMonitor);
+      
+      // 提取该监控项的数据
+      const monitoringData = {
+        heartbeatList: {
+          [monitorId]: monitorData.data.heartbeatList[monitorId] || [],
+        },
+        uptimeList: {
+          [`${monitorId}_24`]: monitorData.data.uptimeList[`${monitorId}_24`] || 0,
+        },
+      };
+      
+      setData(monitoringData);
       setError(null);
     } catch (error) {
       setError(error instanceof Error ? error.message : '获取数据失败');
