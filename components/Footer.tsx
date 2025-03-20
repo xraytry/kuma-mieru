@@ -14,7 +14,7 @@ export function Footer({ config }: FooterProps) {
   return (
     <footer className="w-full flex flex-col items-center justify-center py-4 px-4 mt-4 text-sm text-foreground-500 relative z-50">
       <div className="container mx-auto flex flex-col md:flex-row items-center justify-between">
-        <div className="mb-2 md:mb-0 text-lg">{footerText}</div>
+        <div className="mb-2 md:mb-0 text-base">{footerText}</div>
 
         <div className="flex items-center gap-1 text-xs">
           <span>Powered by</span>
