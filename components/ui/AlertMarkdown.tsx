@@ -105,7 +105,9 @@ function IncidentAlert({ incident }: { incident: Incident }) {
                 prose-pre:bg-gray-100 dark:prose-pre:bg-gray-800 prose-pre:p-3
                 prose-ul:list-disc prose-ul:pl-5 prose-ol:list-decimal prose-ol:pl-5
                 prose-li:text-gray-600 dark:prose-li:text-gray-300
-                prose-headings:text-gray-800 dark:prose-headings:text-gray-100"
+                prose-headings:text-gray-800 dark:prose-headings:text-gray-100
+                prose-code:text-gray-800 dark:prose-code:text-gray-100
+                prose-code:font-mono prose-code:text-sm"
               // biome-ignore lint/security/noDangerouslySetInnerHtml: 相信 markdown-it 的安全性（
               dangerouslySetInnerHTML={{ __html: htmlContent }}
             />
