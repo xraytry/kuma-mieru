@@ -95,7 +95,7 @@ export function MonitorCard({ monitor, heartbeats, uptime24h, isHome = true }: M
           </div>
         </CardHeader>
         <CardBody>
-          <StatusBlockIndicator heartbeats={heartbeats} className="mb-4" />
+          <StatusBlockIndicator heartbeats={heartbeats} className="mb-4" isHome={isHome} />
 
           <Divider className="my-2" />
 

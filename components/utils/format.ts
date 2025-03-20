@@ -25,7 +25,7 @@ export function formatLatency(ms: number): string {
  * @returns formatted string with unit, more compact than formatLatency
  */
 export function formatLatencyForAxis(ms: number): string {
-  if (ms < 100) {
+  if (ms <= 200) {
     return `${ms} ms`;
   }
 
