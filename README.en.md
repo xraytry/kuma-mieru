@@ -5,6 +5,11 @@ Built with Next.js 15, TypeScript, and Recharts, this project enhances Uptime Ku
 
 [中文版](README.md) | [English Version](README.en.md)
 
+> [!NOTE]
+> This project has enabled automatic upstream repository synchronization. Your fork will auto-update daily at 1:30 AM UTC.
+> 
+> To disable auto-sync: Create an empty `auto-update.lock` file in the root directory (please comment out `*.lock` in your .gitignore first).
+
 ## Key Features :sparkles:
 
 - **Real-Time Monitoring & Auto-Refresh** :arrows_clockwise: Live status updates without manual refreshing.

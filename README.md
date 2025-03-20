@@ -4,6 +4,11 @@
 
 [中文版](README.md) | [English Version](README.en.md)
 
+> [!NOTE]
+> 本项目已启用自动同步上游仓库功能，Fork 后每天凌晨 1:30 (UTC) 会自动同步更新。
+> 
+> 如需禁用自动同步，请在项目根目录创建 `auto-update.lock` 空文件 (请先注释掉 .gitignore 中的 `*.lock` 哦)
+
 ## 功能亮点 :sparkles:
 
 - **实时监控，自动刷新** :arrows_clockwise:：状态显示**实时更新**，无需手动刷新，随时掌握最新动态。
