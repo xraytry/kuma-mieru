@@ -1,0 +1,72 @@
+name: Create Release
+
+on:
+  push:
+    paths:
+      - "package.json"
+    branches:
+      - main
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      discussions: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get version from package.json
+        id: package_version
+        run: |
+          echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
+          echo "previous_version=$(git show HEAD^:package.json | node -p "require(require('fs').readFileSync(0)).version")" >> $GITHUB_OUTPUT
+
+      - name: Check version change
+        id: version_check
+        run: |
+          if [ "${{ steps.package_version.outputs.version }}" != "${{ steps.package_version.outputs.previous_version }}" ]; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Generate changelog
+        if: steps.version_check.outputs.changed == 'true'
+        id: changelog
+        run: |
+          # 获取从上一个版本到现在的所有提交
+          CHANGELOG=$(git log --pretty=format:"- %s" $(git describe --tags --abbrev=0 2>/dev/null || git rev-list --max-parents=0 HEAD)..HEAD)
+          echo "CHANGELOG<<EOF" >> $GITHUB_OUTPUT
+          echo "$CHANGELOG" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Create Release
+        if: steps.version_check.outputs.changed == 'true'
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v${{ steps.package_version.outputs.version }}
+          name: Release v${{ steps.package_version.outputs.version }}
+          body: |
+            ## 更新日志
+
+            ${{ steps.changelog.outputs.CHANGELOG }}
+
+            ## Docker 镜像
+
+            ```bash
+            docker pull ghcr.io/${{ github.repository }}:${{ steps.package_version.outputs.version }}
+            ```
+
+            ## 环境变量
+
+            请确保设置以下环境变量：
+            - `UPTIME_KUMA_BASE_URL`: Uptime Kuma 实例的基础 URL
+            - `PAGE_ID`: 状态页面 ID
+          draft: false
+          prerelease: false
+          generate_release_notes: true 

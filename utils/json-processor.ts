@@ -40,7 +40,6 @@ export const extractPreloadData = (jsonStr: string): PreloadData => {
         const decodedData = decodeUnicodeEscapes(directParsed); // 新增解码步骤
 
         if (validatePreloadData(decodedData)) {
-            console.debug('成功通过直接解析获取数据');
             return decodedData;
         }
     } catch (error) {

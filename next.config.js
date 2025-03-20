@@ -13,6 +13,7 @@ const getImageDomains = () => {
 };
 
 const nextConfig = {
+    output: 'standalone',
     images: {
         remotePatterns: getImageDomains().map(hostname => ({
             protocol: 'https',

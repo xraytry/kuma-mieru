@@ -82,6 +82,107 @@
    bun run start
    ```
 
+## Docker 部署 :whale:
+
+### 使用 Docker Compose（推荐）
+
+1. **克隆仓库**
+
+   ```bash
+   git clone https://github.com/Alice39s/kuma-mieru.git
+   cd kuma-mieru
+   ```
+
+2. **配置环境变量**
+   复制 `.env.example` 文件并创建 `.env` 文件：
+
+   ```bash
+   cp .env.example .env
+   ```
+
+   编辑 `.env` 文件，设置必要的环境变量：
+
+   ```
+   UPTIME_KUMA_BASE_URL=https://example.com
+   PAGE_ID=your-status-page-id
+   ```
+
+3. **启动服务**
+
+   ```bash
+   docker compose up -d
+   ```
+
+   如果需要绕过 build 缓存，可以添加 `--build` 参数：
+
+   ```bash
+   docker compose up -d --build
+   ```
+
+   服务将在 `http://0.0.0.0:3883` 上运行。
+
+4. **查看日志**
+
+   ```bash
+   docker compose logs -f
+   ```
+
+### 使用 Docker 手动部署
+
+1. **构建镜像**
+
+   ```bash
+   docker build -t kuma-mieru .
+   ```
+
+2. **运行容器**
+
+   ```bash
+   docker run -d \
+     --name kuma-mieru \
+     -p 3883:3000 \
+     -e UPTIME_KUMA_BASE_URL=https://example.com \
+     -e PAGE_ID=your-status-page-id \
+     kuma-mieru
+   ```
+
+### 环境变量说明
+
+| 变量名               | 必填 | 说明                       | 示例                |
+| -------------------- | ---- | -------------------------- | ------------------- |
+| UPTIME_KUMA_BASE_URL | 是   | Uptime Kuma 实例的基础 URL | https://example.com |
+| PAGE_ID              | 是   | 状态页面 ID                | test1               |
+
+### 健康检查
+
+Docker 容器包含了内置的健康检查机制，每 30 秒会检查一次服务状态。健康检查 API 端点为 `/api/health`，返回以下信息：
+
+```json
+{
+  "status": "ok",
+  "timestamp": "2024-03-20T12:34:56.789Z",
+  "uptime": 123.456
+}
+```
+
+您可以通过以下命令查看容器的健康状态：
+
+```bash
+docker ps
+```
+
+或者使用 Docker Compose：
+
+```bash
+docker compose ps
+```
+
+您也可以直接访问健康检查 API：
+
+```bash
+curl http://localhost:3883/api/health
+```
+
 ## 项目结构 :file_folder:
 
 Kuma Mieru 使用 Next.js 15 (App Router) 构建，具体的项目结构如下：
@@ -112,7 +213,7 @@ kuma-mieru/
 Kuma Mieru 与备受好评的开源监控工具 [Uptime Kuma](https://github.com/louislam/uptime-kuma) 无缝集成，您只需要：
 
 1. **安装并配置 Uptime Kuma**
-2. **在 Uptime Kuma 中创建 “状态页面”**
+2. **在 Uptime Kuma 中创建 "状态页面"**
 3. **在 `.env.local` 文件中配置环境变量**
 
 ## 贡献指南 :handshake:
