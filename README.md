@@ -55,7 +55,8 @@ Fork 本仓库到您的 GitHub 用户下，如图所示：
 
 #### 4. 更新仓库
 
-1. 进入你 Fork 的 GitHub 仓库，点击 `Sync fork` 按钮，按照提示操作即可自动同步本仓库的最新代码。
+1. 进入你 Fork 的 GitHub 仓库，点击 `Sync fork` 按钮
+2. 点击 `Update branch` 按钮，即可自动同步本仓库的最新代码
 
 ### 本地部署
 

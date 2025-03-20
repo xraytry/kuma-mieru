@@ -45,7 +45,8 @@ Go to https://vercel.com/new, select **Import** to import the repository you jus
 
 #### 4. Update Repository
 
-1. Enter your forked GitHub repository, click the `Sync fork` button, and follow the prompts to automatically synchronize the latest code from this repository.
+1. Enter your forked GitHub repository, click the `Sync fork` button.
+2. Click the `Update branch` button, and follow the prompts to automatically synchronize the latest code from this repository.
 
 ### Local Installation
 
