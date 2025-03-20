@@ -61,6 +61,7 @@ export default function Home() {
                   monitor={monitor}
                   heartbeats={data.heartbeatList[monitor.id] || []}
                   uptime24h={data.uptimeList[`${monitor.id}_24`] || 0}
+                  isHome={true}
                 />
               ))}
             </div>

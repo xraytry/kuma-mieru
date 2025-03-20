@@ -28,7 +28,7 @@ export const siteConfig = {
   icon: constructIconUrl(config?.icon) || constructIconUrl(DEFAULT_CONFIG.icon),
   navItems: [
     {
-      label: '仪表盘',
+      label: '首页',
       href: "/",
       external: false,
     },
@@ -40,7 +40,7 @@ export const siteConfig = {
   ],
   navMenuItems: [
     {
-      label: '仪表盘',
+      label: '首页',
       href: "/",
       external: false,
     },
