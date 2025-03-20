@@ -1,13 +1,18 @@
-import configJson from './generated-config.json';
+import type { Config } from '@/types/config';
 
-interface Config {
-  baseUrl: string;
-  htmlEndpoint: string;
-  apiEndpoint: string;
-  isPlaceholder: boolean;
-}
+const getConfig = (): Config => {
+  const baseUrl = process.env.UPTIME_KUMA_BASE_URL || 'https://uptime.example.com';
+  const pageId = process.env.PAGE_ID || 'demo';
 
-export const apiConfig = configJson as Config;
+  return {
+    baseUrl,
+    htmlEndpoint: `${baseUrl}/status/${pageId}`,
+    apiEndpoint: `${baseUrl}/api/status-page/heartbeat/${pageId}`,
+    isPlaceholder: !process.env.UPTIME_KUMA_BASE_URL,
+  };
+};
+
+export const apiConfig = getConfig();
 
 export type ApiConfig = Config;
 

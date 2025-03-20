@@ -10,11 +10,9 @@
     "lint:fix": "biome check --apply .",
     "format": "biome format .",
     "format:fix": "biome format --write .",
-    "predev": "bun run generate",
-    "prebuild": "bun run generate",
-    "generate": "bun scripts/generate-config.ts && bun scripts/generate-image-domains.ts",
-    "generate-image-domains": "bun scripts/generate-image-domains.ts",
-    "generate-config": "bun scripts/generate-config.ts"
+    "predev": "bun run generate-image-domains",
+    "prebuild": "bun run generate-image-domains",
+    "generate-image-domains": "bun scripts/generate-image-domains.ts"
   },
   "dependencies": {
     "@heroui/button": "2.2.16",

@@ -1,6 +1,5 @@
 import { writeFileSync, mkdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
-import { apiConfig } from '../config/api';
 
 interface ImageDomainsConfig {
     timestamp: string;
@@ -17,7 +16,8 @@ const getHostnameFromUrl = (url: string | null): string | null => {
 };
 
 const generateImageDomains = (): void => {
-    const baseUrlHostname = getHostnameFromUrl(apiConfig.baseUrl);
+    const baseUrl = process.env.UPTIME_KUMA_BASE_URL || '';
+    const baseUrlHostname = getHostnameFromUrl(baseUrl);
 
     const domainsConfig: ImageDomainsConfig = {
         timestamp: new Date().toISOString(),
@@ -33,4 +33,4 @@ const generateImageDomains = (): void => {
     console.log('✨ Generated image domains configuration:', domainsConfig);
 };
 
-generateImageDomains()
+generateImageDomains();

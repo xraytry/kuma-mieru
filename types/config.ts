@@ -1,5 +1,12 @@
 import type { Incident, MonitorGroup } from "./monitor";
 
+export interface Config {
+  baseUrl: string;
+  htmlEndpoint: string;
+  apiEndpoint: string;
+  isPlaceholder: boolean;
+}
+
 export interface SiteConfig {
   slug: string;
   title: string;
