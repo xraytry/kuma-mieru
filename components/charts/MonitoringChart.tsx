@@ -57,6 +57,14 @@ export function MonitoringChart({
 
   return (
     <div className="w-full mt-2">
+      <div className="mb-4 mt-3 items-center justify-center flex gap-2">
+        {/* TODO: 切换图表时重绘动画 */}
+        <Tabs size="sm" selectedKey={selectedRange} onSelectionChange={handleRangeChange}>
+          {countRanges.map((range) => (
+            <Tab key={range.key} title={range.title} />
+          ))}
+        </Tabs>
+      </div>
       <AnimatePresence mode="wait">
         <motion.div
           key={selectedRange}
@@ -148,14 +156,6 @@ export function MonitoringChart({
           </ResponsiveContainer>
         </motion.div>
       </AnimatePresence>
-      <div className="mb-2 mt-2 items-center justify-center flex gap-2">
-        {/* TODO: 切换图表时重绘动画 */}
-        <Tabs size="sm" selectedKey={selectedRange} onSelectionChange={handleRangeChange}>
-          {countRanges.map((range) => (
-            <Tab key={range.key} title={range.title} />
-          ))}
-        </Tabs>
-      </div>
     </div>
   );
 }

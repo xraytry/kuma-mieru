@@ -27,7 +27,7 @@ export function StatusBlockIndicator({
   return (
     <div className={clsx(className, 'relative mt-4 flex flex-col gap-1')}>
       {/* 图例和延迟统计 */}
-      <div className="absolute -top-6 flex w-full items-center justify-between">
+      <div className="absolute -top-5 flex w-full items-center justify-between">
         <PingStats heartbeats={recentHeartbeats} isHome={isHome} />
         <div
           className={clsx(
@@ -47,7 +47,7 @@ export function StatusBlockIndicator({
       </div>
 
       {/* 状态块 */}
-      <div className="flex gap-0.5 h-3 w-full rounded-sm overflow-hidden bg-default-100 dark:bg-default-50">
+      <div className="flex gap-0.5 mt-2 h-3 w-[98%] justify-center items-center mx-auto rounded-sm overflow-hidden bg-default-100 dark:bg-default-50">
         {heartbeats.map((hb) => {
           const colorInfo = getStatusColor(hb, pingStats);
           return (
