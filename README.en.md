@@ -15,8 +15,8 @@ Built with Next.js 15, TypeScript, and Recharts, this project enhances Uptime Ku
 
 ## Preview :camera:
 
-| Dark Mode                           | Light Mode                            |
-| ----------------------------------- | ------------------------------------- |
+| Dark Mode                            | Light Mode                             |
+| ------------------------------------ | -------------------------------------- |
 | ![Dark Mode](./docs/v1.0.0-dark.png) | ![Light Mode](./docs/v1.0.0-light.png) |
 
 ## Deployment :star:
@@ -71,6 +71,107 @@ Built with Next.js 15, TypeScript, and Recharts, this project enhances Uptime Ku
    bun run build
    bun run start
    ```
+
+## Docker Deployment :whale:
+
+### Using Docker Compose (Recommended)
+
+1. **Clone Repository**
+
+   ```bash
+   git clone https://github.com/Alice39s/kuma-mieru.git
+   cd kuma-mieru
+   ```
+
+2. **Configure Environment Variables**  
+   Duplicate the `.env.example` file to create your `.env` file:
+
+   ```bash
+   cp .env.example .env
+   ```
+
+   Edit the `.env` file with required configurations:
+
+   ```
+   UPTIME_KUMA_BASE_URL=https://example.com
+   PAGE_ID=your-status-page-id
+   ```
+
+3. **Start Services**
+
+   ```bash
+   docker compose up -d
+   ```
+
+   Add `--build` flag to bypass build cache if needed:
+
+   ```bash
+   docker compose up -d --build
+   ```
+
+   Service will be available at `http://0.0.0.0:3883`.
+
+4. **View Logs**
+
+   ```bash
+   docker compose logs -f
+   ```
+
+### Manual Docker Deployment
+
+1. **Build Image**
+
+   ```bash
+   docker build -t kuma-mieru .
+   ```
+
+2. **Run Container**
+
+   ```bash
+   docker run -d \
+     --name kuma-mieru \
+     -p 3883:3000 \
+     -e UPTIME_KUMA_BASE_URL=https://example.com \
+     -e PAGE_ID=your-status-page-id \
+     kuma-mieru
+   ```
+
+### Environment Variables
+
+| Variable Name        | Required | Description                      | Example             |
+| -------------------- | -------- | -------------------------------- | ------------------- |
+| UPTIME_KUMA_BASE_URL | Yes      | Base URL of Uptime Kuma instance | https://example.com |
+| PAGE_ID              | Yes      | Status page ID                   | test1               |
+
+### Health Check
+
+The Docker container includes a built-in health check mechanism that verifies service status every 30 seconds. The health check API endpoint is `/api/health`, returning:
+
+```json
+{
+  "status": "ok",
+  "timestamp": "2024-03-20T12:34:56.789Z",
+  "uptime": 123.456
+}
+```
+
+Check container health status using:
+
+```bash
+docker ps
+```
+
+Or via Docker Compose:
+
+```bash
+docker compose ps
+```
+
+Directly access the health check API:
+
+```bash
+curl http://localhost:3883/api/health
+```
 
 ## Architecture :file_folder:
 
