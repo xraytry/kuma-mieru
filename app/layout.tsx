@@ -5,6 +5,7 @@ import { clsx } from 'clsx';
 
 import { Providers } from './providers';
 import { getGlobalConfig } from '@/services/config';
+import { siteConfig } from '@/config/site';
 import { fontSans } from '@/config/fonts';
 import { Navbar } from '@/components/basic/navbar';
 import { Footer } from '@/components/Footer';
@@ -15,10 +16,10 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return {
     title: {
-      default: config.title,
-      template: `%s - ${config.title}`,
+      default: siteConfig.name,
+      template: `%s - ${siteConfig.name}`,
     },
-    description: config.description,
+    description: siteConfig.description,
     icons: {
       icon: config.icon,
     },
@@ -48,9 +49,7 @@ export default async function RootLayout({
         <Providers themeProps={{ attribute: 'class', defaultTheme: theme }}>
           <div className="relative flex flex-col h-screen">
             <Navbar />
-            <main className="container mx-auto max-w-7xl pt-4 px-6 flex-grow">
-              {children}
-            </main>
+            <main className="container mx-auto max-w-7xl pt-4 px-6 flex-grow">{children}</main>
             <Footer config={config} />
           </div>
         </Providers>

@@ -56,17 +56,16 @@ export const Navbar = () => {
               isExternalUrl(siteConfig.icon) ? (
                 <Image
                   src={siteConfig.icon}
-                  alt={siteConfig.name}
+                  alt={`${siteConfig.name} Logo`}
                   width={34}
                   height={34}
                   className="object-contain"
-                  unoptimized
                 />
               ) : (
                 // Internal
                 <Image
                   src={siteConfig.icon}
-                  alt={siteConfig.name}
+                  alt={`${siteConfig.name} Logo`}
                   width={34}
                   height={34}
                   className="object-contain"
