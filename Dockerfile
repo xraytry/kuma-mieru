@@ -9,7 +9,6 @@ COPY tailwind.config.js .
 COPY tsconfig.json .
 COPY biome.jsonc .
 COPY next.config.js .
-COPY .env .
 
 COPY app ./app
 COPY components ./components
