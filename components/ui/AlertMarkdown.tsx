@@ -9,19 +9,28 @@ import {
   ShieldAlert,
   ShieldCheck,
 } from 'lucide-react';
-import MarkdownIt from 'markdown-it';
 import type { Incident } from '@/types/monitor';
-import dayjs from 'dayjs';
 import { timeAgo } from '../utils/format';
 
-const md = new MarkdownIt({
+// Workaround for https://github.com/markdown-it/markdown-it/issues/1082
+const MarkdownIt = require('markdown-it');
+const md = MarkdownIt({
   html: true,
   linkify: true,
   breaks: true,
+  typographer: true,
+  listIndent: true,
 });
 
 function IncidentAlert({ incident }: { incident: Incident }) {
-  const { style, title, content, lastUpdatedDate } = incident;
+  let { style, title, content, createdDate, lastUpdatedDate } = incident;
+
+  createdDate = createdDate ? `${createdDate} +00:00` : '';
+  lastUpdatedDate = lastUpdatedDate ? `${lastUpdatedDate} +00:00` : '';
+
+  if (window.location.hostname === 'localhost') {
+    console.log('incident', incident);
+  }
 
   const Icon = useMemo(() => {
     switch (style) {
@@ -85,16 +94,8 @@ function IncidentAlert({ incident }: { incident: Incident }) {
             <Icon size={20} />
           </div>
           <div className="flex-1 min-w-0">
-            <div className="flex items-center justify-between mb-4">
+            <div className="mb-4">
               <h3 className={`text-base font-medium ${colorClasses.text}`}>{title}</h3>
-              <div className="flex items-center gap-2">
-                <span className="text-sm text-gray-400 dark:text-gray-500">
-                  修改时间：{timeAgo(lastUpdatedDate)}
-                </span>
-                <span className="text-sm text-gray-400 dark:text-gray-500">
-                  创建时间：{dayjs(lastUpdatedDate).format('YYYY-MM-DD HH:mm:ss')}
-                </span>
-              </div>
             </div>
             <div
               className="prose prose-sm dark:prose-invert max-w-none [&>:first-child]:mt-0 [&>:last-child]:mb-0
@@ -108,6 +109,16 @@ function IncidentAlert({ incident }: { incident: Incident }) {
               // biome-ignore lint/security/noDangerouslySetInnerHtml: 相信 markdown-it 的安全性（
               dangerouslySetInnerHTML={{ __html: htmlContent }}
             />
+            <div className="flex justify-end gap-2 mt-4">
+              {lastUpdatedDate && (
+                <span className="text-sm text-gray-400 dark:text-gray-500">
+                  修改于 {timeAgo(lastUpdatedDate)}
+                </span>
+              )}
+              <span className="text-sm text-gray-400 dark:text-gray-500">
+                发布于 {timeAgo(createdDate)}
+              </span>
+            </div>
           </div>
         </div>
       </div>
