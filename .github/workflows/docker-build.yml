@@ -56,7 +56,7 @@ jobs:
           tags: |
             type=raw,value=latest,enable={{is_default_branch}}
             type=raw,value=${{ steps.package_version.outputs.version }}
-            type=sha,prefix={{branch}}-
+            type=sha,prefix=commit-
             type=ref,event=branch
             type=ref,event=pr
           labels: |
