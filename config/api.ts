@@ -2,26 +2,35 @@ import type { Config } from '@/types/config';
 
 const getConfig = (): Config => {
   // 仅在 Next.js 构建阶段使用占位符配置
-  if (process.env.NEXT_PHASE === 'phase-production-build') {
+  if (process.env.BUILD_MODE === 'true') {
     return {
       baseUrl: 'https://demo.kuma-mieru.invalid',
-      pageId: 'default',
-      htmlEndpoint: 'https://demo.kuma-mieru.invalid/status/default',
-      apiEndpoint: 'https://demo.kuma-mieru.invalid/api/status-page/heartbeat/default',
+      pageId: 'build-mode',
+      htmlEndpoint: 'https://demo.kuma-mieru.invalid/status/build-mode',
+      apiEndpoint: 'https://demo.kuma-mieru.invalid/api/status-page/heartbeat/build-mode',
       isPlaceholder: true,
     };
   }
 
-  if (typeof process.env.UPTIME_KUMA_BASE_URL !== 'string') {
+  if (!process.env.NEXT_PUBLIC_UPTIME_KUMA_BASE_URL) {
     throw new Error('UPTIME_KUMA_BASE_URL environment variable is not configured');
   }
 
-  if (typeof process.env.PAGE_ID !== 'string') {
+  if (!process.env.NEXT_PUBLIC_PAGE_ID) {
     throw new Error('PAGE_ID environment variable is not configured');
   }
 
-  const baseUrl = process.env.UPTIME_KUMA_BASE_URL;
-  const pageId = process.env.PAGE_ID;
+  const baseUrl = process.env.NEXT_PUBLIC_UPTIME_KUMA_BASE_URL;
+  const pageId = process.env.NEXT_PUBLIC_PAGE_ID;
+
+  if (process.env.NODE_ENV === 'development') {
+    const config = {
+      baseUrl,
+      pageId,
+    };
+
+    console.log('config', config);
+  }
 
   return {
     baseUrl,
@@ -38,4 +47,4 @@ export type ApiConfig = Config;
 
 export const validateConfig = () => {
   return true;
-}; 
+};

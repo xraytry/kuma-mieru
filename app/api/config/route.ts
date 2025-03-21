@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getGlobalConfig } from "@/services/config";
+import { getGlobalConfig } from "@/services/config.server";
 
 export async function GET() {
   try {
@@ -14,7 +14,7 @@ export async function GET() {
       }
     );
   } catch (error) {
-    console.error("Next.js Edge Function 获取 Uptime Kuma 配置数据错误:", error);
+    console.error("获取 Uptime Kuma 配置数据错误:", error);
     return NextResponse.json(
       { error: "获取 Uptime Kuma 配置数据失败" },
       { status: 500 }

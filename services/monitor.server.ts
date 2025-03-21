@@ -1,6 +1,6 @@
 import type { MonitorGroup, MonitoringData } from "@/types/monitor";
 import { apiConfig } from "@/config/api";
-import { getPreloadData } from "./config";
+import { getPreloadData } from "@/services/config.server";
 
 class MonitorDataError extends Error {
   constructor(message: string, public readonly cause?: unknown) {
