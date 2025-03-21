@@ -5,9 +5,9 @@
 [中文版](README.md) | [English Version](README.en.md)
 
 > [!NOTE]
-> 本项目已启用自动同步上游仓库功能，Fork 后每天凌晨 1:30 (UTC) 会自动同步更新。
+> 本项目支持自动同步上游仓库功能，Fork 本仓库后可以自行前往 GitHub 仓库的 `Actions` 页面
 >
-> 如需禁用自动同步，请在项目根目录创建 `auto-update.lock` 空文件 (请先注释掉 .gitignore 中的 `*.lock` 哦)
+> 并找到 `Auto Update from Upstream` workflow 后手动 Enable 此工作流。
 
 ## 功能亮点 :sparkles:
 
@@ -38,6 +38,9 @@ Fork 本仓库到您的 GitHub 用户下，如图所示：
 
 1. ![Fork 仓库](./docs/git-repo-fork.png)
 2. ![Fork 成功](./docs/git-create-fork.png)
+
+> [!NOTE]
+> 请确保您 Fork 的仓库是公开的，否则后续可能无法快速同步本仓库的更新。
 
 #### 2. 导入到 Vercel
 
@@ -182,10 +185,10 @@ Fork 本仓库到您的 GitHub 用户下，如图所示：
 
 ### 环境变量说明
 
-| 变量名               | 必填 | 说明                       | 示例                |
-| -------------------- | ---- | -------------------------- | ------------------- |
+| 变量名               | 必填 | 说明                       | 示例                               |
+| -------------------- | ---- | -------------------------- | ---------------------------------- |
 | UPTIME_KUMA_BASE_URL | 是   | Uptime Kuma 实例的基础 URL | https://example.kuma-mieru.invalid |
-| PAGE_ID              | 是   | 状态页面 ID                | test1               |
+| PAGE_ID              | 是   | 状态页面 ID                | test1                              |
 
 ### 健康检查
 

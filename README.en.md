@@ -6,9 +6,9 @@ Built with Next.js 15, TypeScript, and Recharts, this project enhances Uptime Ku
 [中文版](README.md) | [English Version](README.en.md)
 
 > [!NOTE]
-> This project has enabled automatic upstream repository synchronization. Your fork will auto-update daily at 1:30 AM UTC.
->
-> To disable auto-sync: Create an empty `auto-update.lock` file in the root directory (please comment out `*.lock` in your .gitignore first).
+> This project has enabled the automatic synchronization of the upstream repository function,
+> 
+> you can manually enable the `Auto Update from Upstream` workflow in the `Actions` page of your forked repository.
 
 ## Key Features :sparkles:
 
@@ -31,6 +31,9 @@ Built with Next.js 15, TypeScript, and Recharts, this project enhances Uptime Ku
 #### 1. Fork Repository
 
 Fork this repository to your GitHub account.
+
+> [!NOTE]
+> Please ensure your forked repository is public, otherwise you may encounter issues when synchronizing updates.
 
 #### 2. Import to Vercel
 
