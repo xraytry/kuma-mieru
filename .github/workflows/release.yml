@@ -41,30 +41,41 @@ jobs:
         id: changelog
         run: |
           CHANGELOG=""
+          AUTHORS=""
 
           # Function to add emoji based on commit message
           add_emoji() {
             local msg="$1"
+            local hash="$2"
             case "$msg" in
-              *feat*|*特性*) echo "✨ $msg" ;;
-              *fix*|*修复*) echo "🐛 $msg" ;;
-              *docs*|*文档*) echo "📚 $msg" ;;
-              *style*|*样式*) echo "💎 $msg" ;;
-              *refactor*|*重构*) echo "♻️ $msg" ;;
-              *perf*|*性能*) echo "⚡️ $msg" ;;
-              *test*|*测试*) echo "✅ $msg" ;;
-              *chore*|*构建*) echo "🔧 $msg" ;;
-              *) echo "🔨 $msg" ;;
+              *feat*|*特性*) echo "- ✨ [\`$msg\`](${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/commit/$hash)" ;;
+              *fix*|*修复*) echo "- 🐛 [\`$msg\`](${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/commit/$hash)" ;;
+              *docs*|*文档*) echo "- 📚 [\`$msg\`](${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/commit/$hash)" ;;
+              *style*|*样式*) echo "- 💎 [\`$msg\`](${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/commit/$hash)" ;;
+              *refactor*|*重构*) echo "- ♻️ [\`$msg\`](${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/commit/$hash)" ;;
+              *perf*|*性能*) echo "- ⚡️ [\`$msg\`](${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/commit/$hash)" ;;
+              *test*|*测试*) echo "- ✅ [\`$msg\`](${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/commit/$hash)" ;;
+              *chore*|*构建*) echo "- 🔧 [\`$msg\`](${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/commit/$hash)" ;;
+              *) echo "- 🔨 [\`$msg\`](${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/commit/$hash)" ;;
             esac
           }
 
-          # Get all commits since last tag
-          while IFS= read -r commit; do
-            CHANGELOG="$CHANGELOG$(add_emoji "$commit")\n"
-          done < <(git log --pretty=format:"%s" $(git describe --tags --abbrev=0 2>/dev/null || git rev-list --max-parents=0 HEAD)..HEAD)
+          # Get all commits and authors since last tag
+          LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || git rev-list --max-parents=0 HEAD)
+          while IFS= read -r line; do
+            HASH=$(echo "$line" | cut -f1)
+            MSG=$(echo "$line" | cut -f2)
+            CHANGELOG="$CHANGELOG$(add_emoji "$MSG" "$HASH")\n"
+          done < <(git log --pretty=format:"%H%x09%s" $LAST_TAG..HEAD)
+
+          # Get unique authors
+          AUTHORS="\n\n## 👥 贡献者\n\n"
+          while IFS= read -r author; do
+            AUTHORS="$AUTHORS- [@$author](${GITHUB_SERVER_URL}/$author)\n"
+          done < <(git log $LAST_TAG..HEAD --format="%aN" | sort -u)
 
           echo "CHANGELOG<<EOF" >> $GITHUB_OUTPUT
-          echo -e "$CHANGELOG" >> $GITHUB_OUTPUT
+          echo -e "$CHANGELOG$AUTHORS" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Create Release
