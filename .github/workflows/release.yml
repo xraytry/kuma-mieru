@@ -83,7 +83,7 @@ jobs:
 
             ```bash
             docker run -d \
-              --name uptime-kuma-page \
+              --name kuma-mieru \
               -e UPTIME_KUMA_BASE_URL=your_uptime_kuma_url \
               -e PAGE_ID=your_page_id \
               -p 3000:3000 \
@@ -109,8 +109,8 @@ jobs:
             ### Docker
             ```bash
             docker pull ghcr.io/${{ github.repository }}:${{ steps.package_version.outputs.version }}
-            docker stop uptime-kuma-page
-            docker rm uptime-kuma-page
+            docker stop kuma-mieru
+            docker rm kuma-mieru
             # 然后使用上述 Docker 运行命令重新启动容器
             ```
 
