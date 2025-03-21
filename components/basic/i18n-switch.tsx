@@ -11,8 +11,7 @@ import {
   DropdownTrigger,
 } from "@heroui/react";
 import { useTransition } from "react";
-import { SunFilledIcon } from "./icons";
-import { Languages } from "lucide-react";
+import { Languages, Loader2 } from "lucide-react";
 
 export const I18NSwitch = () => {
   const [isPending, startTransition] = useTransition();
@@ -34,7 +33,11 @@ export const I18NSwitch = () => {
             "mx-0"
           )}
         >
-          {isPending ? null : <Languages size={22} />}
+          {isPending ? (
+            <Loader2 size={22} className="animate-spin" />
+          ) : (
+            <Languages size={22} />
+          )}
         </div>
       </DropdownTrigger>
       <DropdownMenu aria-label="Static Actions" variant="faded">
