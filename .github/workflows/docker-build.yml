@@ -79,4 +79,3 @@ jobs:
             VERSION=${{ steps.package_version.outputs.version }}
             BUILD_DATE=${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.created'] }}
             VCS_REF=${{ github.sha }}
-            BUILD_MODE=true

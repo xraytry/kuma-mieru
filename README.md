@@ -27,17 +27,12 @@
 
 ### 使用 Vercel 部署 (推荐)
 
-<!-- [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Falice39s%2Fkuma-mieru&env=UPTIME_KUMA_BASE_URL,PAGE_ID&demo-title=Kuma%20Mieru%20Demo&demo-description=Kuma%20Mieru%20is%20a%20third-party%20Uptime%20Kuma%20monitoring%20dashboard%20built%20on%20Next.js%2015%2C%20TypeScript%20and%20Recharts.&demo-url=https%3A%2F%2Fkuma-mieru.vercel.app%2F%3Fr%3Dvercel_new&demo-image=https%3A%2F%2Fraw.githubusercontent.com%2FAlice39s%2Fkuma-mieru%2Frefs%2Fheads%2Fmain%2Fdocs%2Fv1.0.0-light.png)
-
-- 点击按钮后，需要填写 `UPTIME_KUMA_BASE_URL` 和 `PAGE_ID` 两个环境变量
-- 最后点击 `Deploy` 按钮即可一键部署到 Vercel。 -->
-
 #### 1. Fork 仓库
 
 Fork 本仓库到您的 GitHub 用户下，如图所示：
 
-1. ![Fork 仓库](./docs/git-repo-fork.png)
-2. ![Fork 成功](./docs/git-create-fork.png)
+1. 在这里 [Fork](https://github.com/Alice39s/kuma-mieru/fork) 本仓库
+2. 点击 `Create fork` 按钮
 
 > [!NOTE]
 > 请确保您 Fork 的仓库是公开的，否则后续可能无法快速同步本仓库的更新。
@@ -85,20 +80,7 @@ Fork 本仓库到您的 GitHub 用户下，如图所示：
    cp .env.example .env
    ```
 
-   `.env` 文件中 **必填** 的环境变量：
-
-   ```
-   UPTIME_KUMA_BASE_URL=https://example.kuma-mieru.invalid
-   PAGE_ID=your-status-page-id
-   ```
-
-   举个例子，如果您的 Uptime Kuma 公开状态页面的 URL 为
-   `https://example.kuma-mieru.invalid/status/test1`
-
-   那么您需要这么配置：
-
-   - `UPTIME_KUMA_BASE_URL` 设置为 `https://example.kuma-mieru.invalid`
-   - `PAGE_ID` 设置为 `test1`
+   `.env` 文件中 **必填** 的环境变量，可参考 [环境变量配置](#环境变量配置) 章节。
 
 4. **启动开发服务器**
 
@@ -137,12 +119,7 @@ Fork 本仓库到您的 GitHub 用户下，如图所示：
    cp .env.example .env
    ```
 
-   编辑 `.env` 文件，设置必要的环境变量：
-
-   ```
-   UPTIME_KUMA_BASE_URL=https://example.kuma-mieru.invalid
-   PAGE_ID=your-status-page-id
-   ```
+   参考 [环境变量配置](#环境变量配置) 章节，配置必要的环境变量。
 
 3. **启动服务**
 
@@ -150,7 +127,8 @@ Fork 本仓库到您的 GitHub 用户下，如图所示：
    docker compose up -d
    ```
 
-   如果需要绕过 build 缓存，可以添加 `--build` 参数：
+   > [!NOTE]
+   > 如果需要绕过 build 缓存，可以添加 `--build` 参数：
 
    ```bash
    docker compose up -d --build
@@ -164,61 +142,59 @@ Fork 本仓库到您的 GitHub 用户下，如图所示：
    docker compose logs -f
    ```
 
-### 使用 Docker 手动部署
+### Docker Run 部署
 
-1. **构建镜像**
+#### 1. 获取容器镜像
 
-   ```bash
-   docker build -t kuma-mieru .
-   ```
+**方式一：拉取预构建镜像**（推荐）
 
-2. **运行容器**
+```bash
+docker pull ghcr.io/alice39s/kuma-mieru:main
+```
 
-   ```bash
-   docker run -d \
-     --name kuma-mieru \
-     -p 3883:3000 \
-     -e UPTIME_KUMA_BASE_URL=https://example.kuma-mieru.invalid \
-     -e PAGE_ID=your-status-page-id \
-     kuma-mieru
-   ```
+**方式二：从源码构建镜像**
 
-### 环境变量说明
+```bash
+docker build -t kuma-mieru .
+```
+
+---
+
+#### 2. 启动容器服务
+
+> [!NOTE]
+> 请参考 [环境变量配置](#环境变量配置) 章节，修改下文中的 `UPTIME_KUMA_BASE_URL` 和 `PAGE_ID` 变量。
+
+**方式一：使用预构建镜像**
+
+```bash
+docker run -d \
+  --name kuma-mieru \
+  -p 3883:3000 \
+  -e UPTIME_KUMA_BASE_URL="..." \
+  -e PAGE_ID="..." \
+  ghcr.io/alice39s/kuma-mieru:main
+```
+
+**方式二：使用源码构建镜像**
+
+```bash
+docker run -d \
+  --name kuma-mieru \
+  -p 3883:3000 \
+  -e UPTIME_KUMA_BASE_URL="..." \
+  -e PAGE_ID="..." \
+  kuma-mieru
+```
+
+## 环境变量配置
+
+假如您的 Uptime Kuma 的状态页面 URL 为 `https://example.kuma-mieru.invalid/status/test1`，那么您需要配置的环境变量如下：
 
 | 变量名               | 必填 | 说明                       | 示例                               |
 | -------------------- | ---- | -------------------------- | ---------------------------------- |
 | UPTIME_KUMA_BASE_URL | 是   | Uptime Kuma 实例的基础 URL | https://example.kuma-mieru.invalid |
 | PAGE_ID              | 是   | 状态页面 ID                | test1                              |
-
-### 健康检查
-
-Docker 容器包含了内置的健康检查机制，每 30 秒会检查一次服务状态。健康检查 API 端点为 `/api/health`，返回以下信息：
-
-```json
-{
-  "status": "ok",
-  "timestamp": "2024-03-20T12:34:56.789Z",
-  "uptime": 123.456
-}
-```
-
-您可以通过以下命令查看容器的健康状态：
-
-```bash
-docker ps
-```
-
-或者使用 Docker Compose：
-
-```bash
-docker compose ps
-```
-
-您也可以直接访问健康检查 API：
-
-```bash
-curl http://localhost:3883/api/health
-```
 
 ## 项目结构 :file_folder:
 

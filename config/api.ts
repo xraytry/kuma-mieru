@@ -1,8 +1,8 @@
 import type { Config } from '@/types/config';
 
 const getConfig = (): Config => {
-  // 构建时使用默认值
-  if (process.env.NODE_ENV === 'production' && process.env.BUILD_MODE === 'true') {
+  // 仅在 Next.js 构建阶段使用占位符配置
+  if (process.env.NEXT_PHASE === 'phase-production-build') {
     return {
       baseUrl: 'https://demo.kuma-mieru.invalid',
       pageId: 'default',

@@ -30,7 +30,8 @@ Built with Next.js 15, TypeScript, and Recharts, this project enhances Uptime Ku
 
 #### 1. Fork Repository
 
-Fork this repository to your GitHub account.
+1. Click [Fork](https://github.com/Alice39s/kuma-mieru/fork) button to fork this repository to your GitHub account.
+2. Click `Create fork` button to create a new fork.
 
 > [!NOTE]
 > Please ensure your forked repository is public, otherwise you may encounter issues when synchronizing updates.
