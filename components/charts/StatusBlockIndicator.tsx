@@ -6,6 +6,7 @@ import dayjs from 'dayjs';
 import { PingStats } from './PingStats';
 import { calculatePingStats, getStatusColor } from '../utils/charts';
 import { COLOR_SYSTEM } from '../utils/colors';
+import { useTranslations } from 'next-intl';
 
 interface StatusBlockIndicatorProps {
   heartbeats: Heartbeat[];
@@ -18,6 +19,7 @@ export function StatusBlockIndicator({
   className,
   isHome = true,
 }: StatusBlockIndicatorProps) {
+  const t = useTranslations()
   // 获取最近的 50 个心跳数据点
   const recentHeartbeats = heartbeats.slice(-50);
 
@@ -40,7 +42,7 @@ export function StatusBlockIndicator({
             .map(([key, value]) => (
               <div key={key} className="flex items-center gap-1">
                 <div className={clsx('w-1.5 h-1.5 rounded-full', value.bg.dark)} />
-                <span>{value.label}</span>
+                <span>{t(value.label)}</span>
               </div>
             ))}
         </div>
@@ -58,7 +60,7 @@ export function StatusBlockIndicator({
                   <div className="flex w-full flex-col gap-y-1">
                     <div className="flex w-full items-center gap-x-1 text-small">
                       <span className={clsx('text-small font-medium', colorInfo.text)}>
-                        {colorInfo.label}
+                        {t(colorInfo.label)}
                       </span>
                       <span className="text-foreground/60 dark:text-foreground/40">-</span>
                       <span className="text-foreground/60 dark:text-foreground/40">

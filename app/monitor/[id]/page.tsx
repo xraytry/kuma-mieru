@@ -1,12 +1,13 @@
-'use client';
+"use client";
 
-import { useCallback, useEffect, useState, use } from 'react';
-import { MonitorCard } from '@/components/MonitorCard';
-import AutoRefresh from '@/components/AutoRefresh';
-import type { Monitor, MonitoringData, MonitorGroup } from '@/types/monitor';
-import { Card } from '@heroui/react';
-import { useRouter } from 'next/navigation';
-import { motion } from 'framer-motion';
+import { useCallback, useEffect, useState, use } from "react";
+import { MonitorCard } from "@/components/MonitorCard";
+import AutoRefresh from "@/components/AutoRefresh";
+import type { Monitor, MonitoringData, MonitorGroup } from "@/types/monitor";
+import { Card } from "@heroui/react";
+import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 
 const pageVariants = {
   initial: {
@@ -35,10 +36,15 @@ export default function MonitorDetail({
 }: {
   params: Promise<{ id: string }>;
 }) {
+  const t = useTranslations();
+
   const resolvedParams = use(params);
   const router = useRouter();
   const [monitor, setMonitor] = useState<Monitor | null>(null);
-  const [data, setData] = useState<MonitoringData>({ heartbeatList: {}, uptimeList: {} });
+  const [data, setData] = useState<MonitoringData>({
+    heartbeatList: {},
+    uptimeList: {},
+  });
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -47,9 +53,9 @@ export default function MonitorDetail({
 
     try {
       const monitorId = Number.parseInt(resolvedParams.id, 10);
-      
+
       // 获取监控数据
-      const monitorResponse = await fetch('/api/monitor');
+      const monitorResponse = await fetch("/api/monitor");
       const monitorData = await monitorResponse.json();
 
       // 在所有监控组中查找指定 ID 的监控项
@@ -58,26 +64,27 @@ export default function MonitorDetail({
         .find((m: Monitor) => m.id === monitorId);
 
       if (!foundMonitor) {
-        throw new Error('未找到监控项');
+        throw new Error(t("errorMonitorNotFound"));
       }
 
       setMonitor(foundMonitor);
-      
+
       // 提取该监控项的数据
       const monitoringData = {
         heartbeatList: {
           [monitorId]: monitorData.data.heartbeatList[monitorId] || [],
         },
         uptimeList: {
-          [`${monitorId}_24`]: monitorData.data.uptimeList[`${monitorId}_24`] || 0,
+          [`${monitorId}_24`]:
+            monitorData.data.uptimeList[`${monitorId}_24`] || 0,
         },
       };
-      
+
       setData(monitoringData);
       setError(null);
     } catch (error) {
-      setError(error instanceof Error ? error.message : '获取数据失败');
-      console.error('获取数据失败:', error);
+      setError(error instanceof Error ? error.message : t("errorRequestData"));
+      console.error(t("errorRequestData"), ":", error);
     } finally {
       setIsLoading(false);
     }
@@ -110,13 +117,15 @@ export default function MonitorDetail({
         variants={pageVariants}
         className="flex flex-col items-center justify-center min-h-screen gap-4"
       >
-        <p className="text-xl text-gray-500">{error || '未找到监控项'}</p>
+        <p className="text-xl text-gray-500">
+          {error || t("errorMonitorNotFound")}
+        </p>
         <button
           type="button"
           onClick={() => router.back()}
           className="px-4 py-2 text-sm text-white bg-blue-500 rounded-md hover:bg-blue-600 transition-colors"
         >
-          返回上一页
+          {t("pageBack")}
         </button>
       </motion.div>
     );
@@ -143,7 +152,7 @@ export default function MonitorDetail({
                 onClick={() => router.back()}
                 className="px-4 py-2 text-sm text-gray-600 hover:text-gray-900 transition-colors"
               >
-                ← 返回监控列表
+                ← {t("pageBackMonitor")}
               </button>
             </motion.div>
             <MonitorCard
@@ -157,4 +166,4 @@ export default function MonitorDetail({
       </AutoRefresh>
     </motion.div>
   );
-} 
+}

@@ -5,7 +5,7 @@ export const COLOR_SYSTEM = {
             light: 'bg-success',
             dark: 'bg-success',
         },
-        label: '在线',
+        label: 'nodeOnline',
         showInLegend: true,
     },
     good: { // 良好、中绿
@@ -14,7 +14,7 @@ export const COLOR_SYSTEM = {
             light: 'bg-success/80',
             dark: 'bg-success/80',
         },
-        label: '在线',
+        label: 'nodeOnline',
         showInLegend: false,
     },
     normal: { // 正常、中绿
@@ -23,7 +23,7 @@ export const COLOR_SYSTEM = {
             light: 'bg-success/60',
             dark: 'bg-success/60',
         },
-        label: '在线',
+        label: 'nodeOnline',
         showInLegend: false,
     },
     warning: {
@@ -32,7 +32,7 @@ export const COLOR_SYSTEM = {
             light: 'bg-warning/80',
             dark: 'bg-warning',
         },
-        label: '维护中',
+        label: 'nodeMaintenance',
         showInLegend: true,
     },
     error: {
@@ -41,7 +41,7 @@ export const COLOR_SYSTEM = {
             light: 'bg-danger/80',
             dark: 'bg-danger',
         },
-        label: '离线',
+        label: 'nodeOffline',
         showInLegend: true,
     },
 } as const;

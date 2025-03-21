@@ -5,6 +5,7 @@ import { calculatePingMetrics } from '../utils/charts';
 import { Tooltip } from '@heroui/react';
 import { getPingColorClass } from '../utils/colors';
 import { formatLatency } from '../utils/format';
+import { useTranslations } from 'next-intl';
 
 interface PingStatsProps {
   heartbeats: Heartbeat[];
@@ -14,19 +15,20 @@ interface PingStatsProps {
 const PING_LABELS = {
   lt: {
     short: 'LT',
-    full: '最新延迟',
+    full: 'nodeLatestPing',
   },
   av: {
     short: 'AVG',
-    full: '平均延迟',
+    full: 'nodeAvgPing',
   },
   ta: {
     short: 'TA',
-    full: '修剪后平均',
+    full: 'nodeTrimmedAvgPing',
   },
 } as const;
 
 export function PingStats({ heartbeats, isHome = false }: PingStatsProps) {
+  const t = useTranslations();
   const stats = useMemo(() => calculatePingMetrics(heartbeats), [heartbeats]);
 
   if (!stats) return null;
@@ -39,7 +41,7 @@ export function PingStats({ heartbeats, isHome = false }: PingStatsProps) {
             <span>{PING_LABELS.lt.short}</span>
           </Tooltip>
         ) : (
-          PING_LABELS.lt.full
+          t(PING_LABELS.lt.full)
         )}
         :
         <span className={clsx('font-medium', getPingColorClass(stats.latestPing).text)}>
@@ -52,7 +54,7 @@ export function PingStats({ heartbeats, isHome = false }: PingStatsProps) {
             <span>{PING_LABELS.av.short}</span>
           </Tooltip>
         ) : (
-          PING_LABELS.av.full
+          t(PING_LABELS.av.full)
         )}
         :
         <span className={clsx('font-medium', getPingColorClass(stats.avgPing).text)}>
@@ -65,7 +67,7 @@ export function PingStats({ heartbeats, isHome = false }: PingStatsProps) {
             <span>{PING_LABELS.ta.short}</span>
           </Tooltip>
         ) : (
-          PING_LABELS.ta.full
+          t(PING_LABELS.ta.full)
         )}
         :
         <span className={clsx('font-medium', getPingColorClass(stats.trimmedAvgPing).text)}>

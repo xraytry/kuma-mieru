@@ -4,7 +4,7 @@
  * @returns formatted string with unit
  */
 export function formatLatency(ms: number): string {
-  if (!ms && ms !== 0) return '-';
+  if (!ms && ms !== 0) return "-";
 
   if (ms < 200) {
     return `${ms.toFixed(0)} ms`;
@@ -77,5 +77,9 @@ export function timeAgo(date: string): string {
     }
   }
 
-  return '刚刚';
+  return "刚刚";
+}
+
+export function timeSec(date: string): number {
+  return Math.floor((+new Date() - +new Date(date)) / 1000);
 }

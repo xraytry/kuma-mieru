@@ -23,7 +23,7 @@ export function MonitorCard({ monitor, heartbeats, uptime24h, isHome = true }: M
   const chartColor = status === 1 ? 'success' : status === 2 ? 'warning' : 'danger';
 
   const StatusIcon = status === 1 ? CheckCircle2 : status === 2 ? MinusCircle : AlertCircle;
-  const statusText = status === 1 ? '在线' : status === 2 ? '维护中' : '离线';
+  // const statusText = status === 1 ? '在线' : status === 2 ? '维护中' : '离线';
 
   const uptimeData = [
     {
