@@ -3,9 +3,15 @@ WORKDIR /app
 
 ARG NODE_ENV=production
 ARG NEXT_TELEMETRY_DISABLED=1
+ARG BUILD_MODE=true
+ARG UPTIME_KUMA_BASE_URL
+ARG PAGE_ID
 
 ENV NODE_ENV=${NODE_ENV} \
-  NEXT_TELEMETRY_DISABLED=${NEXT_TELEMETRY_DISABLED}
+  NEXT_TELEMETRY_DISABLED=${NEXT_TELEMETRY_DISABLED} \
+  BUILD_MODE=${BUILD_MODE} \
+  UPTIME_KUMA_BASE_URL=${UPTIME_KUMA_BASE_URL} \
+  PAGE_ID=${PAGE_ID}
 
 COPY package.json bun.lock ./
 RUN bun install --frozen-lockfile
@@ -25,11 +31,17 @@ ARG NEXT_TELEMETRY_DISABLED=1
 ARG VERSION
 ARG BUILD_DATE
 ARG VCS_REF
+ARG BUILD_MODE=false
+ARG UPTIME_KUMA_BASE_URL
+ARG PAGE_ID
 
 ENV PORT=${PORT} \
   HOSTNAME=${HOSTNAME} \
   NODE_ENV=${NODE_ENV} \
-  NEXT_TELEMETRY_DISABLED=${NEXT_TELEMETRY_DISABLED}
+  NEXT_TELEMETRY_DISABLED=${NEXT_TELEMETRY_DISABLED} \
+  BUILD_MODE=${BUILD_MODE} \
+  UPTIME_KUMA_BASE_URL=${UPTIME_KUMA_BASE_URL} \
+  PAGE_ID=${PAGE_ID}
 
 # OCI labels
 LABEL org.opencontainers.image.title="Kuma Mieru" \
@@ -46,7 +58,8 @@ COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next/static ./.next/static
 
-RUN mkdir -p ./.next/cache
+RUN mkdir -p ./.next/cache && \
+    chown -R nobody:nobody /app
 
 EXPOSE ${PORT}
 

@@ -39,10 +39,31 @@ jobs:
         if: steps.version_check.outputs.changed == 'true'
         id: changelog
         run: |
-          # 获取从上一个版本到现在的所有提交
-          CHANGELOG=$(git log --pretty=format:"- %s" $(git describe --tags --abbrev=0 2>/dev/null || git rev-list --max-parents=0 HEAD)..HEAD)
+          CHANGELOG=""
+
+          # Function to add emoji based on commit message
+          add_emoji() {
+            local msg="$1"
+            case "$msg" in
+              *feat*|*特性*) echo "✨ $msg" ;;
+              *fix*|*修复*) echo "🐛 $msg" ;;
+              *docs*|*文档*) echo "📚 $msg" ;;
+              *style*|*样式*) echo "💎 $msg" ;;
+              *refactor*|*重构*) echo "♻️ $msg" ;;
+              *perf*|*性能*) echo "⚡️ $msg" ;;
+              *test*|*测试*) echo "✅ $msg" ;;
+              *chore*|*构建*) echo "🔧 $msg" ;;
+              *) echo "🔨 $msg" ;;
+            esac
+          }
+
+          # Get all commits since last tag
+          while IFS= read -r commit; do
+            CHANGELOG="$CHANGELOG$(add_emoji "$commit")\n"
+          done < <(git log --pretty=format:"%s" $(git describe --tags --abbrev=0 2>/dev/null || git rev-list --max-parents=0 HEAD)..HEAD)
+
           echo "CHANGELOG<<EOF" >> $GITHUB_OUTPUT
-          echo "$CHANGELOG" >> $GITHUB_OUTPUT
+          echo -e "$CHANGELOG" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Create Release
@@ -50,23 +71,55 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           tag_name: v${{ steps.package_version.outputs.version }}
-          name: Release v${{ steps.package_version.outputs.version }}
+          name: 🚀 Release v${{ steps.package_version.outputs.version }}
           body: |
-            ## 更新日志
+            ## 📝 更新日志
 
             ${{ steps.changelog.outputs.CHANGELOG }}
 
-            ## Docker 镜像
+            ## 🐳 Docker 使用指南
+
+            ### 使用 Docker 运行
 
             ```bash
-            docker pull ghcr.io/${{ github.repository }}:${{ steps.package_version.outputs.version }}
+            docker run -d \
+              --name uptime-kuma-page \
+              -e UPTIME_KUMA_BASE_URL=your_uptime_kuma_url \
+              -e PAGE_ID=your_page_id \
+              -p 3000:3000 \
+              ghcr.io/${{ github.repository }}:${{ steps.package_version.outputs.version }}
             ```
 
-            ## 环境变量
+            ### 使用 Docker Compose
 
-            请确保设置以下环境变量：
+            修改 `docker-compose.yml` 文件中的镜像版本即可。
+
+            ```yaml
+            image: ghcr.io/${{ github.repository }}:${{ steps.package_version.outputs.version }}
+            ```
+
+            ## ⚙️ 环境变量配置
+
+            请确保配置以下必要的环境变量：
             - `UPTIME_KUMA_BASE_URL`: Uptime Kuma 实例的基础 URL
             - `PAGE_ID`: 状态页面 ID
+
+            ## 🔄 更新指南
+
+            ### Docker
+            ```bash
+            docker pull ghcr.io/${{ github.repository }}:${{ steps.package_version.outputs.version }}
+            docker stop uptime-kuma-page
+            docker rm uptime-kuma-page
+            # 然后使用上述 Docker 运行命令重新启动容器
+            ```
+
+            ### Docker Compose
+            ```bash
+            # 更新 docker-compose.yml 中的镜像版本
+            docker-compose pull
+            docker-compose up -d
+            ```
           draft: false
           prerelease: false
-          generate_release_notes: true 
+          generate_release_notes: true
