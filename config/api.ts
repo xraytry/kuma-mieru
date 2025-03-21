@@ -1,8 +1,8 @@
 import type { Config } from '@/types/config';
 
 const getConfig = (): Config => {
-  const baseUrl = process.env.UPTIME_KUMA_BASE_URL || 'https://uptime.example.com';
-  const pageId = process.env.PAGE_ID || 'demo';
+  const baseUrl = process.env.UPTIME_KUMA_BASE_URL || '';
+  const pageId = process.env.PAGE_ID || '';
 
   return {
     baseUrl,
