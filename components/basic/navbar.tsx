@@ -17,13 +17,14 @@ import { link as linkStyles } from '@heroui/theme';
 import NextLink from 'next/link';
 import Image from 'next/image';
 import clsx from 'clsx';
+import { useState, useEffect } from 'react';
 
 import { ThemeSwitch } from '@/components/basic/theme-switch';
 import { TwitterIcon, GithubIcon, DiscordIcon, SearchIcon, Logo } from '@/components/basic/icons';
 import { useSourceConfig } from '@/hooks/useSourceConfig';
 import { siteConfig } from '@/config/site';
-import { apiConfig } from '@/config/api';
 import { NavbarSkeleton } from '@/components/ui/skeleton';
+import type { Config } from '@/types/config';
 
 const isExternalUrl = (url: string) => {
   return url?.startsWith('http://') || url?.startsWith('https://');
@@ -31,8 +32,30 @@ const isExternalUrl = (url: string) => {
 
 export const Navbar = () => {
   const { data: sourceConfig, isLoading } = useSourceConfig();
+  const [apiConfig, setApiConfig] = useState<Config | null>(null);
+  const [isApiLoading, setIsApiLoading] = useState(true);
 
-  if (isLoading || !sourceConfig?.config) {
+  useEffect(() => {
+    const fetchApiConfig = async () => {
+      try {
+        const response = await fetch('/api/metaInfo');
+        const data = await response.json();
+        if (response.ok) {
+          setApiConfig(data.data);
+        } else {
+          console.error('Failed to fetch API config:', data.error);
+        }
+      } catch (error) {
+        console.error('Failed to fetch API config:', error);
+      } finally {
+        setIsApiLoading(false);
+      }
+    };
+
+    fetchApiConfig();
+  }, []);
+
+  if (isLoading || !sourceConfig?.config || isApiLoading || !apiConfig) {
     return <NavbarSkeleton />;
   }
 
@@ -65,7 +88,7 @@ export const Navbar = () => {
     },
     {
       label: '编辑此页',
-      href: `${sourceConfig.config.slug}/manage-status-page`,
+      href: `${apiConfig.baseUrl}/manage-status-page`,
       external: true,
     },
   ];

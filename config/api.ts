@@ -1,8 +1,9 @@
 import type { Config } from '@/types/config';
+import { env } from './env';
 
-const getConfig = (): Config => {
+export const getConfig = (): Config => {
   // 仅在 Next.js 构建阶段使用占位符配置
-  if (process.env.BUILD_MODE === 'true') {
+  if (env.BUILD_MODE === 'true') {
     return {
       baseUrl: 'https://demo.kuma-mieru.invalid',
       pageId: 'build-mode',
@@ -12,18 +13,14 @@ const getConfig = (): Config => {
     };
   }
 
-  if (!process.env.NEXT_PUBLIC_UPTIME_KUMA_BASE_URL) {
-    throw new Error('UPTIME_KUMA_BASE_URL environment variable is not configured');
+  if (!env.UPTIME_KUMA_BASE_URL || !env.PAGE_ID) {
+    throw new Error('Missing required environment variables');
   }
 
-  if (!process.env.NEXT_PUBLIC_PAGE_ID) {
-    throw new Error('PAGE_ID environment variable is not configured');
-  }
+  const baseUrl = env.UPTIME_KUMA_BASE_URL;
+  const pageId = env.PAGE_ID;
 
-  const baseUrl = process.env.NEXT_PUBLIC_UPTIME_KUMA_BASE_URL;
-  const pageId = process.env.NEXT_PUBLIC_PAGE_ID;
-
-  if (process.env.NODE_ENV === 'development') {
+  if (env.NODE_ENV === 'development') {
     const config = {
       baseUrl,
       pageId,
