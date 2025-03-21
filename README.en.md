@@ -64,15 +64,15 @@ Go to https://vercel.com/new, select **Import** to import the repository you jus
    ```
 
 3. **Configure Environment**  
-   Copy `.env.example` to `.env.local` and modify:
+   Copy `.env.example` to `.env` and modify:
 
    ```bash
    UPTIME_KUMA_BASE_URL=https://your-kuma-instance.com
    PAGE_ID=your_status_page_id
    ```
 
-   _Example: For URL `https://status.example.com/status/prod`, set:  
-   `UPTIME_KUMA_BASE_URL=https://status.example.com`  
+   _Example: For URL `https://status.kuma-mieru.invalid/status/prod`, set:  
+   `UPTIME_KUMA_BASE_URL=https://status.kuma-mieru.invalid`  
    `PAGE_ID=prod`_
 
 4. **Start Development Server**
@@ -113,7 +113,7 @@ Go to https://vercel.com/new, select **Import** to import the repository you jus
    Edit the `.env` file with required configurations:
 
    ```
-   UPTIME_KUMA_BASE_URL=https://example.com
+   UPTIME_KUMA_BASE_URL=https://example.kuma-mieru.invalid
    PAGE_ID=your-status-page-id
    ```
 
@@ -151,17 +151,17 @@ Go to https://vercel.com/new, select **Import** to import the repository you jus
    docker run -d \
      --name kuma-mieru \
      -p 3883:3000 \
-     -e UPTIME_KUMA_BASE_URL=https://example.com \
+     -e UPTIME_KUMA_BASE_URL=https://example.kuma-mieru.invalid \
      -e PAGE_ID=your-status-page-id \
      kuma-mieru
    ```
 
 ### Environment Variables
 
-| Variable Name        | Required | Description                      | Example             |
-| -------------------- | -------- | -------------------------------- | ------------------- |
-| UPTIME_KUMA_BASE_URL | Yes      | Base URL of Uptime Kuma instance | https://example.com |
-| PAGE_ID              | Yes      | Status page ID                   | test1               |
+| Variable Name        | Required | Description                      | Example                            |
+| -------------------- | -------- | -------------------------------- | ---------------------------------- |
+| UPTIME_KUMA_BASE_URL | Yes      | Base URL of Uptime Kuma instance | https://example.kuma-mieru.invalid |
+| PAGE_ID              | Yes      | Status page ID                   | test1                              |
 
 ### Health Check
 

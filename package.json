@@ -4,7 +4,7 @@
   "version": "1.0.6",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack --port 3883",
+    "dev": "next dev --turbopack --port 3881",
     "build": "next build",
     "start": "bun .next/standalone/server.js",
     "lint": "biome check .",

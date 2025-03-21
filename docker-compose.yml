@@ -8,6 +8,8 @@ services:
         VERSION: ${VERSION:-dev}
         BUILD_DATE: ${BUILD_DATE:-unknown}
         VCS_REF: ${VCS_REF:-unknown}
+        UPTIME_KUMA_BASE_URL: ${UPTIME_KUMA_BASE_URL}
+        PAGE_ID: ${PAGE_ID}
       dockerfile: Dockerfile
     container_name: kuma-mieru
     restart: unless-stopped
@@ -17,6 +19,8 @@ services:
       - .env
     environment:
       - NODE_ENV=production
+      - UPTIME_KUMA_BASE_URL=${UPTIME_KUMA_BASE_URL}
+      - PAGE_ID=${PAGE_ID}
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
       interval: 30s

@@ -2,6 +2,7 @@ import type { Incident, MonitorGroup } from "./monitor";
 
 export interface Config {
   baseUrl: string;
+  pageId: string;
   htmlEndpoint: string;
   apiEndpoint: string;
   isPlaceholder: boolean;

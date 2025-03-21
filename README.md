@@ -85,16 +85,16 @@ Fork 本仓库到您的 GitHub 用户下，如图所示：
    `.env` 文件中 **必填** 的环境变量：
 
    ```
-   UPTIME_KUMA_BASE_URL=https://example.com
+   UPTIME_KUMA_BASE_URL=https://example.kuma-mieru.invalid
    PAGE_ID=your-status-page-id
    ```
 
    举个例子，如果您的 Uptime Kuma 公开状态页面的 URL 为
-   `https://example.com/status/test1`
+   `https://example.kuma-mieru.invalid/status/test1`
 
    那么您需要这么配置：
 
-   - `UPTIME_KUMA_BASE_URL` 设置为 `https://example.com`
+   - `UPTIME_KUMA_BASE_URL` 设置为 `https://example.kuma-mieru.invalid`
    - `PAGE_ID` 设置为 `test1`
 
 4. **启动开发服务器**
@@ -137,7 +137,7 @@ Fork 本仓库到您的 GitHub 用户下，如图所示：
    编辑 `.env` 文件，设置必要的环境变量：
 
    ```
-   UPTIME_KUMA_BASE_URL=https://example.com
+   UPTIME_KUMA_BASE_URL=https://example.kuma-mieru.invalid
    PAGE_ID=your-status-page-id
    ```
 
@@ -175,7 +175,7 @@ Fork 本仓库到您的 GitHub 用户下，如图所示：
    docker run -d \
      --name kuma-mieru \
      -p 3883:3000 \
-     -e UPTIME_KUMA_BASE_URL=https://example.com \
+     -e UPTIME_KUMA_BASE_URL=https://example.kuma-mieru.invalid \
      -e PAGE_ID=your-status-page-id \
      kuma-mieru
    ```
@@ -184,7 +184,7 @@ Fork 本仓库到您的 GitHub 用户下，如图所示：
 
 | 变量名               | 必填 | 说明                       | 示例                |
 | -------------------- | ---- | -------------------------- | ------------------- |
-| UPTIME_KUMA_BASE_URL | 是   | Uptime Kuma 实例的基础 URL | https://example.com |
+| UPTIME_KUMA_BASE_URL | 是   | Uptime Kuma 实例的基础 URL | https://example.kuma-mieru.invalid |
 | PAGE_ID              | 是   | 状态页面 ID                | test1               |
 
 ### 健康检查
