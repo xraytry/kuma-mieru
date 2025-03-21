@@ -1,6 +1,7 @@
 {
   "name": "kuma-mieru",
-  "version": "1.0.5",
+  "description": "A 3rd-party Uptime Kuma monitoring dashboard built on Next.js 15, TypeScript and Recharts.",
+  "version": "1.0.6",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack --port 3883",

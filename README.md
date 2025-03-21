@@ -76,13 +76,13 @@ Fork 本仓库到您的 GitHub 用户下，如图所示：
    ```
 
 3. **配置环境变量**
-   复制 `.env.example` 文件并创建 `.env.local` 文件，然后根据您的 Uptime Kuma 实例配置以下环境变量：
+   复制 `.env.example` 文件为 `.env`：
 
    ```bash
-   cp .env.example .env.local
+   cp .env.example .env
    ```
 
-   `.env.local` 文件中 **必填** 的环境变量：
+   `.env` 文件中 **必填** 的环境变量：
 
    ```
    UPTIME_KUMA_BASE_URL=https://example.com
@@ -245,7 +245,7 @@ Kuma Mieru 与备受好评的开源监控工具 [Uptime Kuma](https://github.com
 
 1. **安装并配置 Uptime Kuma**
 2. **在 Uptime Kuma 中创建 "状态页面"**
-3. **在 `.env.local` 文件中配置环境变量**
+3. **在 `.env` 文件中配置环境变量**
 
 ## 贡献指南 :handshake:
 

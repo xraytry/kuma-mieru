@@ -45,16 +45,17 @@ export function MonitorCard({ monitor, heartbeats, uptime24h, isHome = true }: M
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.3 }}
-      className={isHome ? "cursor-pointer transition-transform hover:scale-[1.02]" : ""}
+      className={isHome ? 'cursor-pointer transition-transform hover:scale-[1.02]' : ''}
       onClick={handleClick}
     >
       <Card className="w-full">
         <CardHeader className="flex justify-between items-center">
           <div className="flex flex-col gap-2">
             <div className="flex items-center gap-2">
-              <Badge color={chartColor} variant="flat" title={statusText}>
+              <Badge>
                 <StatusIcon size={18} className={`text-${chartColor} h-4 w-4`} />
               </Badge>
+
               <h3 className="text-lg font-semibold">{monitor.name}</h3>
             </div>
             {monitor.tags && monitor.tags.length > 0 && (
