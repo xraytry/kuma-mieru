@@ -113,7 +113,10 @@ Fork 本仓库到您的 GitHub 用户下，如图所示：
    bun run start
    ```
 
-## Docker 部署 :whale:
+## Docker 部署 :whale: (Beta)
+
+> [!WARNING]
+> Docker 镜像正在测试中，请勿用于生产环境!
 
 ### 使用 Docker Compose（推荐）
 

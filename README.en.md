@@ -89,7 +89,10 @@ Go to https://vercel.com/new, select **Import** to import the repository you jus
    bun run start
    ```
 
-## Docker Deployment :whale:
+## Docker Deployment :whale: (Beta)
+
+> [!WARNING]
+> Docker image is under testing, please do not use it in production!
 
 ### Using Docker Compose (Recommended)
 
