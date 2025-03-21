@@ -28,24 +28,24 @@ export const siteConfig = {
   icon: constructIconUrl(config?.icon) || constructIconUrl(DEFAULT_CONFIG.icon),
   navItems: [
     {
-      label: '首页',
+      label: 'pageMain',
       href: "/",
       external: false,
     },
     {
-      label: '编辑此页',
+      label: 'pageEdit',
       href: `${apiConfig.baseUrl}/manage-status-page`,
       external: true,
     }
   ],
   navMenuItems: [
     {
-      label: '首页',
+      label: 'pageMain',
       href: "/",
       external: false,
     },
     {
-      label: '编辑此页',
+      label: 'pageEdit',
       href: `${apiConfig.baseUrl}/manage-status-page`,
       external: true,
     }

@@ -13,6 +13,7 @@ import { formatLatencyForAxis, getLatencyColor } from '../utils/format';
 import { Tabs, Tab } from '@heroui/react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChartTooltip } from '../ui/ChartTooltip';
+import { useTranslations } from 'next-intl';
 
 interface MonitoringChartProps {
   heartbeats: Heartbeat[];
@@ -22,9 +23,9 @@ interface MonitoringChartProps {
 }
 
 const countRanges = [
-  { key: '50-points', title: '最近 50 次', count: 50 },
-  { key: '25-points', title: '最近 25 次', count: 25 },
-  { key: '10-points', title: '最近 10 次', count: 10 },
+  { key: '50-points', count: 50 },
+  { key: '25-points', count: 25 },
+  { key: '10-points', count: 10 },
 ];
 
 export function MonitoringChart({
@@ -33,6 +34,8 @@ export function MonitoringChart({
   showGrid = false,
   color = 'default',
 }: MonitoringChartProps) {
+  const t = useTranslations();
+  
   const [selectedRange, setSelectedRange] = React.useState('50-points');
 
   const filteredData = React.useMemo(() => {
@@ -61,7 +64,7 @@ export function MonitoringChart({
         {/* TODO: 切换图表时重绘动画 */}
         <Tabs size="sm" selectedKey={selectedRange} onSelectionChange={handleRangeChange}>
           {countRanges.map((range) => (
-            <Tab key={range.key} title={range.title} />
+            <Tab key={range.key} title={t("nodeCount",{count:range.count })} />
           ))}
         </Tabs>
       </div>

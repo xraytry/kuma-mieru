@@ -1,0 +1,30 @@
+{
+    "pageMain": "Home",
+    "pageEdit": "Edit this page",
+    "pageBack": "Go back",
+    "pageBackMonitor": "Back to monitor list",
+
+    "timerPause": "Pause",
+    "timerPaused": "Paused",
+    "timerRefreshing": "Refreshing...",
+    "timerRefreshNow": "Refresh now",
+    "timerLastTime": "Last refresh: {time}",
+    "timerNextTime": "Refresh in {sec} seconds",
+    
+    "nodeSearch": "Search nodes...",
+    "nodeLatestPing": "Latest ping",
+    "nodeAvgPing": "Average ping",
+    "nodeTrimmedAvgPing": "Trimmed average",
+    "nodeOnline": "Online",
+    "nodeOffline": "Offline",
+    "nodeMaintenance": "Maint.",
+    "nodeCount": "Last {count} times",
+
+    "alertCreatedAt": "Published at {time}",
+    "alertUpdatedAt": "Updated at {time}",
+
+    "errorRefresh": "Refresh failed",
+    "errorMonitorNotFound": "Monitor not found",
+    "errorRequestData": "Failed to fetch data",
+    "": ""
+}

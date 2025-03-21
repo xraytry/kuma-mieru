@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo } from "react";
 import {
   AlertTriangle,
   Info,
@@ -8,12 +8,13 @@ import {
   Bell,
   ShieldAlert,
   ShieldCheck,
-} from 'lucide-react';
-import type { Incident } from '@/types/monitor';
-import { timeAgo } from '../utils/format';
+} from "lucide-react";
+import type { Incident } from "@/types/monitor";
+import { timeAgo, timeSec } from "../utils/format";
+import { useFormatter, useNow, useTranslations } from "next-intl";
 
 // Workaround for https://github.com/markdown-it/markdown-it/issues/1082
-const MarkdownIt = require('markdown-it');
+const MarkdownIt = require("markdown-it");
 const md = MarkdownIt({
   html: true,
   linkify: true,
@@ -23,24 +24,28 @@ const md = MarkdownIt({
 });
 
 function IncidentAlert({ incident }: { incident: Incident }) {
+  const now = useNow();
+  const t = useTranslations();
+  const format = useFormatter();
+
   let { style, title, content, createdDate, lastUpdatedDate } = incident;
 
-  createdDate = createdDate ? `${createdDate} +00:00` : '';
-  lastUpdatedDate = lastUpdatedDate ? `${lastUpdatedDate} +00:00` : '';
+  createdDate = createdDate ? `${createdDate} +00:00` : "";
+  lastUpdatedDate = lastUpdatedDate ? `${lastUpdatedDate} +00:00` : "";
 
-  if (window.location.hostname === 'localhost') {
-    console.log('incident', incident);
+  if (window.location.hostname === "localhost") {
+    console.log("incident", incident);
   }
 
   const Icon = useMemo(() => {
     switch (style) {
-      case 'warning':
+      case "warning":
         return AlertOctagon;
-      case 'danger':
+      case "danger":
         return ShieldAlert;
-      case 'success':
+      case "success":
         return ShieldCheck;
-      case 'info':
+      case "info":
         return Bell;
       default:
         return Info;
@@ -49,33 +54,33 @@ function IncidentAlert({ incident }: { incident: Incident }) {
 
   const colorClasses = useMemo(() => {
     switch (style) {
-      case 'warning':
+      case "warning":
         return {
-          border: 'border-yellow-200 dark:border-yellow-800/30',
-          bg: 'bg-yellow-50 dark:bg-yellow-900/20',
-          text: 'text-yellow-600 dark:text-yellow-400',
-          icon: 'text-yellow-500 dark:text-yellow-400',
+          border: "border-yellow-200 dark:border-yellow-800/30",
+          bg: "bg-yellow-50 dark:bg-yellow-900/20",
+          text: "text-yellow-600 dark:text-yellow-400",
+          icon: "text-yellow-500 dark:text-yellow-400",
         };
-      case 'danger':
+      case "danger":
         return {
-          border: 'border-red-200 dark:border-red-800/30',
-          bg: 'bg-red-50 dark:bg-red-900/20',
-          text: 'text-red-600 dark:text-red-400',
-          icon: 'text-red-500 dark:text-red-400',
+          border: "border-red-200 dark:border-red-800/30",
+          bg: "bg-red-50 dark:bg-red-900/20",
+          text: "text-red-600 dark:text-red-400",
+          icon: "text-red-500 dark:text-red-400",
         };
-      case 'success':
+      case "success":
         return {
-          border: 'border-green-200 dark:border-green-800/30',
-          bg: 'bg-green-50 dark:bg-green-900/20',
-          text: 'text-green-600 dark:text-green-400',
-          icon: 'text-green-500 dark:text-green-400',
+          border: "border-green-200 dark:border-green-800/30",
+          bg: "bg-green-50 dark:bg-green-900/20",
+          text: "text-green-600 dark:text-green-400",
+          icon: "text-green-500 dark:text-green-400",
         };
       default:
         return {
-          border: 'border-blue-200 dark:border-blue-800/30',
-          bg: 'bg-blue-50 dark:bg-blue-900/20',
-          text: 'text-blue-600 dark:text-blue-400',
-          icon: 'text-blue-500 dark:text-blue-400',
+          border: "border-blue-200 dark:border-blue-800/30",
+          bg: "bg-blue-50 dark:bg-blue-900/20",
+          text: "text-blue-600 dark:text-blue-400",
+          icon: "text-blue-500 dark:text-blue-400",
         };
     }
   }, [style]);
@@ -95,7 +100,9 @@ function IncidentAlert({ incident }: { incident: Incident }) {
           </div>
           <div className="flex-1 min-w-0">
             <div className="mb-4">
-              <h3 className={`text-base font-medium ${colorClasses.text}`}>{title}</h3>
+              <h3 className={`text-base font-medium ${colorClasses.text}`}>
+                {title}
+              </h3>
             </div>
             <div
               className="prose prose-sm dark:prose-invert max-w-none [&>:first-child]:mt-0 [&>:last-child]:mb-0
@@ -114,11 +121,15 @@ function IncidentAlert({ incident }: { incident: Incident }) {
             <div className="flex justify-end gap-2 mt-4">
               {lastUpdatedDate && (
                 <span className="text-sm text-gray-400 dark:text-gray-500">
-                  修改于 {timeAgo(lastUpdatedDate)}
+                  {t("alert.alertUpdatedAt", {
+                    time: format.relativeTime(timeSec(lastUpdatedDate), now),
+                  })}
                 </span>
               )}
               <span className="text-sm text-gray-400 dark:text-gray-500">
-                发布于 {timeAgo(createdDate)}
+                {t("alert.alertCreatedAt", {
+                  time: format.relativeTime(timeSec(createdDate), now),
+                })}
               </span>
             </div>
           </div>

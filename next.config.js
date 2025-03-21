@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const fs = require('node:fs');
 const path = require('node:path');
+const createNextIntlPlugin = require('next-intl/plugin');
 
 const banner = `
 ██╗  ██╗██╗   ██╗███╗   ███╗ █████╗     ███╗   ███╗██╗███████╗██████╗ ██╗   ██╗
@@ -37,4 +38,7 @@ const nextConfig = {
     },
 };
 
-module.exports = nextConfig;
+const withNextIntl = createNextIntlPlugin(
+    './utils/i18n/request.ts'
+);
+module.exports = withNextIntl(nextConfig);
