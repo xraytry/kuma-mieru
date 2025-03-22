@@ -13,21 +13,22 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getMessages } from 'next-intl/server';
 import { Providers } from './providers';
 
-export async function generateMetadata(): Promise<Metadata> {
-  const version = packageJson.version;
-
-  return {
-    title: {
-      default: siteConfig.name,
-      template: `%s - ${siteConfig.name}`,
-    },
-    description: siteConfig.description,
-    icons: {
-      icon: siteConfig.icon,
-    },
-    generator: `Kuma-Mieru/${version}`,
-  };
-}
+export const metadata: Metadata = {
+  title: {
+    default: 'Kuma Mieru',
+    template: siteConfig.name ? `%s - ${siteConfig.name}` : '%s - Kuma Mieru',
+  },
+  description: siteConfig.description || 'Kuma Mieru',
+  icons: {
+    icon: siteConfig.icon,
+  },
+  generator: `Kuma-Mieru/${packageJson.version}`,
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+};
 
 export const viewport: Viewport = {
   themeColor: [
