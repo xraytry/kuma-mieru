@@ -1,33 +1,33 @@
 {
-    "pageMain": "首页",
-    "pageEdit": "编辑此页",
-    "pageBack": "返回上一页",
-    "pageBackMonitor": "返回监控列表",
+  "pageMain": "首页",
+  "pageEdit": "编辑此页",
+  "pageBack": "返回上一页",
+  "pageBackMonitor": "返回监控列表",
 
-    "timerPause": "暂停",
-    "timerPaused": "已暂停",
-    "timerRefreshing": "刷新中...",
-    "timerRefreshNow": "立即刷新",
-    "timerLastTime": "上次刷新: {time}",
-    "timerNextTime": "{sec} 秒后刷新",
-    
-    "nodeSearch": "搜索节点... (TODO)",
+  "timerPause": "暂停",
+  "timerPaused": "已暂停",
+  "timerRefreshing": "刷新中...",
+  "timerRefreshNow": "立即刷新",
+  "timerLastTime": "上次刷新: {time}",
+  "timerNextTime": "将在 {sec} 秒后刷新",
 
-    "nodeLatestPing": "最新延迟",
-    "nodeAvgPing": "平均延迟",
-    "nodeTrimmedAvgPing": "修剪后平均",
+  "nodeSearch": "搜索节点... (TODO)",
 
-    "nodeOnline": "在线",
-    "nodeOffline": "离线",
-    "nodeMaintenance": "维护中",
+  "nodeLatestPing": "最新延迟",
+  "nodeAvgPing": "平均延迟",
+  "nodeTrimmedAvgPing": "修剪后平均",
 
-    "nodeCount": "最近 {count} 次",
+  "nodeOnline": "在线",
+  "nodeOffline": "离线",
+  "nodeMaintenance": "维护中",
 
-    "alertCreatedAt": "发布于 {time}",
-    "alertUpdatedAt": "更新于 {time}",
+  "nodeCount": "最近 {count} 次",
 
-    "errorRefresh": "刷新失败",
-    "errorMonitorNotFound": "未找到监控",
-    "errorRequestData": "获取数据失败",
-    "": ""
+  "alertCreatedAt": "发布于 {time}",
+  "alertUpdatedAt": "更新于 {time}",
+
+  "errorRefresh": "刷新失败",
+  "errorMonitorNotFound": "未找到监控",
+  "errorRequestData": "获取数据失败",
+  "": ""
 }

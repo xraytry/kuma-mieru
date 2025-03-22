@@ -1,11 +1,11 @@
-import React, { useMemo } from 'react';
 import type { Heartbeat } from '@/types/monitor';
-import { clsx } from 'clsx';
-import { calculatePingMetrics } from '../utils/charts';
 import { Tooltip } from '@heroui/react';
+import { clsx } from 'clsx';
+import { useTranslations } from 'next-intl';
+import React, { useMemo } from 'react';
+import { calculatePingMetrics } from '../utils/charts';
 import { getPingColorClass } from '../utils/colors';
 import { formatLatency } from '../utils/format';
-import { useTranslations } from 'next-intl';
 
 interface PingStatsProps {
   heartbeats: Heartbeat[];
@@ -38,7 +38,7 @@ const SinglePingStat = ({ label, value, isHome, t }: SinglePingStatProps) => {
   return (
     <div className="flex items-center gap-0.5">
       {isHome ? (
-        <Tooltip content={label.full}>
+        <Tooltip content={t(label.full)}>
           <span>{label.short}</span>
         </Tooltip>
       ) : (

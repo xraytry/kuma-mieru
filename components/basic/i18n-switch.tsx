@@ -1,17 +1,10 @@
-"use client";
+'use client';
 
-import { locales } from "@/utils/i18n/config";
-import { setUserLocale } from "@/utils/i18n/locale";
-import {
-  Button,
-  cn,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger,
-} from "@heroui/react";
-import { useTransition } from "react";
-import { Languages, Loader2 } from "lucide-react";
+import { locales } from '@/utils/i18n/config';
+import { setUserLocale } from '@/utils/i18n/locale';
+import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, cn } from '@heroui/react';
+import { Languages, Loader2 } from 'lucide-react';
+import { useTransition } from 'react';
 
 export const I18NSwitch = () => {
   const [isPending, startTransition] = useTransition();
@@ -21,23 +14,19 @@ export const I18NSwitch = () => {
       <DropdownTrigger>
         <div
           className={cn(
-            "px-px transition-opacity hover:opacity-80 cursor-pointer",
-            "w-auto h-auto",
-            "bg-transparent",
-            "rounded-lg",
-            "flex items-center justify-center",
-            "group-data-[selected=true]:bg-transparent",
-            "!text-default-500",
-            "pt-px",
-            "px-0",
-            "mx-0"
+            'px-px transition-opacity hover:opacity-80 cursor-pointer',
+            'w-auto h-auto',
+            'bg-transparent',
+            'rounded-lg',
+            'flex items-center justify-center',
+            'group-data-[selected=true]:bg-transparent',
+            '!text-default-500',
+            'pt-px',
+            'px-0',
+            'mx-0',
           )}
         >
-          {isPending ? (
-            <Loader2 size={22} className="animate-spin" />
-          ) : (
-            <Languages size={22} />
-          )}
+          {isPending ? <Loader2 size={22} className="animate-spin" /> : <Languages size={22} />}
         </div>
       </DropdownTrigger>
       <DropdownMenu aria-label="Static Actions" variant="faded">

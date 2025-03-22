@@ -1,11 +1,11 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
-import { MonitorCard } from '@/components/MonitorCard';
 import AutoRefresh from '@/components/AutoRefresh';
+import { MonitorCard } from '@/components/MonitorCard';
 import AlertMarkdown from '@/components/ui/AlertMarkdown';
-import type { MonitorGroup, MonitoringData } from '@/types/monitor';
 import type { GlobalConfig } from '@/types/config';
+import type { MonitorGroup, MonitoringData } from '@/types/monitor';
+import { useCallback, useEffect, useState } from 'react';
 
 export default function Home() {
   const [monitorGroups, setMonitorGroups] = useState<MonitorGroup[]>([]);

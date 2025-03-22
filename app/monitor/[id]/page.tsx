@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import { useCallback, useEffect, useState, use } from "react";
-import { MonitorCard } from "@/components/MonitorCard";
-import AutoRefresh from "@/components/AutoRefresh";
-import type { Monitor, MonitoringData, MonitorGroup } from "@/types/monitor";
-import { Card } from "@heroui/react";
-import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
-import { useTranslations } from "next-intl";
+import AutoRefresh from '@/components/AutoRefresh';
+import { MonitorCard } from '@/components/MonitorCard';
+import type { Monitor, MonitorGroup, MonitoringData } from '@/types/monitor';
+import { Card } from '@heroui/react';
+import { motion } from 'framer-motion';
+import { useTranslations } from 'next-intl';
+import { useRouter } from 'next/navigation';
+import { use, useCallback, useEffect, useState } from 'react';
 
 const pageVariants = {
   initial: {
@@ -55,7 +55,7 @@ export default function MonitorDetail({
       const monitorId = Number.parseInt(resolvedParams.id, 10);
 
       // 获取监控数据
-      const monitorResponse = await fetch("/api/monitor");
+      const monitorResponse = await fetch('/api/monitor');
       const monitorData = await monitorResponse.json();
 
       // 在所有监控组中查找指定 ID 的监控项
@@ -64,7 +64,7 @@ export default function MonitorDetail({
         .find((m: Monitor) => m.id === monitorId);
 
       if (!foundMonitor) {
-        throw new Error(t("errorMonitorNotFound"));
+        throw new Error(t('errorMonitorNotFound'));
       }
 
       setMonitor(foundMonitor);
@@ -75,16 +75,15 @@ export default function MonitorDetail({
           [monitorId]: monitorData.data.heartbeatList[monitorId] || [],
         },
         uptimeList: {
-          [`${monitorId}_24`]:
-            monitorData.data.uptimeList[`${monitorId}_24`] || 0,
+          [`${monitorId}_24`]: monitorData.data.uptimeList[`${monitorId}_24`] || 0,
         },
       };
 
       setData(monitoringData);
       setError(null);
     } catch (error) {
-      setError(error instanceof Error ? error.message : t("errorRequestData"));
-      console.error(t("errorRequestData"), ":", error);
+      setError(error instanceof Error ? error.message : t('errorRequestData'));
+      console.error(t('errorRequestData'), ':', error);
     } finally {
       setIsLoading(false);
     }
@@ -117,27 +116,20 @@ export default function MonitorDetail({
         variants={pageVariants}
         className="flex flex-col items-center justify-center min-h-screen gap-4"
       >
-        <p className="text-xl text-gray-500">
-          {error || t("errorMonitorNotFound")}
-        </p>
+        <p className="text-xl text-gray-500">{error || t('errorMonitorNotFound')}</p>
         <button
           type="button"
           onClick={() => router.back()}
           className="px-4 py-2 text-sm text-white bg-blue-500 rounded-md hover:bg-blue-600 transition-colors"
         >
-          {t("pageBack")}
+          {t('pageBack')}
         </button>
       </motion.div>
     );
   }
 
   return (
-    <motion.div
-      initial="initial"
-      animate="animate"
-      exit="exit"
-      variants={pageVariants}
-    >
+    <motion.div initial="initial" animate="animate" exit="exit" variants={pageVariants}>
       <AutoRefresh onRefresh={fetchData} interval={60000}>
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-6xl mx-auto">
@@ -152,7 +144,7 @@ export default function MonitorDetail({
                 onClick={() => router.back()}
                 className="px-4 py-2 text-sm text-gray-600 hover:text-gray-900 transition-colors"
               >
-                ← {t("pageBackMonitor")}
+                ← {t('pageBackMonitor')}
               </button>
             </motion.div>
             <MonitorCard

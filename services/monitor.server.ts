@@ -1,9 +1,12 @@
-import type { MonitorGroup, MonitoringData } from "@/types/monitor";
-import { apiConfig } from "@/config/api";
-import { getPreloadData } from "@/services/config.server";
+import { apiConfig } from '@/config/api';
+import { getPreloadData } from '@/services/config.server';
+import type { MonitorGroup, MonitoringData } from '@/types/monitor';
 
 class MonitorDataError extends Error {
-  constructor(message: string, public readonly cause?: unknown) {
+  constructor(
+    message: string,
+    public readonly cause?: unknown,
+  ) {
     super(message);
     this.name = 'MonitorDataError';
   }
@@ -24,22 +27,20 @@ export async function getMonitoringData(): Promise<{
 
     // 获取监控数据
     const apiResponse = await fetch(apiConfig.apiEndpoint);
-    
+
     if (!apiResponse.ok) {
-      throw new MonitorDataError(
-        `API 请求失败: ${apiResponse.status} ${apiResponse.statusText}`
-      );
+      throw new MonitorDataError(`API 请求失败: ${apiResponse.status} ${apiResponse.statusText}`);
     }
 
     let monitoringData: MonitoringData;
     try {
       const rawData = await apiResponse.json();
-      
+
       // 验证监控数据结构
       if (!rawData || typeof rawData !== 'object') {
         throw new MonitorDataError('监控数据必须是一个对象');
       }
-      
+
       if (!('heartbeatList' in rawData) || !('uptimeList' in rawData)) {
         throw new MonitorDataError('监控数据缺少必要的字段');
       }
@@ -48,7 +49,7 @@ export async function getMonitoringData(): Promise<{
       if (typeof rawData.heartbeatList !== 'object' || typeof rawData.uptimeList !== 'object') {
         throw new MonitorDataError('心跳列表和正常运行时间列表必须是对象类型');
       }
-      
+
       monitoringData = rawData;
     } catch (error) {
       if (error instanceof SyntaxError) {
@@ -65,13 +66,13 @@ export async function getMonitoringData(): Promise<{
     console.error(
       '获取监控数据失败:',
       error instanceof MonitorDataError ? error.message : '未知错误',
-      error
+      error,
     );
-    
+
     // 返回默认值
     return {
       monitorGroups: [],
       data: { heartbeatList: {}, uptimeList: {} },
     };
   }
-} 
+}

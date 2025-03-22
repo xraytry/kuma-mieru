@@ -1,12 +1,12 @@
-import React, { useMemo } from 'react';
 import type { Heartbeat } from '@/types/monitor';
 import { clsx } from 'clsx';
-import { CustomTooltip } from '../ui/CustomTooltip';
 import dayjs from 'dayjs';
-import { PingStats } from './PingStats';
+import { useTranslations } from 'next-intl';
+import React, { useMemo } from 'react';
+import { CustomTooltip } from '../ui/CustomTooltip';
 import { calculatePingStats, getStatusColor } from '../utils/charts';
 import { COLOR_SYSTEM } from '../utils/colors';
-import { useTranslations } from 'next-intl';
+import { PingStats } from './PingStats';
 
 interface StatusBlockIndicatorProps {
   heartbeats: Heartbeat[];
@@ -19,7 +19,7 @@ export function StatusBlockIndicator({
   className,
   isHome = true,
 }: StatusBlockIndicatorProps) {
-  const t = useTranslations()
+  const t = useTranslations();
   // 获取最近的 50 个心跳数据点
   const recentHeartbeats = heartbeats.slice(-50);
 

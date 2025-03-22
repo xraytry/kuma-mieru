@@ -1,29 +1,29 @@
 'use client';
 
-import {
-  Navbar as HeroUINavbar,
-  NavbarContent,
-  NavbarMenu,
-  NavbarMenuToggle,
-  NavbarBrand,
-  NavbarItem,
-  NavbarMenuItem,
-} from '@heroui/navbar';
 import { Button } from '@heroui/button';
+import { Input } from '@heroui/input';
 import { Kbd } from '@heroui/kbd';
 import { Link } from '@heroui/link';
-import { Input } from '@heroui/input';
+import {
+  Navbar as HeroUINavbar,
+  NavbarBrand,
+  NavbarContent,
+  NavbarItem,
+  NavbarMenu,
+  NavbarMenuItem,
+  NavbarMenuToggle,
+} from '@heroui/navbar';
 import { link as linkStyles } from '@heroui/theme';
-import NextLink from 'next/link';
-import Image from 'next/image';
 import clsx from 'clsx';
-import { useState, useEffect } from 'react';
+import Image from 'next/image';
+import NextLink from 'next/link';
+import { useEffect, useState } from 'react';
 
+import { DiscordIcon, GithubIcon, Logo, SearchIcon, TwitterIcon } from '@/components/basic/icons';
 import { ThemeSwitch } from '@/components/basic/theme-switch';
-import { TwitterIcon, GithubIcon, DiscordIcon, SearchIcon, Logo } from '@/components/basic/icons';
-import { useSourceConfig } from '@/hooks/useSourceConfig';
-import { siteConfig } from '@/config/site';
 import { NavbarSkeleton } from '@/components/ui/skeleton';
+import { siteConfig } from '@/config/site';
+import { useSourceConfig } from '@/hooks/useSourceConfig';
 import type { Config } from '@/types/config';
 import { useTranslations } from 'next-intl';
 import { I18NSwitch } from './i18n-switch';
@@ -77,7 +77,7 @@ export const Navbar = () => {
         </Kbd>
       }
       labelPlacement="outside"
-      placeholder={t("nodeSearch")}
+      placeholder={t('nodeSearch')}
       startContent={
         <SearchIcon className="text-base text-default-400 pointer-events-none flex-shrink-0" />
       }

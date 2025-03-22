@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import type { GlobalConfig } from '@/types/config';
+import { useEffect, useState } from 'react';
 
 async function fetchSourceConfig(): Promise<GlobalConfig> {
   const response = await fetch('/api/config');

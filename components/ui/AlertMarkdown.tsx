@@ -1,17 +1,17 @@
-import React, { useMemo } from 'react';
+import type { Incident } from '@/types/monitor';
 import {
-  AlertTriangle,
-  Info,
-  CheckCircle,
-  XCircle,
   AlertOctagon,
+  AlertTriangle,
   Bell,
+  CheckCircle,
+  Info,
   ShieldAlert,
   ShieldCheck,
+  XCircle,
 } from 'lucide-react';
-import type { Incident } from '@/types/monitor';
-import { dateStringToTimestamp, timeAgo } from '../utils/format';
 import { useFormatter, useNow, useTranslations } from 'next-intl';
+import React, { useMemo } from 'react';
+import { dateStringToTimestamp, timeAgo } from '../utils/format';
 
 // Workaround for https://github.com/markdown-it/markdown-it/issues/1082
 const MarkdownIt = require('markdown-it');

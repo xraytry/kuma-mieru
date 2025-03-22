@@ -1,19 +1,19 @@
+import type { Heartbeat } from '@/types/monitor';
+import { Tab, Tabs } from '@heroui/react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { useTranslations } from 'next-intl';
 import React from 'react';
 import {
   Area,
   AreaChart,
+  CartesianGrid,
   ResponsiveContainer,
   Tooltip,
-  YAxis,
-  CartesianGrid,
   XAxis,
+  YAxis,
 } from 'recharts';
-import type { Heartbeat } from '@/types/monitor';
-import { formatLatencyForAxis, getLatencyColor } from '../utils/format';
-import { Tabs, Tab } from '@heroui/react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { ChartTooltip } from '../ui/ChartTooltip';
-import { useTranslations } from 'next-intl';
+import { formatLatencyForAxis, getLatencyColor } from '../utils/format';
 
 interface MonitoringChartProps {
   heartbeats: Heartbeat[];
@@ -35,7 +35,7 @@ export function MonitoringChart({
   color = 'default',
 }: MonitoringChartProps) {
   const t = useTranslations();
-  
+
   const [selectedRange, setSelectedRange] = React.useState('50-points');
 
   const filteredData = React.useMemo(() => {
@@ -64,7 +64,7 @@ export function MonitoringChart({
         {/* TODO: 切换图表时重绘动画 */}
         <Tabs size="sm" selectedKey={selectedRange} onSelectionChange={handleRangeChange}>
           {countRanges.map((range) => (
-            <Tab key={range.key} title={t("nodeCount",{count:range.count })} />
+            <Tab key={range.key} title={t('nodeCount', { count: range.count })} />
           ))}
         </Tabs>
       </div>

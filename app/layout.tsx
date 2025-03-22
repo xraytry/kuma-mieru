@@ -1,16 +1,16 @@
 import '@/styles/globals.css';
-import type { Metadata, Viewport } from 'next';
 import { clsx } from 'clsx';
+import type { Metadata, Viewport } from 'next';
 
-import { Providers } from './providers';
-import { getGlobalConfig } from '@/services/config.server';
-import { siteConfig } from '@/config/site';
-import { fontSans } from '@/config/fonts';
-import { Navbar } from '@/components/basic/navbar';
 import { Footer } from '@/components/Footer';
 import Analytics from '@/components/basic/google-analytics';
-import { getLocale, getMessages } from 'next-intl/server';
+import { Navbar } from '@/components/basic/navbar';
+import { fontSans } from '@/config/fonts';
+import { siteConfig } from '@/config/site';
+import { getGlobalConfig } from '@/services/config.server';
 import { NextIntlClientProvider } from 'next-intl';
+import { getLocale, getMessages } from 'next-intl/server';
+import { Providers } from './providers';
 
 export async function generateMetadata(): Promise<Metadata> {
   const { config } = await getGlobalConfig();
@@ -41,7 +41,7 @@ export default async function RootLayout({
 }) {
   const locale = await getLocale();
   const messages = await getMessages();
-  
+
   const { config } = await getGlobalConfig();
   const { theme, googleAnalyticsId } = config;
 

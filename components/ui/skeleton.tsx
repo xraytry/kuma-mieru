@@ -1,7 +1,7 @@
 'use client';
 
+import { Navbar as HeroUINavbar, NavbarBrand, NavbarContent, NavbarItem } from '@heroui/navbar';
 import { Skeleton } from '@heroui/react';
-import { Navbar as HeroUINavbar, NavbarContent, NavbarBrand, NavbarItem } from '@heroui/navbar';
 
 export const NavbarSkeleton = () => {
   return (
@@ -34,4 +34,4 @@ export const NavbarSkeleton = () => {
       </NavbarContent>
     </HeroUINavbar>
   );
-}; 
+};

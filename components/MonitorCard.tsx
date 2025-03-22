@@ -1,12 +1,12 @@
 'use client';
-import { Card, CardBody, CardHeader, Badge, Progress, Chip, Divider } from '@heroui/react';
-import type { Monitor, Heartbeat } from '@/types/monitor';
-import { MonitoringChart } from './charts/MonitoringChart';
-import { CheckCircle2, AlertCircle, MinusCircle } from 'lucide-react';
-import { StatusBlockIndicator } from './charts/StatusBlockIndicator';
-import { ResponsiveContainer, RadialBarChart, RadialBar, Cell, PolarAngleAxis } from 'recharts';
-import { useRouter } from 'next/navigation';
+import type { Heartbeat, Monitor } from '@/types/monitor';
+import { Badge, Card, CardBody, CardHeader, Chip, Divider, Progress } from '@heroui/react';
 import { motion } from 'framer-motion';
+import { AlertCircle, CheckCircle2, MinusCircle } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { Cell, PolarAngleAxis, RadialBar, RadialBarChart, ResponsiveContainer } from 'recharts';
+import { MonitoringChart } from './charts/MonitoringChart';
+import { StatusBlockIndicator } from './charts/StatusBlockIndicator';
 
 interface MonitorCardProps {
   monitor: Monitor;
