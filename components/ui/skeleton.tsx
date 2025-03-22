@@ -1,7 +1,7 @@
 'use client';
 
 import { Navbar as HeroUINavbar, NavbarBrand, NavbarContent, NavbarItem } from '@heroui/navbar';
-import { Skeleton } from '@heroui/react';
+import { Card, CardBody, CardHeader, Skeleton } from '@heroui/react';
 
 export const NavbarSkeleton = () => {
   return (
@@ -33,5 +33,41 @@ export const NavbarSkeleton = () => {
         <Skeleton className="flex rounded-full w-8 h-8" />
       </NavbarContent>
     </HeroUINavbar>
+  );
+};
+
+export const MonitorCardSkeleton = () => {
+  return (
+    <Card className="w-full">
+      <CardHeader className="flex justify-between items-center">
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center gap-2">
+            <Skeleton className="h-6 w-6 rounded-full" />
+            <Skeleton className="h-6 w-32 rounded-lg" />
+          </div>
+          <div className="flex flex-wrap gap-1">
+            <Skeleton className="h-5 w-16 rounded-full" />
+            <Skeleton className="h-5 w-20 rounded-full" />
+            <Skeleton className="h-5 w-24 rounded-full" />
+          </div>
+        </div>
+        <div className="inline-flex items-center gap-2">
+          <Skeleton className="h-10 w-10 rounded-full" />
+          <Skeleton className="h-4 w-16 rounded-lg" />
+        </div>
+      </CardHeader>
+      <CardBody>
+        <div className="space-y-4">
+          <div className="flex gap-1">
+            {Array.from({ length: 24 }).map((_, i) => (
+              // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+              <Skeleton key={i} className="h-8 w-full rounded-sm" />
+            ))}
+          </div>
+          <Skeleton className="h-[1px] w-full" />
+          <Skeleton className="h-[120px] w-full rounded-lg" />
+        </div>
+      </CardBody>
+    </Card>
   );
 };
