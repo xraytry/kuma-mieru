@@ -1,4 +1,4 @@
-import { Button, Alert as HeroUIAlert } from '@heroui/react';
+import { Alert as HeroUIAlert } from '@heroui/react';
 import { clsx } from 'clsx';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { useState } from 'react';
@@ -22,46 +22,53 @@ export const Alert = ({
 }: AlertProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
+  const handleToggle = () => {
+    setIsExpanded(!isExpanded);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      handleToggle();
+    }
+  };
+
   return (
-    <HeroUIAlert
-      className={clsx('cursor-pointer', className)}
-      color={color}
-      variant={variant}
-      onClick={() => setIsExpanded(!isExpanded)}
+    <button
+      type="button"
+      onClick={handleToggle}
+      onKeyDown={handleKeyDown}
+      tabIndex={0}
+      className="cursor-pointer w-full text-left"
     >
-      <div className="flex items-center justify-between w-screen-full">
-        <div className="flex-1">
-          <h5 className="text-sm font-medium">{title}</h5>
-          {!isExpanded && !children && description && (
-            <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-1">{description}</p>
+      <HeroUIAlert className={className} color={color} variant={variant}>
+        <div className="flex items-start justify-between w-full">
+          <div className="flex-1 mr-2">
+            <h5 className="text-sm font-medium">{title}</h5>
+            {!isExpanded && !children && description && (
+              <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-1">{description}</p>
+            )}
+            <div
+              className={clsx(
+                'grid transition-all duration-200 ease-in-out w-full',
+                isExpanded ? 'grid-rows-[1fr] opacity-100 mt-2' : 'grid-rows-[0fr] opacity-0',
+              )}
+            >
+              <div className="overflow-hidden">
+                {description && (
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">{description}</p>
+                )}
+                {children}
+              </div>
+            </div>
+          </div>
+          {isExpanded ? (
+            <ChevronUp className="h-4 w-4 flex-shrink-0 text-gray-500" />
+          ) : (
+            <ChevronDown className="h-4 w-4 flex-shrink-0 text-gray-500" />
           )}
         </div>
-        <Button
-          isIconOnly
-          size="sm"
-          variant="light"
-          className="ml-2 shrink-0"
-          onClick={(e) => {
-            e.stopPropagation();
-            setIsExpanded(!isExpanded);
-          }}
-        >
-          {isExpanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
-        </Button>
-      </div>
-      <div
-        className={clsx(
-          'grid transition-all duration-200 ease-in-out w-full',
-          isExpanded ? 'grid-rows-[1fr] opacity-100 mt-2' : 'grid-rows-[0fr] opacity-0',
-        )}
-      >
-        <div className="overflow-hidden">
-          {description && (
-            <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">{description}</p>
-          )}
-          {children}
-        </div>
-      </div>
-    </HeroUIAlert>
+      </HeroUIAlert>
+    </button>
   );
 };
