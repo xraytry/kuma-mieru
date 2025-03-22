@@ -45,7 +45,7 @@ export default function Home() {
   }, [fetchData]);
 
   return (
-    <AutoRefresh onRefresh={fetchData} interval={30000}>
+    <AutoRefresh onRefresh={fetchData} interval={60000}>
       <div className="mx-auto max-w-screen-2xl px-4 py-8 pt-4">
         {/* 公告显示 */}
         {globalConfig?.incident && <AlertMarkdown incident={globalConfig.incident} />}

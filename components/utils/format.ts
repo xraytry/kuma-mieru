@@ -86,6 +86,6 @@ export function timeAgo(date: string): string {
  * @returns timestamp in milliseconds
  */
 export function dateStringToTimestamp(date: string): number {
-  const timestamp = Date.parse(`${date.replace(' ', 'T')}Z`);
+  const timestamp = new Date(date).getTime();
   return Number.isFinite(timestamp) ? timestamp : 0;
 }

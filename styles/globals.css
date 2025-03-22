@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@media (min-width: 768px) and (max-width: 800px) {
+  .hide-ping-stats {
+    display: none;
+  }
+}

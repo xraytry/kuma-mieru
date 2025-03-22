@@ -33,14 +33,14 @@ export function StatusBlockIndicator({
         <PingStats heartbeats={recentHeartbeats} isHome={isHome} />
         <div
           className={clsx(
-            'flex items-center gap-3 text-tiny text-foreground/80 dark:text-foreground/60',
+            'flex items-center gap-2 text-xs text-foreground/80 dark:text-foreground/60',
             isHome && 'ml-auto',
           )}
         >
           {Object.entries(COLOR_SYSTEM)
             .filter(([_, value]) => value.showInLegend)
             .map(([key, value]) => (
-              <div key={key} className="flex items-center gap-1">
+              <div key={key} className="flex items-center gap-1 text-xs">
                 <div className={clsx('w-1.5 h-1.5 rounded-full', value.bg.dark)} />
                 <span>{t(value.label)}</span>
               </div>

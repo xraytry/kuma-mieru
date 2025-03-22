@@ -24,7 +24,7 @@ const md = MarkdownIt({
 });
 
 function IncidentAlert({ incident }: { incident: Incident }) {
-  const now = useNow();
+  const now = Date.now();
   const t = useTranslations();
   const format = useFormatter();
 
@@ -89,13 +89,15 @@ function IncidentAlert({ incident }: { incident: Incident }) {
     return md.render(content);
   }, [content]);
 
-  //debug
-  console.log('createdDate', createdDate);
-  console.log('lastUpdatedDate', lastUpdatedDate);
-  console.log('now', now);
-  console.log(dateStringToTimestamp(createdDate));
-  console.log(dateStringToTimestamp(lastUpdatedDate));
-  console.log(now);
+  // debug
+  if (window.location.hostname === 'localhost') {
+    console.log('createdDate', createdDate);
+    console.log('lastUpdatedDate', lastUpdatedDate);
+    console.log('now', now);
+    console.log(dateStringToTimestamp(createdDate));
+    console.log(dateStringToTimestamp(lastUpdatedDate));
+    console.log(now);
+  }
 
   return (
     <div

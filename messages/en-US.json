@@ -11,10 +11,12 @@
     "timerLastTime": "Last refresh: {time}",
     "timerNextTime": "Refresh in {sec} seconds",
     
-    "nodeSearch": "Search nodes...",
+    "nodeSearch": "Search nodes... (TODO)",
+
     "nodeLatestPing": "Latest ping",
     "nodeAvgPing": "Average ping",
     "nodeTrimmedAvgPing": "Trimmed average",
+    
     "nodeOnline": "Online",
     "nodeOffline": "Offline",
     "nodeMaintenance": "Maint.",

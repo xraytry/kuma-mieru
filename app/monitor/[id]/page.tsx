@@ -88,7 +88,7 @@ export default function MonitorDetail({
     } finally {
       setIsLoading(false);
     }
-  }, [resolvedParams.id]);
+  }, [resolvedParams.id, t]);
 
   useEffect(() => {
     fetchData();
@@ -138,7 +138,7 @@ export default function MonitorDetail({
       exit="exit"
       variants={pageVariants}
     >
-      <AutoRefresh onRefresh={fetchData} interval={30000}>
+      <AutoRefresh onRefresh={fetchData} interval={60000}>
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-6xl mx-auto">
             <motion.div

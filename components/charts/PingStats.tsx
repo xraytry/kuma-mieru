@@ -27,6 +27,31 @@ const PING_LABELS = {
   },
 } as const;
 
+interface SinglePingStatProps {
+  label: (typeof PING_LABELS)[keyof typeof PING_LABELS];
+  value: number;
+  isHome?: boolean;
+  t: ReturnType<typeof useTranslations>;
+}
+
+const SinglePingStat = ({ label, value, isHome, t }: SinglePingStatProps) => {
+  return (
+    <div className="flex items-center gap-0.5">
+      {isHome ? (
+        <Tooltip content={label.full}>
+          <span>{label.short}</span>
+        </Tooltip>
+      ) : (
+        t(label.full)
+      )}
+      :
+      <span className={clsx('font-medium', getPingColorClass(value).text)}>
+        {formatLatency(value)}
+      </span>
+    </div>
+  );
+};
+
 export function PingStats({ heartbeats, isHome = false }: PingStatsProps) {
   const t = useTranslations();
   const stats = useMemo(() => calculatePingMetrics(heartbeats), [heartbeats]);
@@ -34,46 +59,10 @@ export function PingStats({ heartbeats, isHome = false }: PingStatsProps) {
   if (!stats) return null;
 
   return (
-    <div className="hidden sm:flex items-center gap-2 text-tiny text-foreground/80 dark:text-foreground/60">
-      <div className="flex items-center gap-1">
-        {isHome ? (
-          <Tooltip content={PING_LABELS.lt.full}>
-            <span>{PING_LABELS.lt.short}</span>
-          </Tooltip>
-        ) : (
-          t(PING_LABELS.lt.full)
-        )}
-        :
-        <span className={clsx('font-medium', getPingColorClass(stats.latestPing).text)}>
-          {formatLatency(stats.latestPing)}
-        </span>
-      </div>
-      <div className="flex items-center gap-1">
-        {isHome ? (
-          <Tooltip content={PING_LABELS.av.full}>
-            <span>{PING_LABELS.av.short}</span>
-          </Tooltip>
-        ) : (
-          t(PING_LABELS.av.full)
-        )}
-        :
-        <span className={clsx('font-medium', getPingColorClass(stats.avgPing).text)}>
-          {formatLatency(stats.avgPing)}
-        </span>
-      </div>
-      <div className="flex items-center gap-1">
-        {isHome ? (
-          <Tooltip content={PING_LABELS.ta.full}>
-            <span>{PING_LABELS.ta.short}</span>
-          </Tooltip>
-        ) : (
-          t(PING_LABELS.ta.full)
-        )}
-        :
-        <span className={clsx('font-medium', getPingColorClass(stats.trimmedAvgPing).text)}>
-          {formatLatency(stats.trimmedAvgPing)}
-        </span>
-      </div>
+    <div className="flex hide-ping-stats items-center gap-1.5 text-xs text-foreground/80 dark:text-foreground/60">
+      <SinglePingStat label={PING_LABELS.lt} value={stats.latestPing} isHome={isHome} t={t} />
+      <SinglePingStat label={PING_LABELS.av} value={stats.avgPing} isHome={isHome} t={t} />
+      <SinglePingStat label={PING_LABELS.ta} value={stats.trimmedAvgPing} isHome={isHome} t={t} />
     </div>
   );
 }
