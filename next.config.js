@@ -12,8 +12,29 @@ const getImageDomains = () => {
     }
 };
 
-const nextConfig = {
+const isDevelopment = process.env.NODE_ENV === 'development';
+
+const productionConfig = {
     output: 'standalone',
+    compiler: {
+        removeConsole: false
+    },
+    images: {
+        remotePatterns: getImageDomains().map(hostname => ({
+            protocol: 'https',
+            hostname,
+        })),
+    },
+    webpack: (config) => {
+        config.resolve.alias = {
+            ...config.resolve.alias,
+            '@': path.join(__dirname),
+        };
+        return config;
+    },
+};
+
+const developmentConfig = {
     compiler: {
         removeConsole: false
     },
@@ -25,4 +46,4 @@ const nextConfig = {
     },
 };
 
-module.exports = nextConfig;
+module.exports = isDevelopment ? developmentConfig : productionConfig;

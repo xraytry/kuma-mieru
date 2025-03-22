@@ -81,6 +81,6 @@
     "shiki": "^3.2.1",
     "tailwind-variants": "0.3.0",
     "tailwindcss": "^3.4.17",
-    "typescript": "5.6.3"
+    "typescript": "^5.8.2"
   }
 }

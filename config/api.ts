@@ -2,17 +2,6 @@ import type { Config } from '@/types/config';
 import { env } from './env';
 
 export const getConfig = (): Config => {
-  // 仅在 Next.js 构建阶段使用占位符配置
-  if (env.BUILD_MODE === 'true') {
-    return {
-      baseUrl: 'https://demo.kuma-mieru.invalid',
-      pageId: 'build-mode',
-      htmlEndpoint: 'https://demo.kuma-mieru.invalid/status/build-mode',
-      apiEndpoint: 'https://demo.kuma-mieru.invalid/api/status-page/heartbeat/build-mode',
-      isPlaceholder: true,
-    };
-  }
-
   if (!env.UPTIME_KUMA_BASE_URL || !env.PAGE_ID) {
     throw new Error('Missing required environment variables');
   }
