@@ -21,7 +21,7 @@ const generateImageDomains = (): void => {
 
   const domainsConfig: ImageDomainsConfig = {
     timestamp: new Date().toISOString(),
-    domains: [baseUrlHostname || '*', 'cdnjs.cloudflare.com'].filter(Boolean),
+    domains: [baseUrlHostname || '*'].filter(Boolean),
   };
 
   const outputPath = join(process.cwd(), 'config', 'generated-image-domains.json');
