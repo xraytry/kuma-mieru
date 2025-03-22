@@ -29,7 +29,7 @@ export const Alert = ({
       variant={variant}
       onClick={() => setIsExpanded(!isExpanded)}
     >
-      <div className="flex items-center justify-between w-full">
+      <div className="flex items-center justify-between w-screen-full">
         <div className="flex-1">
           <h5 className="text-sm font-medium">{title}</h5>
           {!isExpanded && !children && description && (
@@ -57,7 +57,7 @@ export const Alert = ({
       </div>
       <div
         className={clsx(
-          'grid transition-all duration-200 ease-in-out',
+          'grid transition-all duration-200 ease-in-out w-full',
           isExpanded ? 'grid-rows-[1fr] opacity-100 mt-2' : 'grid-rows-[0fr] opacity-0'
         )}
       >

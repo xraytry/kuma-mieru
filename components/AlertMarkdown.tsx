@@ -44,7 +44,7 @@ function IncidentAlert({ incident }: { incident: Incident }) {
   return (
     <Alert title={title} description={content} color={alertColor} variant="flat" className="mb-8">
       <div
-        className="prose prose-sm dark:prose-invert max-w-none [&>:first-child]:mt-0 [&>:last-child]:mb-0
+        className="prose prose-sm dark:prose-invert w-full [&>:first-child]:mt-0 [&>:last-child]:mb-0
           prose-p:text-gray-600 dark:prose-p:text-gray-300
           prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-a:no-underline hover:prose-a:underline
           prose-code:bg-gray-100 dark:prose-code:bg-gray-800 prose-code:px-1 prose-code:py-0.5 prose-code:rounded

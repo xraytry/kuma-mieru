@@ -3,7 +3,7 @@
 import AutoRefresh from '@/components/AutoRefresh';
 import { MonitorCard } from '@/components/MonitorCard';
 import AlertMarkdown from '@/components/AlertMarkdown';
-import { MonitorCardSkeleton } from '@/components/ui/skeleton';
+import { MonitorCardSkeleton } from '@/components/ui/CommonSkeleton';
 import type { GlobalConfig } from '@/types/config';
 import type { MonitorGroup, MonitoringData } from '@/types/monitor';
 import { useCallback, useEffect, useState } from 'react';

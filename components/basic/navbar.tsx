@@ -21,7 +21,7 @@ import { useEffect, useState } from 'react';
 
 import { DiscordIcon, GithubIcon, Logo, SearchIcon, TwitterIcon } from '@/components/basic/icons';
 import { ThemeSwitch } from '@/components/basic/theme-switch';
-import { NavbarSkeleton } from '@/components/ui/skeleton';
+import { NavbarSkeleton } from '@/components/ui/CommonSkeleton';
 import { siteConfig } from '@/config/site';
 import { useSourceConfig } from '@/hooks/useSourceConfig';
 import type { Config } from '@/types/config';
