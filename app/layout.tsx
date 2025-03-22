@@ -46,7 +46,7 @@ export default async function RootLayout({
   const { theme, googleAnalyticsId } = config;
 
   return (
-    <html suppressHydrationWarning lang="zh-CN">
+    <html suppressHydrationWarning lang={locale}>
       <head />
       <body className={clsx('min-h-screen bg-background font-sans antialiased', fontSans.variable)}>
         {googleAnalyticsId && <Analytics id={googleAnalyticsId} />}
