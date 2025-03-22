@@ -4,7 +4,7 @@
  * @returns formatted string with unit
  */
 export function formatLatency(ms: number): string {
-  if (!ms && ms !== 0) return "-";
+  if (!ms && ms !== 0) return '-';
 
   if (ms < 200) {
     return `${ms.toFixed(0)} ms`;
@@ -46,11 +46,11 @@ export function formatLatencyForAxis(ms: number): string {
  * - "warning" for 100ms-1000ms
  * - "danger" for > 1000ms or invalid values
  */
-export function getLatencyColor(ms: number): "success" | "warning" | "danger" {
-  if (!ms && ms !== 0) return "danger";
-  if (ms < 200) return "success";
-  if (ms < 1000) return "warning";
-  return "danger";
+export function getLatencyColor(ms: number): 'success' | 'warning' | 'danger' {
+  if (!ms && ms !== 0) return 'danger';
+  if (ms < 200) return 'success';
+  if (ms < 1000) return 'warning';
+  return 'danger';
 }
 
 /**
@@ -77,9 +77,15 @@ export function timeAgo(date: string): string {
     }
   }
 
-  return "刚刚";
+  return '刚刚';
 }
 
-export function timeSec(date: string): number {
-  return Math.floor((+new Date() - +new Date(date)) / 1000);
+/**
+ * Convert UTC date string to timestamp
+ * @param date Date string in format 'YYYY-MM-DD HH:MM:SS' (UTC)
+ * @returns timestamp in milliseconds
+ */
+export function dateStringToTimestamp(date: string): number {
+  const timestamp = Date.parse(`${date.replace(' ', 'T')}Z`);
+  return Number.isFinite(timestamp) ? timestamp : 0;
 }

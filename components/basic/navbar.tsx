@@ -33,6 +33,7 @@ const isExternalUrl = (url: string) => {
 };
 
 export const Navbar = () => {
+  const t = useTranslations();
   const { data: sourceConfig, isLoading } = useSourceConfig();
   const [apiConfig, setApiConfig] = useState<Config | null>(null);
   const [isApiLoading, setIsApiLoading] = useState(true);
@@ -61,7 +62,6 @@ export const Navbar = () => {
     return <NavbarSkeleton />;
   }
 
-  const t = useTranslations()
   const searchInput = (
     // TODO: 实现节点过滤器
     <Input
@@ -87,12 +87,12 @@ export const Navbar = () => {
 
   const navItems = [
     {
-      label: '首页',
+      label: 'pageMain',
       href: '/',
       external: false,
     },
     {
-      label: '编辑此页',
+      label: 'pageEdit',
       href: `${apiConfig.baseUrl}/manage-status-page`,
       external: true,
     },
