@@ -43,8 +43,8 @@ export const Navbar = () => {
       try {
         const response = await fetch('/api/metaInfo');
         const data = await response.json();
-        if (response.ok) {
-          setApiConfig(data.data);
+        if (response.ok && data.success) {
+          setApiConfig(data);
         } else {
           console.error('Failed to fetch API config:', data.error);
         }

@@ -5,6 +5,8 @@ import { extractPreloadData } from '@/utils/json-processor';
 import { sanitizeJsonString } from '@/utils/json-sanitizer';
 import * as cheerio from 'cheerio';
 import { cache } from 'react';
+import { customFetch } from './utils/fetch';
+import { customFetchOptions } from './utils/common';
 
 export const getGlobalConfig = cache(async (): Promise<GlobalConfig> => {
   try {
@@ -69,36 +71,53 @@ export const getGlobalConfig = cache(async (): Promise<GlobalConfig> => {
 });
 
 export async function getPreloadData() {
-  const htmlResponse = await fetch(apiConfig.htmlEndpoint);
-
-  if (!htmlResponse.ok) {
-    throw new ConfigError(`HTML 获取失败: ${htmlResponse.status} ${htmlResponse.statusText}`);
-  }
-
-  const html = await htmlResponse.text();
-  const $ = cheerio.load(html);
-  const preloadScript = $('#preload-data').text();
-
-  if (!preloadScript) {
-    throw new ConfigError('预加载数据脚本标签未找到');
-  }
-
   try {
-    const jsonStr = sanitizeJsonString(preloadScript);
-    return extractPreloadData(jsonStr);
-  } catch (error) {
-    if (error instanceof SyntaxError) {
+    const htmlResponse = await customFetch(apiConfig.htmlEndpoint, customFetchOptions);
+
+    if (!htmlResponse.ok) {
+      throw new ConfigError(`HTML 获取失败: ${htmlResponse.status} ${htmlResponse.statusText}`);
+    }
+
+    const html = await htmlResponse.text();
+    const $ = cheerio.load(html);
+    const preloadScript = $('#preload-data').text();
+
+    if (!preloadScript) {
+      throw new ConfigError('预加载数据脚本标签未找到');
+    }
+
+    try {
+      const jsonStr = sanitizeJsonString(preloadScript);
+      return extractPreloadData(jsonStr);
+    } catch (error) {
+      if (error instanceof SyntaxError) {
+        throw new ConfigError(
+          `JSON 解析失败: ${error.message}\n预处理后的数据: ${preloadScript.slice(0, 100)}...`,
+          error,
+        );
+      }
+      if (error instanceof ConfigError) {
+        throw error;
+      }
       throw new ConfigError(
-        `JSON 解析失败: ${error.message}\n预处理后的数据: ${preloadScript.slice(0, 100)}...`,
+        `预加载数据解析失败: ${error instanceof Error ? error.message : '未知错误'}`,
         error,
       );
     }
+  } catch (error) {
     if (error instanceof ConfigError) {
       throw error;
     }
-    throw new ConfigError(
-      `预加载数据解析失败: ${error instanceof Error ? error.message : '未知错误'}`,
-      error,
-    );
+    // 添加更详细的错误日志
+    console.error('获取预加载数据失败:', {
+      endpoint: apiConfig.htmlEndpoint,
+      error: error instanceof Error ? {
+        name: error.name,
+        message: error.message,
+        stack: error.stack,
+        cause: error.cause,
+      } : error,
+    });
+    throw new ConfigError('获取预加载数据失败，请检查网络连接和服务器状态');
   }
 }

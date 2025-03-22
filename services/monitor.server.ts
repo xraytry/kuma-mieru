@@ -1,6 +1,8 @@
 import { apiConfig } from '@/config/api';
 import { getPreloadData } from '@/services/config.server';
-import type { MonitorGroup, MonitoringData } from '@/types/monitor';
+import type { MonitorGroup, MonitoringData, HeartbeatData, UptimeData } from '@/types/monitor';
+import { customFetchOptions } from './utils/common';
+import { customFetch } from './utils/fetch';
 
 class MonitorDataError extends Error {
   constructor(
@@ -26,7 +28,7 @@ export async function getMonitoringData(): Promise<{
     }
 
     // 获取监控数据
-    const apiResponse = await fetch(apiConfig.apiEndpoint);
+    const apiResponse = await customFetch(apiConfig.apiEndpoint, customFetchOptions);
 
     if (!apiResponse.ok) {
       throw new MonitorDataError(`API 请求失败: ${apiResponse.status} ${apiResponse.statusText}`);
@@ -34,7 +36,10 @@ export async function getMonitoringData(): Promise<{
 
     let monitoringData: MonitoringData;
     try {
-      const rawData = await apiResponse.json();
+      const rawData = await apiResponse.json() as {
+        heartbeatList: HeartbeatData;
+        uptimeList: UptimeData;
+      };
 
       // 验证监控数据结构
       if (!rawData || typeof rawData !== 'object') {
@@ -66,7 +71,15 @@ export async function getMonitoringData(): Promise<{
     console.error(
       '获取监控数据失败:',
       error instanceof MonitorDataError ? error.message : '未知错误',
-      error,
+      {
+        error: error instanceof Error ? {
+          name: error.name,
+          message: error.message,
+          stack: error.stack,
+          cause: error.cause,
+        } : error,
+        endpoint: apiConfig.apiEndpoint,
+      },
     );
 
     // 返回默认值

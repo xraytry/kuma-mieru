@@ -28,10 +28,10 @@ const constructIconUrl = (iconPath: string | null | undefined): string | null =>
 const fetchConfig = async (): Promise<GlobalConfig> => {
   try {
     const response = await fetch('/api/config');
-    if (!response.ok) {
+    const data = await response.json();
+    if (!data.success) {
       throw new Error('Failed to fetch config');
     }
-    const data = await response.json();
     return data.config || {};
   } catch (error) {
     console.error('Error fetching config:', error);

@@ -58,6 +58,10 @@ export default function MonitorDetail({
       const monitorResponse = await fetch('/api/monitor');
       const monitorData = await monitorResponse.json();
 
+      if (!monitorData.success) {
+        throw new Error('获取监控数据失败');
+      }
+
       // 在所有监控组中查找指定 ID 的监控项
       const foundMonitor = monitorData.monitorGroups
         .flatMap((group: MonitorGroup) => group.monitorList)

@@ -19,6 +19,10 @@ export default function Home() {
       const monitorResponse = await fetch('/api/monitor');
       const monitorData = await monitorResponse.json();
 
+      if (!monitorData.success) {
+        throw new Error('获取监控数据失败');
+      }
+
       if (monitorData.monitorGroups) {
         setMonitorGroups(monitorData.monitorGroups);
       }
