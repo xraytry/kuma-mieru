@@ -69,6 +69,17 @@ Fork 本仓库到您的 GitHub 用户下，如图所示：
 
 2. **安装依赖**
 
+   Kuma Mieru 使用 [Bun](https://bun.sh/) 作为包管理器，您需要先安装 Bun：
+
+   ```bash
+   # Linux/macOS
+   curl -fsSL https://bun.sh/install | bash
+   # Windows
+   powershell -c "irm bun.sh/install.ps1 | iex"
+   ```
+
+   然后再安装依赖包：
+
    ```bash
    bun install
    ```

@@ -1,6 +1,6 @@
 services:
   kuma-mieru:
-    image: ghcr.io/alice39s/kuma-mieru:main
+    # image: ghcr.io/alice39s/kuma-mieru:main 还在测试中，建议 build 安装
     build:
       context: .
       args:
@@ -10,6 +10,7 @@ services:
         VCS_REF: ${VCS_REF:-unknown}
         UPTIME_KUMA_BASE_URL: ${UPTIME_KUMA_BASE_URL}
         PAGE_ID: ${PAGE_ID}
+        CI_MODE: ${CI_MODE:-false}
       dockerfile: Dockerfile
     container_name: kuma-mieru
     restart: unless-stopped
@@ -21,14 +22,12 @@ services:
       - NODE_ENV=production
       - UPTIME_KUMA_BASE_URL=${UPTIME_KUMA_BASE_URL}
       - PAGE_ID=${PAGE_ID}
+      - CI_MODE=${CI_MODE:-false}
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
       interval: 30s
       timeout: 3s
       retries: 3
-    security_opt:
-      - no-new-privileges:true
-    read_only: true
     tmpfs:
       - /tmp
-      - /app/.next/cache
+      - /app

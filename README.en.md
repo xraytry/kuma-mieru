@@ -63,6 +63,17 @@ Go to https://vercel.com/new, select **Import** to import the repository you jus
 
 2. **Install Dependencies**
 
+   Kuma Mieru uses [Bun](https://bun.sh/) as its package manager, please install Bun first:
+
+   ```bash
+   # Linux/macOS
+   curl -fsSL https://bun.sh/install | bash
+   # Windows
+   powershell -c "irm bun.sh/install.ps1 | iex"
+   ```
+
+   Then install the dependencies:
+
    ```bash
    bun install
    ```

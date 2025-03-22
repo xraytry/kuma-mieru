@@ -1,27 +1,22 @@
 import type { Config } from '@/types/config';
+import { env } from './env';
 
-const getConfig = (): Config => {
-  // 仅在 Next.js 构建阶段使用占位符配置
-  if (process.env.NEXT_PHASE === 'phase-production-build') {
-    return {
-      baseUrl: 'https://demo.kuma-mieru.invalid',
-      pageId: 'default',
-      htmlEndpoint: 'https://demo.kuma-mieru.invalid/status/default',
-      apiEndpoint: 'https://demo.kuma-mieru.invalid/api/status-page/heartbeat/default',
-      isPlaceholder: true,
+export const getConfig = (): Config => {
+  if (!env.UPTIME_KUMA_BASE_URL || !env.PAGE_ID) {
+    throw new Error('Missing required environment variables');
+  }
+
+  const baseUrl = env.UPTIME_KUMA_BASE_URL;
+  const pageId = env.PAGE_ID;
+
+  if (env.NODE_ENV === 'development') {
+    const config = {
+      baseUrl,
+      pageId,
     };
-  }
 
-  if (typeof process.env.UPTIME_KUMA_BASE_URL !== 'string') {
-    throw new Error('UPTIME_KUMA_BASE_URL environment variable is not configured');
+    console.log('config', config);
   }
-
-  if (typeof process.env.PAGE_ID !== 'string') {
-    throw new Error('PAGE_ID environment variable is not configured');
-  }
-
-  const baseUrl = process.env.UPTIME_KUMA_BASE_URL;
-  const pageId = process.env.PAGE_ID;
 
   return {
     baseUrl,
@@ -38,4 +33,4 @@ export type ApiConfig = Config;
 
 export const validateConfig = () => {
   return true;
-}; 
+};

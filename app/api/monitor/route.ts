@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getMonitoringData } from "@/services/monitor";
+import { getMonitoringData } from "@/services/monitor.server";
 
 export async function GET() {
   try {

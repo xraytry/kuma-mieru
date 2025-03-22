@@ -3,7 +3,7 @@ import type { Metadata, Viewport } from 'next';
 import { clsx } from 'clsx';
 
 import { Providers } from './providers';
-import { getGlobalConfig } from '@/services/config';
+import { getGlobalConfig } from '@/services/config.server';
 import { siteConfig } from '@/config/site';
 import { fontSans } from '@/config/fonts';
 import { Navbar } from '@/components/basic/navbar';

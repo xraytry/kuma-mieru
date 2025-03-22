@@ -1,7 +1,7 @@
 {
   "name": "kuma-mieru",
   "description": "A 3rd-party Uptime Kuma monitoring dashboard built on Next.js 15, TypeScript and Recharts.",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack --port 3881",
@@ -11,9 +11,11 @@
     "lint:fix": "biome check --apply .",
     "format": "biome format .",
     "format:fix": "biome format --write .",
-    "predev": "bun run generate-image-domains",
-    "prebuild": "bun run generate-image-domains",
-    "generate-image-domains": "bun scripts/generate-image-domains.ts"
+    "predev": "bun run generate-image-domains && bun run banner",
+    "prebuild": "bun run generate-image-domains && bun run banner",
+    "prestart": "bun run banner && bun run generate-image-domains",
+    "generate-image-domains": "bun scripts/generate-image-domains.ts",
+    "banner": "bun scripts/banner.ts"
   },
   "dependencies": {
     "@heroui/button": "2.2.16",
@@ -51,7 +53,8 @@
     "recharts": "^2.15.1",
     "tailwind-merge": "^3.0.2",
     "tm-themes": "^1.10.1",
-    "usehooks-ts": "^3.1.1"
+    "usehooks-ts": "^3.1.1",
+    "zod": "^3.24.2"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
@@ -79,6 +82,6 @@
     "shiki": "^3.2.1",
     "tailwind-variants": "0.3.0",
     "tailwindcss": "^3.4.17",
-    "typescript": "5.6.3"
+    "typescript": "^5.8.2"
   }
 }

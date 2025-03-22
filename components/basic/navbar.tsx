@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Navbar as HeroUINavbar,
   NavbarContent,
@@ -15,10 +17,14 @@ import { link as linkStyles } from '@heroui/theme';
 import NextLink from 'next/link';
 import Image from 'next/image';
 import clsx from 'clsx';
+import { useState, useEffect } from 'react';
 
-import { siteConfig } from '@/config/site';
 import { ThemeSwitch } from '@/components/basic/theme-switch';
 import { TwitterIcon, GithubIcon, DiscordIcon, SearchIcon, Logo } from '@/components/basic/icons';
+import { useSourceConfig } from '@/hooks/useSourceConfig';
+import { siteConfig } from '@/config/site';
+import { NavbarSkeleton } from '@/components/ui/skeleton';
+import type { Config } from '@/types/config';
 import { useTranslations } from 'next-intl';
 import { I18NSwitch } from './i18n-switch';
 
@@ -27,6 +33,34 @@ const isExternalUrl = (url: string) => {
 };
 
 export const Navbar = () => {
+  const { data: sourceConfig, isLoading } = useSourceConfig();
+  const [apiConfig, setApiConfig] = useState<Config | null>(null);
+  const [isApiLoading, setIsApiLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchApiConfig = async () => {
+      try {
+        const response = await fetch('/api/metaInfo');
+        const data = await response.json();
+        if (response.ok) {
+          setApiConfig(data.data);
+        } else {
+          console.error('Failed to fetch API config:', data.error);
+        }
+      } catch (error) {
+        console.error('Failed to fetch API config:', error);
+      } finally {
+        setIsApiLoading(false);
+      }
+    };
+
+    fetchApiConfig();
+  }, []);
+
+  if (isLoading || !sourceConfig?.config || isApiLoading || !apiConfig) {
+    return <NavbarSkeleton />;
+  }
+
   const t = useTranslations()
   const searchInput = (
     // TODO: 实现节点过滤器
@@ -51,44 +85,48 @@ export const Navbar = () => {
     />
   );
 
+  const navItems = [
+    {
+      label: '首页',
+      href: '/',
+      external: false,
+    },
+    {
+      label: '编辑此页',
+      href: `${apiConfig.baseUrl}/manage-status-page`,
+      external: true,
+    },
+  ];
+
+  const getIconUrl = () => {
+    if (sourceConfig.config.icon) {
+      return isExternalUrl(sourceConfig.config.icon)
+        ? sourceConfig.config.icon
+        : `${apiConfig.baseUrl}/${sourceConfig.config.icon}`;
+    }
+    return '';
+  };
+
   return (
     <HeroUINavbar maxWidth="xl" position="sticky">
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
         <NavbarBrand as="li" className="gap-3 max-w-fit">
           <NextLink className="flex justify-start items-center gap-1" href="/">
-            {siteConfig.icon ? (
-              isExternalUrl(siteConfig.icon) ? (
-                <Image
-                  src={siteConfig.icon}
-                  alt={`${siteConfig.name} Logo`}
-                  width={34}
-                  height={34}
-                  className="object-contain"
-                />
-              ) : (
-                // Internal
-                <Image
-                  src={siteConfig.icon}
-                  alt={`${siteConfig.name} Logo`}
-                  width={34}
-                  height={34}
-                  className="object-contain"
-                  priority
-                />
-              )
+            {getIconUrl() ? (
+              <Image src={getIconUrl()} alt={sourceConfig.config.title} width={34} height={34} />
             ) : (
               <Logo />
             )}
-            <p className="font-bold text-inherit">{siteConfig.name}</p>
+            <p className="font-bold text-inherit">{sourceConfig.config.title}</p>
           </NextLink>
         </NavbarBrand>
         <ul className="hidden lg:flex gap-4 justify-start ml-2">
-          {siteConfig.navItems.map((item) => (
+          {navItems.map((item) => (
             <NavbarItem key={item.href}>
               <NextLink
                 className={clsx(
                   linkStyles({ color: 'foreground' }),
-                  'data-[active=true]:text-primary data-[active=true]:font-medium'
+                  'data-[active=true]:text-primary data-[active=true]:font-medium',
                 )}
                 color="foreground"
                 href={item.href}
@@ -129,21 +167,16 @@ export const Navbar = () => {
         <NavbarMenuToggle />
       </NavbarContent>
 
-      {/* 移动端菜单 */}
       <NavbarMenu className="z-[60]">
         {searchInput}
         <div className="mx-4 mt-2 flex flex-col gap-2">
-          {siteConfig.navMenuItems.map((item, index) => (
+          {navItems.map((item, index) => (
             <NavbarMenuItem key={`${item}-${index}`}>
               <Link
                 color={
-                  index === 2
-                    ? 'primary'
-                    : index === siteConfig.navMenuItems.length - 1
-                      ? 'danger'
-                      : 'foreground'
+                  index === 2 ? 'primary' : index === navItems.length - 1 ? 'danger' : 'foreground'
                 }
-                href="#"
+                href={item.href}
                 size="lg"
               >
                 {t(item.label)}

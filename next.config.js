@@ -3,21 +3,6 @@ const fs = require('node:fs');
 const path = require('node:path');
 const createNextIntlPlugin = require('next-intl/plugin');
 
-const banner = `
-██╗  ██╗██╗   ██╗███╗   ███╗ █████╗     ███╗   ███╗██╗███████╗██████╗ ██╗   ██╗
-██║ ██╔╝██║   ██║████╗ ████║██╔══██╗    ████╗ ████║██║██╔════╝██╔══██╗██║   ██║
-█████╔╝ ██║   ██║██╔████╔██║███████║    ██╔████╔██║██║█████╗  ██████╔╝██║   ██║
-██╔═██╗ ██║   ██║██║╚██╔╝██║██╔══██║    ██║╚██╔╝██║██║██╔══╝  ██╔══██╗██║   ██║
-██║  ██╗╚██████╔╝██║ ╚═╝ ██║██║  ██║    ██║ ╚═╝ ██║██║███████╗██║  ██║╚██████╔╝
-╚═╝  ╚═╝ ╚═════╝ ╚═╝     ╚═╝╚═╝  ╚═╝    ╚═╝     ╚═╝╚═╝╚══════╝╚═╝  ╚═╝ ╚═════╝ 
-`;
-
-console.log('\x1b[36m%s\x1b[0m', banner);
-console.log('\x1b[32m%s\x1b[0m', '🚀 Kuma Mieru is starting...');
-console.log('\x1b[33m%s\x1b[0m', `📡 Environment: ${process.env.NODE_ENV}`);
-console.log('\x1b[34m%s\x1b[0m', `🌐 Uptime Kuma URL: ${process.env.BUILD_MODE === 'true' ? 'Build Mode' : process.env.UPTIME_KUMA_BASE_URL || 'Not configured'}`);
-console.log('\n');
-
 const getImageDomains = () => {
     try {
         const configPath = path.join(process.cwd(), 'config', 'generated', 'image-domains.json');
@@ -28,8 +13,32 @@ const getImageDomains = () => {
     }
 };
 
-const nextConfig = {
+const isDevelopment = process.env.NODE_ENV === 'development';
+
+const productionConfig = {
     output: 'standalone',
+    compiler: {
+        removeConsole: false
+    },
+    images: {
+        remotePatterns: getImageDomains().map(hostname => ({
+            protocol: 'https',
+            hostname,
+        })),
+    },
+    webpack: (config) => {
+        config.resolve.alias = {
+            ...config.resolve.alias,
+            '@': path.join(__dirname),
+        };
+        return config;
+    },
+};
+
+const developmentConfig = {
+    compiler: {
+        removeConsole: false
+    },
     images: {
         remotePatterns: getImageDomains().map(hostname => ({
             protocol: 'https',
@@ -41,4 +50,6 @@ const nextConfig = {
 const withNextIntl = createNextIntlPlugin(
     './utils/i18n/request.ts'
 );
-module.exports = withNextIntl(nextConfig);
+
+const config = isDevelopment ? developmentConfig : productionConfig;
+module.exports = withNextIntl(config);
