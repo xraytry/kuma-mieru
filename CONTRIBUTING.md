@@ -127,9 +127,14 @@ Please be respectful and considerate of others when contributing to this project
 
 ## I18n
 
-- Update the messages in the messages folder
-- Add your language to the locales array in the utils/i18n/config.ts file
-- Add your language to the languages json file in the ./messages/ folder, example: `./messages/en-US.json`
+### Update the i18n translations
+
+- Update the messages in the `./messages/` folder
+
+### Add your language to the i18n
+
+- Add your language to the locales array in the `./utils/i18n/config.ts` file
+- Add your language to the languages json file in the `./messages/` folder, example: `./messages/en-US.json`
 
 ## Questions?
 

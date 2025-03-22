@@ -1,6 +1,5 @@
 'use client';
 
-import { getEmojiUrl } from '@/utils/emoji';
 import { locales } from '@/utils/i18n/config';
 import { setUserLocale } from '@/utils/i18n/locale';
 import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, cn } from '@heroui/react';
@@ -43,11 +42,12 @@ export const I18NSwitch = () => {
             className="flex flex-row items-center gap-2 text-default-500"
             startContent={
               <Image
-                src={getEmojiUrl(item.flag)}
-                alt={`${item.name} flag`}
+                src={`https://hatscripts.github.io/circle-flags/flags/${item.alpha2Code.toLowerCase()}.svg`}
+                alt={item.flag}
                 width={16}
                 height={16}
                 className="w-4 h-4"
+                loading="lazy"
               />
             }
             variant="faded"
