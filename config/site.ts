@@ -1,17 +1,12 @@
 'use client';
 
 import { apiConfig } from '@/config/api';
-
-type GlobalConfig = {
-  title?: string;
-  description?: string;
-  icon?: string | null;
-};
+import generatedConfig from './generated-config.json';
 
 const DEFAULT_CONFIG = {
   title: 'Kuma Mieru',
   description: 'A beautiful and modern uptime monitoring dashboard',
-  icon: null, // 交给 navbar 组件处理
+  icon: '/favicon.ico',
 } as const;
 
 const constructIconUrl = (iconPath: string | null | undefined): string | null => {
@@ -25,27 +20,11 @@ const constructIconUrl = (iconPath: string | null | undefined): string | null =>
   return `${apiConfig.baseUrl}/${cleanPath}`;
 };
 
-const fetchConfig = async (): Promise<GlobalConfig> => {
-  try {
-    const response = await fetch('/api/config');
-    const data = await response.json();
-    if (!data.success) {
-      throw new Error('Failed to fetch config');
-    }
-    return data.config || {};
-  } catch (error) {
-    console.error('Error fetching config:', error);
-    return {};
-  }
-};
-
-let siteConfig: ReturnType<typeof createSiteConfig>;
-
-const createSiteConfig = (config: GlobalConfig = {}) =>
+const createSiteConfig = () =>
   ({
-    name: config?.title || DEFAULT_CONFIG.title,
-    description: config?.description || DEFAULT_CONFIG.description,
-    icon: constructIconUrl(config?.icon) || constructIconUrl(DEFAULT_CONFIG.icon),
+    name: generatedConfig.siteMeta.title || DEFAULT_CONFIG.title,
+    description: generatedConfig.siteMeta.description || DEFAULT_CONFIG.description,
+    icon: constructIconUrl(generatedConfig.siteMeta.icon) || DEFAULT_CONFIG.icon,
     navItems: [
       {
         label: 'pageMain',
@@ -76,13 +55,5 @@ const createSiteConfig = (config: GlobalConfig = {}) =>
     },
   }) as const;
 
-siteConfig = createSiteConfig();
-
-export async function initializeSiteConfig() {
-  const config = await fetchConfig();
-  siteConfig = createSiteConfig(config);
-  return siteConfig;
-}
-
-export { siteConfig };
+export const siteConfig = createSiteConfig();
 export type SiteConfig = ReturnType<typeof createSiteConfig>;

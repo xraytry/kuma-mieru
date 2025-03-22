@@ -4,7 +4,7 @@
   "version": "1.0.9",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack --port 3881",
+    "dev": "bun run linter &&next dev --turbopack --port 3881",
     "build": "next build",
     "start": "bun .next/standalone/server.js",
     "lint": "biome check .",
@@ -14,6 +14,7 @@
     "predev": "bun run generate",
     "prebuild": "bun run generate",
     "prestart": "bun run generate",
+    "linter": "bun lint:fix && bun format:fix",
     "generate": "bun scripts/banner.ts && bun scripts/generate-config.ts && bun scripts/generate-image-domains.ts",
     "generate-config": "bun scripts/generate-config.ts",
     "generate-image-domains": "bun scripts/generate-image-domains.ts",

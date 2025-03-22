@@ -1,5 +1,5 @@
-import { getMonitoringData } from '@/services/monitor.server';
 import { createApiResponse } from '@/app/lib/api-utils';
+import { getMonitoringData } from '@/services/monitor.server';
 
 export async function GET() {
   return createApiResponse(async () => getMonitoringData(), {

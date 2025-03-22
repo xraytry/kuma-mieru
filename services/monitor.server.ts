@@ -1,6 +1,6 @@
 import { apiConfig } from '@/config/api';
 import { getPreloadData } from '@/services/config.server';
-import type { MonitorGroup, MonitoringData, HeartbeatData, UptimeData } from '@/types/monitor';
+import type { HeartbeatData, MonitorGroup, MonitoringData, UptimeData } from '@/types/monitor';
 import { customFetchOptions } from './utils/common';
 import { customFetch } from './utils/fetch';
 
@@ -36,7 +36,7 @@ export async function getMonitoringData(): Promise<{
 
     let monitoringData: MonitoringData;
     try {
-      const rawData = await apiResponse.json() as {
+      const rawData = (await apiResponse.json()) as {
         heartbeatList: HeartbeatData;
         uptimeList: UptimeData;
       };
@@ -72,12 +72,15 @@ export async function getMonitoringData(): Promise<{
       '获取监控数据失败:',
       error instanceof MonitorDataError ? error.message : '未知错误',
       {
-        error: error instanceof Error ? {
-          name: error.name,
-          message: error.message,
-          stack: error.stack,
-          cause: error.cause,
-        } : error,
+        error:
+          error instanceof Error
+            ? {
+                name: error.name,
+                message: error.message,
+                stack: error.stack,
+                cause: error.cause,
+              }
+            : error,
         endpoint: apiConfig.apiEndpoint,
       },
     );

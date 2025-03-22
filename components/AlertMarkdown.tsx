@@ -1,5 +1,5 @@
-import type { Incident } from '@/types/monitor';
 import { Alert } from '@/components/ui/Alert';
+import type { Incident } from '@/types/monitor';
 import { useFormatter, useTranslations } from 'next-intl';
 import React, { useMemo } from 'react';
 import { dateStringToTimestamp } from './utils/format';

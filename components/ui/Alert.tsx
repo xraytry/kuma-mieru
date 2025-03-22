@@ -1,7 +1,7 @@
-import { Alert as HeroUIAlert, Button } from '@heroui/react';
+import { Button, Alert as HeroUIAlert } from '@heroui/react';
+import { clsx } from 'clsx';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { useState } from 'react';
-import { clsx } from 'clsx';
 
 interface AlertProps {
   title: string;
@@ -33,9 +33,7 @@ export const Alert = ({
         <div className="flex-1">
           <h5 className="text-sm font-medium">{title}</h5>
           {!isExpanded && !children && description && (
-            <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-1">
-              {description}
-            </p>
+            <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-1">{description}</p>
           )}
         </div>
         <Button
@@ -48,17 +46,13 @@ export const Alert = ({
             setIsExpanded(!isExpanded);
           }}
         >
-          {isExpanded ? (
-            <ChevronUp className="h-4 w-4" />
-          ) : (
-            <ChevronDown className="h-4 w-4" />
-          )}
+          {isExpanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
         </Button>
       </div>
       <div
         className={clsx(
           'grid transition-all duration-200 ease-in-out w-full',
-          isExpanded ? 'grid-rows-[1fr] opacity-100 mt-2' : 'grid-rows-[0fr] opacity-0'
+          isExpanded ? 'grid-rows-[1fr] opacity-100 mt-2' : 'grid-rows-[0fr] opacity-0',
         )}
       >
         <div className="overflow-hidden">
@@ -70,4 +64,4 @@ export const Alert = ({
       </div>
     </HeroUIAlert>
   );
-}; 
+};

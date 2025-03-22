@@ -1,12 +1,12 @@
 'use client';
 
+import { getEmojiUrl } from '@/utils/emoji';
 import { locales } from '@/utils/i18n/config';
 import { setUserLocale } from '@/utils/i18n/locale';
-import { getEmojiUrl } from '@/utils/emoji';
 import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, cn } from '@heroui/react';
 import { Languages, Loader2 } from 'lucide-react';
-import { useTransition } from 'react';
 import Image from 'next/image';
+import { useTransition } from 'react';
 
 export const I18NSwitch = () => {
   const [isPending, startTransition] = useTransition();

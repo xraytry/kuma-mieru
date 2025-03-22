@@ -7,13 +7,14 @@ import Analytics from '@/components/basic/google-analytics';
 import { Navbar } from '@/components/basic/navbar';
 import { fontSans } from '@/config/fonts';
 import { siteConfig } from '@/config/site';
+import packageJson from '@/package.json';
 import { getGlobalConfig } from '@/services/config.server';
 import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getMessages } from 'next-intl/server';
 import { Providers } from './providers';
 
 export async function generateMetadata(): Promise<Metadata> {
-  const { config } = await getGlobalConfig();
+  const version = packageJson.version;
 
   return {
     title: {
@@ -22,8 +23,9 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     description: siteConfig.description,
     icons: {
-      icon: config.icon,
+      icon: siteConfig.icon,
     },
+    generator: `Kuma-Mieru/${version}`,
   };
 }
 

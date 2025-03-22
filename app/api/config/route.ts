@@ -1,5 +1,5 @@
-import { getGlobalConfig } from '@/services/config.server';
 import { createApiResponse } from '@/app/lib/api-utils';
+import { getGlobalConfig } from '@/services/config.server';
 
 export async function GET() {
   return createApiResponse(() => getGlobalConfig(), {

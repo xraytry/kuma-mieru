@@ -1,7 +1,7 @@
-import https from 'node:https';
 import http from 'node:http';
-import { URL } from 'node:url';
 import type { OutgoingHttpHeaders } from 'node:http';
+import https from 'node:https';
+import { URL } from 'node:url';
 import { customFetchOptions } from './common';
 
 interface CustomResponse {

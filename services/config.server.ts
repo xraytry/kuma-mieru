@@ -5,8 +5,8 @@ import { extractPreloadData } from '@/utils/json-processor';
 import { sanitizeJsonString } from '@/utils/json-sanitizer';
 import * as cheerio from 'cheerio';
 import { cache } from 'react';
-import { customFetch } from './utils/fetch';
 import { customFetchOptions } from './utils/common';
+import { customFetch } from './utils/fetch';
 
 export const getGlobalConfig = cache(async (): Promise<GlobalConfig> => {
   try {
@@ -111,12 +111,15 @@ export async function getPreloadData() {
     // 添加更详细的错误日志
     console.error('获取预加载数据失败:', {
       endpoint: apiConfig.htmlEndpoint,
-      error: error instanceof Error ? {
-        name: error.name,
-        message: error.message,
-        stack: error.stack,
-        cause: error.cause,
-      } : error,
+      error:
+        error instanceof Error
+          ? {
+              name: error.name,
+              message: error.message,
+              stack: error.stack,
+              cause: error.cause,
+            }
+          : error,
     });
     throw new ConfigError('获取预加载数据失败，请检查网络连接和服务器状态');
   }
