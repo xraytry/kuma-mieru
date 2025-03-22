@@ -25,6 +25,8 @@ import { useSourceConfig } from '@/hooks/useSourceConfig';
 import { siteConfig } from '@/config/site';
 import { NavbarSkeleton } from '@/components/ui/skeleton';
 import type { Config } from '@/types/config';
+import { useTranslations } from 'next-intl';
+import { I18NSwitch } from './i18n-switch';
 
 const isExternalUrl = (url: string) => {
   return url?.startsWith('http://') || url?.startsWith('https://');
@@ -59,8 +61,11 @@ export const Navbar = () => {
     return <NavbarSkeleton />;
   }
 
+  const t = useTranslations()
   const searchInput = (
+    // TODO: 实现节点过滤器
     <Input
+      isDisabled
       aria-label="Search"
       classNames={{
         inputWrapper: 'bg-default-100',
@@ -72,7 +77,7 @@ export const Navbar = () => {
         </Kbd>
       }
       labelPlacement="outside"
-      placeholder="搜索节点... (TODO)"
+      placeholder={t("nodeSearch")}
       startContent={
         <SearchIcon className="text-base text-default-400 pointer-events-none flex-shrink-0" />
       }
@@ -127,7 +132,7 @@ export const Navbar = () => {
                 href={item.href}
                 target={item.external ? '_blank' : '_self'}
               >
-                {item.label}
+                {t(item.label)}
               </NextLink>
             </NavbarItem>
           ))}
@@ -135,8 +140,9 @@ export const Navbar = () => {
       </NavbarContent>
 
       <NavbarContent className="hidden sm:flex basis-1/5 sm:basis-full" justify="end">
-        <NavbarItem className="hidden sm:flex gap-2">
+        <NavbarItem className="hidden sm:flex gap-4">
           <ThemeSwitch />
+          <I18NSwitch />
         </NavbarItem>
         <NavbarItem className="hidden lg:flex">{searchInput}</NavbarItem>
         <NavbarItem className="hidden md:flex">
@@ -173,7 +179,7 @@ export const Navbar = () => {
                 href={item.href}
                 size="lg"
               >
-                {item.label}
+                {t(item.label)}
               </Link>
             </NavbarMenuItem>
           ))}

@@ -1,6 +1,7 @@
 import type { Heartbeat } from "@/types/monitor";
 import { formatLatency, getLatencyColor } from "../utils/format";
 import dayjs from "dayjs";
+import { useTranslations } from "next-intl";
 
 interface ChartTooltipProps {
   active?: boolean;
@@ -16,12 +17,13 @@ interface ChartTooltipProps {
 }
 
 export function ChartTooltip({ active, payload, label }: ChartTooltipProps) {
+  const t = useTranslations();
   if (active && payload && payload.length) {
     const status = payload[0]?.payload?.status;
     const statusText =
-      status === 1 ? "在线"
-      : status === 2 ? "维护中"
-      : "离线";
+      status === 1 ? t("nodeOnline")
+      : status === 2 ? t("nodeMaintenance")
+      : t("nodeOffline");
     const statusColor =
       status === 1 ? "text-success"
       : status === 2 ? "text-warning"

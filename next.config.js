@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const fs = require('node:fs');
 const path = require('node:path');
+const createNextIntlPlugin = require('next-intl/plugin');
 
 const getImageDomains = () => {
     try {
@@ -46,4 +47,9 @@ const developmentConfig = {
     },
 };
 
-module.exports = isDevelopment ? developmentConfig : productionConfig;
+const withNextIntl = createNextIntlPlugin(
+    './utils/i18n/request.ts'
+);
+
+const config = isDevelopment ? developmentConfig : productionConfig;
+module.exports = withNextIntl(config);
