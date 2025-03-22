@@ -2,8 +2,8 @@
 
 import AutoRefresh from '@/components/AutoRefresh';
 import { MonitorCard } from '@/components/MonitorCard';
+import { MonitorCardSkeleton } from '@/components/ui/CommonSkeleton';
 import type { Monitor, MonitorGroup, MonitoringData } from '@/types/monitor';
-import { Card } from '@heroui/react';
 import { motion } from 'framer-motion';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
@@ -95,14 +95,20 @@ export default function MonitorDetail({
 
   if (isLoading) {
     return (
-      <motion.div
-        initial="initial"
-        animate="animate"
-        exit="exit"
-        variants={pageVariants}
-        className="flex items-center justify-center min-h-screen"
-      >
-        <Card className="w-full max-w-4xl h-96 animate-pulse" />
+      <motion.div initial="initial" animate="animate" exit="exit" variants={pageVariants}>
+        <div className="container mx-auto px-4 py-8">
+          <div className="max-w-6xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.2 }}
+              className="mb-4"
+            >
+              <div className="h-10 w-32 bg-default-100 rounded-lg" />
+            </motion.div>
+            <MonitorCardSkeleton />
+          </div>
+        </div>
       </motion.div>
     );
   }
