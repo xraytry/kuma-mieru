@@ -30,4 +30,3 @@ services:
       retries: 3
     tmpfs:
       - /tmp
-      - /app
