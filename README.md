@@ -111,9 +111,6 @@ Fork 本仓库到您的 GitHub 用户下，如图所示：
 
 ## Docker 部署 :whale: (Beta)
 
-> [!WARNING]
-> Docker 镜像正在测试中，请勿用于生产环境!
-
 ### 使用 Docker Compose（推荐）
 
 1. **克隆仓库**
@@ -139,7 +136,7 @@ Fork 本仓库到您的 GitHub 用户下，如图所示：
    ```
 
    > [!NOTE]
-   > 如果需要绕过 build 缓存，可以添加 `--build` 参数：
+   > 如果需要更新镜像，可以添加 `--build` 参数：
 
    ```bash
    docker compose up -d --build
@@ -157,37 +154,25 @@ Fork 本仓库到您的 GitHub 用户下，如图所示：
 
 #### 1. 获取容器镜像
 
-**方式一：拉取预构建镜像**（推荐）
-
-```bash
-docker pull ghcr.io/alice39s/kuma-mieru:main
-```
-
-**方式二：从源码构建镜像**
+**从源码构建镜像**
 
 ```bash
 docker build -t kuma-mieru .
 ```
 
----
+#### 2. 修改环境变量
 
-#### 2. 启动容器服务
-
-> [!NOTE]
-> 请参考 [环境变量配置](#环境变量配置) 章节，修改下文中的 `UPTIME_KUMA_BASE_URL` 和 `PAGE_ID` 变量。
-
-**方式一：使用预构建镜像**
+复制 `.env.example` 文件并创建 `.env` 文件：
 
 ```bash
-docker run -d \
-  --name kuma-mieru \
-  -p 3883:3000 \
-  -e UPTIME_KUMA_BASE_URL="..." \
-  -e PAGE_ID="..." \
-  ghcr.io/alice39s/kuma-mieru:main
+cp .env.example .env
 ```
 
-**方式二：使用源码构建镜像**
+请参考 [环境变量配置](#环境变量配置) 章节，修改 `.env` 文件中的 `UPTIME_KUMA_BASE_URL` 和 `PAGE_ID` 变量。
+
+#### 3. 启动容器服务
+
+**使用源码构建镜像**
 
 ```bash
 docker run -d \
@@ -206,31 +191,6 @@ docker run -d \
 | -------------------- | ---- | -------------------------- | ---------------------------------- |
 | UPTIME_KUMA_BASE_URL | 是   | Uptime Kuma 实例的基础 URL | https://example.kuma-mieru.invalid |
 | PAGE_ID              | 是   | 状态页面 ID                | test1                              |
-
-## 项目结构 :file_folder:
-
-Kuma Mieru 使用 Next.js 15 (App Router) 构建，具体的项目结构如下：
-
-```
-kuma-mieru/
-├── app/                   # Next.js 应用目录
-│   ├── api/               # API 路由
-│   ├── layout.tsx         # 主布局
-│   └── page.tsx           # 主页
-├── components/            # React 组件
-│   ├── ...
-├── config/                # 配置文件
-│   ├── ...
-├── public/                # 静态文件
-├── services/              # 服务组件
-├── styles/                # 全局样式
-├── types/                 # TypeScript 类型定义
-├── utils/                 # 工具函数
-├── tailwind.config.js     # Tailwind CSS 配置
-├── next.config.js         # Next.js 配置
-├── .env.example           # 配置文件示例
-├── ...
-```
 
 ## 与 Uptime Kuma 集成 :link:
 

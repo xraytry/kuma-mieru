@@ -106,9 +106,6 @@ Go to https://vercel.com/new, select **Import** to import the repository you jus
 
 ## Docker Deployment :whale: (Beta)
 
-> [!WARNING]
-> Docker image is under testing, please do not use it in production!
-
 ### Using Docker Compose (Recommended)
 
 1. **Clone Repository**
@@ -160,7 +157,15 @@ Go to https://vercel.com/new, select **Import** to import the repository you jus
    docker build -t kuma-mieru .
    ```
 
-2. **Run Container**
+2. **Modify Environment Variables**
+
+   ```bash
+   cp .env.example .env
+   ```
+
+   Please refer to the [Environment Variables](#environment-variables) section for more details.
+
+3. **Run Container**
 
    ```bash
    docker run -d \
