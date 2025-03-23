@@ -102,13 +102,13 @@ export const Navbar = () => {
     if (sourceConfig.config.icon) {
       return isExternalUrl(sourceConfig.config.icon)
         ? sourceConfig.config.icon
-        : `${apiConfig.baseUrl}/${sourceConfig.config.icon}`;
+        : new URL(sourceConfig.config.icon, apiConfig.baseUrl).toString();
     }
     return '';
   };
 
   return (
-    <HeroUINavbar maxWidth="xl" position="sticky">
+    <HeroUINavbar maxWidth="xl" position="static">
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
         <NavbarBrand as="li" className="gap-3 max-w-fit">
           <NextLink className="flex justify-start items-center gap-1" href="/">

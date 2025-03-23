@@ -67,7 +67,7 @@ function IncidentAlert({ incident }: { incident: Incident }) {
         )}
         <span className="text-sm text-gray-400 dark:text-gray-500">
           {t('alertCreatedAt', {
-            time: new Date(createdDate).toLocaleString(),
+            time: format.dateTime(dateStringToTimestamp(createdDate), 'normal'),
           })}
         </span>
       </div>
