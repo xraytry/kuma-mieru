@@ -102,48 +102,38 @@ jobs:
 
             ${{ steps.changelog.outputs.CHANGELOG }}
 
-            ## 🐳 Docker 使用指南
-
-            ### 使用 Docker 运行
-
-            ```bash
-            docker run -d \
-              --name kuma-mieru \
-              -e UPTIME_KUMA_BASE_URL=your_uptime_kuma_url \
-              -e PAGE_ID=your_page_id \
-              -p 3000:3000 \
-              ghcr.io/${{ env.REPO_NAME }}:${{ env.VERSION }}
-            ```
-
-            ### 使用 Docker Compose
-
-            修改 `docker-compose.yml` 文件中的镜像版本即可。
-
-            ```yaml
-            image: ghcr.io/${{ env.REPO_NAME }}:${{ env.VERSION }}
-            ```
-
-            ## ⚙️ 环境变量配置
-
-            请确保配置以下必要的环境变量：
-            - `UPTIME_KUMA_BASE_URL`: Uptime Kuma 实例的基础 URL
-            - `PAGE_ID`: 状态页面 ID
-
             ## 🔄 更新指南
 
             ### Docker
+            
             ```bash
-            docker pull ghcr.io/${{ env.REPO_NAME }}:${{ env.VERSION }}
+            # 拉取最新代码
+            git pull
+
+            # 停止并删除容器
             docker stop kuma-mieru
             docker rm kuma-mieru
-            # 然后使用上述 Docker 运行命令重新启动容器
+
+            # 重新构建镜像
+            docker build --no-cache --t kuma-mieru .
+
+            # 启动容器
+            docker run -d \
+              --name kuma-mieru \
+              -p 3883:3000 \
+              -e UPTIME_KUMA_BASE_URL=your_uptime_kuma_url \
+              -e PAGE_ID=your_page_id \
+              kuma-mieru
             ```
 
             ### Docker Compose
+
             ```bash
-            # 更新 docker-compose.yml 中的镜像版本
-            docker-compose pull
-            docker-compose up -d
+            # 拉取最新代码
+            git pull
+
+            # 重新构建镜像并启动容器
+            docker-compose up -d --build
             ```
           draft: false
           prerelease: false
