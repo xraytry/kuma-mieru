@@ -7,7 +7,7 @@ Built with Next.js 15, TypeScript, and Recharts, this project enhances Uptime Ku
 
 > [!NOTE]
 > This project has enabled the automatic synchronization of the upstream repository function,
-> 
+>
 > you can manually enable the `Auto Update from Upstream` workflow in the `Actions` page of your forked repository.
 
 ## Key Features :sparkles:
@@ -181,7 +181,7 @@ Go to https://vercel.com/new, select **Import** to import the repository you jus
 | Variable Name        | Required | Description                      | Example                            |
 | -------------------- | -------- | -------------------------------- | ---------------------------------- |
 | UPTIME_KUMA_BASE_URL | Yes      | Base URL of Uptime Kuma instance | https://example.kuma-mieru.invalid |
-| PAGE_ID              | Yes      | Status page ID                   | test1                              |
+| PAGE_ID              | Yes      | Status page path of Uptime Kuma  | test1                              |
 
 ### Health Check
 

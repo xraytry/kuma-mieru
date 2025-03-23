@@ -187,10 +187,10 @@ docker run -d \
 
 假如您的 Uptime Kuma 的状态页面 URL 为 `https://example.kuma-mieru.invalid/status/test1`，那么您需要配置的环境变量如下：
 
-| 变量名               | 必填 | 说明                       | 示例                               |
-| -------------------- | ---- | -------------------------- | ---------------------------------- |
-| UPTIME_KUMA_BASE_URL | 是   | Uptime Kuma 实例的基础 URL | https://example.kuma-mieru.invalid |
-| PAGE_ID              | 是   | 状态页面 ID                | test1                              |
+| 变量名               | 必填 | 说明                          | 示例                               |
+| -------------------- | ---- | ----------------------------- | ---------------------------------- |
+| UPTIME_KUMA_BASE_URL | 是   | Uptime Kuma 实例的基础 URL    | https://example.kuma-mieru.invalid |
+| PAGE_ID              | 是   | Uptime Kuma 实例的状态页面 ID | test1                              |
 
 ## 与 Uptime Kuma 集成 :link:
 
