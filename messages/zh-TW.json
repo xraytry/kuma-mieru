@@ -29,5 +29,12 @@
   "errorRefresh": "重新整理失敗",
   "errorMonitorNotFound": "找不到監控項目",
   "errorRequestData": "取得資料失敗",
+
+  "ariaMainNav": "主導航欄",
+  "ariaToolbar": "工具欄",
+  "ariaMobileToolbar": "行動版工具列",
+  "ariaMobileNav": "行動版主導航列",
+  "ariaSearch": "搜尋",
+
   "": ""
 }

@@ -29,5 +29,12 @@
   "errorRefresh": "更新失敗",
   "errorMonitorNotFound": "監視項目が見つかりません",
   "errorRequestData": "データ取得に失敗しました",
+
+  "ariaMainNav": "メインナビゲーション",
+  "ariaToolbar": "ツールバー",
+  "ariaMobileToolbar": "モバイルツールバー",
+  "ariaMobileNav": "モバイルメインナビゲーション",
+  "ariaSearch": "検索",
+
   "": ""
 }

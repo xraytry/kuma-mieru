@@ -13,9 +13,9 @@ export const I18NSwitch = () => {
   return (
     <Dropdown>
       <DropdownTrigger>
-        <div
+        <Button
           className={cn(
-            'px-px transition-opacity hover:opacity-80 cursor-pointer',
+            'px-px transition-opacity hover:opacity-80',
             'w-auto h-auto',
             'bg-transparent',
             'rounded-lg',
@@ -32,9 +32,9 @@ export const I18NSwitch = () => {
           ) : (
             <Languages size={22} />
           )}
-        </div>
+        </Button>
       </DropdownTrigger>
-      <DropdownMenu aria-label="Static Actions" variant="faded">
+      <DropdownMenu aria-label="Switch Language">
         {locales.map((item) => (
           <DropdownItem
             key={item.key}

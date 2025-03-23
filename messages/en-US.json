@@ -11,7 +11,7 @@
   "timerLastTime": "Last refresh: {time}",
   "timerNextTime": "Refresh in {sec} seconds",
 
-  "nodeSearch": "Search nodes... (TODO)",
+  "nodeSearch": "Search (TODO)",
 
   "nodeLatestPing": "Latest ping",
   "nodeAvgPing": "Average ping",
@@ -28,5 +28,12 @@
   "errorRefresh": "Refresh failed",
   "errorMonitorNotFound": "Monitor not found",
   "errorRequestData": "Failed to fetch data",
+
+  "ariaMainNav": "Main navigation",
+  "ariaToolbar": "Toolbar",
+  "ariaMobileToolbar": "Mobile toolbar",
+  "ariaMobileNav": "Mobile navigation",
+  "ariaSearch": "Search",
+
   "": ""
 }

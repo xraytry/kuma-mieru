@@ -66,7 +66,7 @@ export const Navbar = () => {
     // TODO: 实现节点过滤器
     <Input
       isDisabled
-      aria-label="Search"
+      aria-label={t('ariaSearch')}
       classNames={{
         inputWrapper: 'bg-default-100',
         input: 'text-sm',
@@ -110,7 +110,7 @@ export const Navbar = () => {
   return (
     <HeroUINavbar maxWidth="xl" position="static">
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
-        <NavbarBrand as="li" className="gap-3 max-w-fit">
+        <NavbarBrand className="gap-3 max-w-fit">
           <NextLink className="flex justify-start items-center gap-1" href="/">
             {getIconUrl() ? (
               <Image
@@ -125,69 +125,93 @@ export const Navbar = () => {
             <p className="font-bold text-inherit">{sourceConfig.config.title}</p>
           </NextLink>
         </NavbarBrand>
-        <ul className="hidden lg:flex gap-4 justify-start ml-2">
-          {navItems.map((item) => (
-            <NavbarItem key={item.href}>
-              <NextLink
-                className={clsx(
-                  linkStyles({ color: 'foreground' }),
-                  'data-[active=true]:text-primary data-[active=true]:font-medium',
-                )}
-                color="foreground"
-                href={item.href}
-                target={item.external ? '_blank' : '_self'}
-              >
-                {t(item.label)}
-              </NextLink>
-            </NavbarItem>
-          ))}
-        </ul>
+        <nav aria-label={t('ariaMainNav')}>
+          <ul className="hidden lg:flex gap-4 justify-start ml-2">
+            {navItems.map((item) => (
+              <li key={item.href}>
+                <NextLink
+                  className={clsx(
+                    linkStyles({ color: 'foreground' }),
+                    'data-[active=true]:text-primary data-[active=true]:font-medium',
+                  )}
+                  color="foreground"
+                  href={item.href}
+                  target={item.external ? '_blank' : '_self'}
+                >
+                  {t(item.label)}
+                </NextLink>
+              </li>
+            ))}
+          </ul>
+        </nav>
       </NavbarContent>
 
       <NavbarContent className="hidden sm:flex basis-1/5 sm:basis-full" justify="end">
-        <NavbarItem className="hidden sm:flex gap-4">
-          <ThemeSwitch />
-          <I18NSwitch />
-        </NavbarItem>
-        <NavbarItem className="hidden lg:flex">{searchInput}</NavbarItem>
-        <NavbarItem className="hidden md:flex">
-          <Button
-            isExternal
-            as={Link}
-            className="text-sm font-normal text-default-600 bg-default-100"
-            href={siteConfig.links.github}
-            startContent={<GithubIcon />}
-            variant="flat"
-          >
-            Star on Github
-          </Button>
-        </NavbarItem>
+        <nav aria-label={t('ariaToolbar')}>
+          <ul className="flex items-center gap-4">
+            <li>
+              <ThemeSwitch />
+            </li>
+            <li>
+              <I18NSwitch />
+            </li>
+            <li className="hidden lg:block">{searchInput}</li>
+            <li className="hidden md:block">
+              <Button
+                isExternal
+                as={Link}
+                className="text-sm font-normal text-default-600 bg-default-100"
+                href={siteConfig.links.github}
+                startContent={<GithubIcon />}
+                variant="flat"
+              >
+                Star on Github
+              </Button>
+            </li>
+          </ul>
+        </nav>
       </NavbarContent>
 
       {/* 移动端 */}
       <NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
-        <ThemeSwitch />
-        <I18NSwitch />
-        <NavbarMenuToggle />
+        <nav aria-label={t('ariaMobileToolbar')}>
+          <ul className="flex items-center gap-2">
+            <li>
+              <ThemeSwitch />
+            </li>
+            <li>
+              <I18NSwitch />
+            </li>
+            <li>
+              <NavbarMenuToggle />
+            </li>
+          </ul>
+        </nav>
       </NavbarContent>
 
       <NavbarMenu className="z-[60]">
         {searchInput}
-        <div className="mx-4 mt-2 flex flex-col gap-2">
-          {navItems.map((item, index) => (
-            <NavbarMenuItem key={`${item}-${index}`}>
-              <Link
-                color={
-                  index === 2 ? 'primary' : index === navItems.length - 1 ? 'danger' : 'foreground'
-                }
-                href={item.href}
-                size="lg"
-              >
-                {t(item.label)}
-              </Link>
-            </NavbarMenuItem>
-          ))}
-        </div>
+        <nav aria-label={t('ariaMobileNav')}>
+          <ul className="mx-4 mt-2 flex flex-col gap-2">
+            {navItems.map((item, index) => (
+              <li key={`${item}-${index}`}>
+                <Link
+                  color={
+                    index === 2
+                      ? 'primary'
+                      : index === navItems.length - 1
+                        ? 'danger'
+                        : 'foreground'
+                  }
+                  href={item.href}
+                  size="lg"
+                >
+                  {t(item.label)}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
       </NavbarMenu>
     </HeroUINavbar>
   );

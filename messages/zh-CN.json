@@ -29,5 +29,12 @@
   "errorRefresh": "刷新失败",
   "errorMonitorNotFound": "未找到监控",
   "errorRequestData": "获取数据失败",
+
+  "ariaMainNav": "主导航栏",
+  "ariaToolbar": "工具栏",
+  "ariaMobileToolbar": "移动端工具栏",
+  "ariaMobileNav": "移动端主导航栏",
+  "ariaSearch": "搜索",
+
   "": ""
 }
