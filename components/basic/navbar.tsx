@@ -164,11 +164,10 @@ export const Navbar = () => {
         </NavbarItem>
       </NavbarContent>
 
+      {/* 移动端 */}
       <NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
-        <Link isExternal aria-label="Github" href={siteConfig.links.github}>
-          <GithubIcon className="text-default-500" />
-        </Link>
         <ThemeSwitch />
+        <I18NSwitch />
         <NavbarMenuToggle />
       </NavbarContent>
 

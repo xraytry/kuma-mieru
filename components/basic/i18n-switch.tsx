@@ -27,7 +27,11 @@ export const I18NSwitch = () => {
             'mx-0',
           )}
         >
-          {isPending ? <Loader2 size={22} className="animate-spin" /> : <Languages size={22} />}
+          {isPending ? (
+            <Loader2 size={22} className="animate-spin [animation-duration:0.3s]" />
+          ) : (
+            <Languages size={22} />
+          )}
         </div>
       </DropdownTrigger>
       <DropdownMenu aria-label="Static Actions" variant="faded">
@@ -42,11 +46,11 @@ export const I18NSwitch = () => {
             className="flex flex-row items-center gap-2 text-default-500"
             startContent={
               <Image
-                src={`https://hatscripts.github.io/circle-flags/flags/${item.alpha2Code.toLowerCase()}.svg`}
+                src={`https://fastly.jsdelivr.net/gh/HatScripts/circle-flags@2.7.0/flags/${item.alpha2Code.toLowerCase()}.svg`}
                 alt={item.flag}
-                width={16}
-                height={16}
-                className="w-4 h-4"
+                width={24}
+                height={24}
+                className="w-6 h-6"
                 loading="lazy"
               />
             }
