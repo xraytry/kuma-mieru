@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@media (max-width: 1280px) {
+@media (max-width: 1024px) {
   .hide-ping-stats {
     display: none;
   }

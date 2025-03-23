@@ -1,5 +1,6 @@
 'use client';
 
+import { cn } from '@heroui/react';
 import dayjs from 'dayjs';
 import { Pause, Play, RefreshCw } from 'lucide-react';
 import { useFormatter, useTranslations } from 'next-intl';
@@ -118,7 +119,13 @@ export default function AutoRefresh({ onRefresh, interval = 60000, children }: A
 
   return (
     <>
-      <div className="sticky top-0 left-0 right-0 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 p-4 space-y-2 z-40 backdrop-blur-sm transition-colors duration-300 rounded-xl">
+      <div
+        className={cn(
+          'sticky top-0 left-0 right-0',
+          'bg-background rounded-b-large',
+          'p-4 space-y-2 z-40',
+        )}
+      >
         <div className="flex items-center gap-4 max-w-7xl mx-auto">
           <div className="flex-1">
             <div className="h-2 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden transition-colors duration-300">

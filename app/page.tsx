@@ -62,7 +62,7 @@ export default function Home() {
             {[1, 2].map((groupIndex) => (
               <div key={groupIndex}>
                 <div className="h-8 w-48 bg-default-100 rounded-lg mb-4" />
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
                   {[1, 2, 3].map((cardIndex) => (
                     <MonitorCardSkeleton key={cardIndex} />
                   ))}
@@ -75,7 +75,7 @@ export default function Home() {
           monitorGroups.map((group) => (
             <div key={group.id} className="mb-8">
               <h2 className="text-2xl font-bold mb-4">{group.name}</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
                 {group.monitorList.map((monitor) => (
                   <MonitorCard
                     key={monitor.id}
