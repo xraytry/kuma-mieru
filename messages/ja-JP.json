@@ -12,6 +12,7 @@
   "timerNextTime": "更新まで {sec} 秒",
 
   "nodeSearch": "ノードを検索...（未実装）",
+  "nodeUptimeStatus": "稼働率（24時間）",
 
   "nodeLatestPing": "最新レイテンシ",
   "nodeAvgPing": "平均レイテンシ",

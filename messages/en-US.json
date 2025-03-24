@@ -12,10 +12,11 @@
   "timerNextTime": "Refresh in {sec} seconds",
 
   "nodeSearch": "Search (TODO)",
+  "nodeUptimeStatus": "Uptime Status (Daily)",
 
-  "nodeLatestPing": "Latest ping",
-  "nodeAvgPing": "Average ping",
-  "nodeTrimmedAvgPing": "Trimmed average",
+  "nodeLatestPing": "Latest Ping",
+  "nodeAvgPing": "Average Ping",
+  "nodeTrimmedAvgPing": "Trimmed Average",
 
   "nodeOnline": "Online",
   "nodeOffline": "Offline",

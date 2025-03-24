@@ -12,6 +12,7 @@
   "timerNextTime": "将在 {sec} 秒后刷新",
 
   "nodeSearch": "搜索节点... (TODO)",
+  "nodeUptimeStatus": "可用率 (24 小时)",
 
   "nodeLatestPing": "最新延迟",
   "nodeAvgPing": "平均延迟",

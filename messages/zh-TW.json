@@ -12,6 +12,7 @@
   "timerNextTime": "將於 {sec} 秒後重新整理",
 
   "nodeSearch": "搜尋節點...（未實作）",
+  "nodeUptimeStatus": "可用率 (24 小時)",
 
   "nodeLatestPing": "最新延遲",
   "nodeAvgPing": "平均延遲",

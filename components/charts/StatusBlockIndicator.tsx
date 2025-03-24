@@ -49,7 +49,7 @@ export function StatusBlockIndicator({
       </div>
 
       {/* 状态块 */}
-      <div className="flex gap-0.5 mt-2 h-3 w-[98%] justify-center items-center mx-auto rounded-sm overflow-hidden bg-default-100 dark:bg-default-50">
+      <div className="flex gap-0.5 mt-2 h-3 w-[98%] justify-center items-center mx-auto rounded-sm overflow-hidden">
         {heartbeats.map((hb) => {
           const colorInfo = getStatusColor(hb, pingStats);
           return (

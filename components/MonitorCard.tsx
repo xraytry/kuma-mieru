@@ -1,12 +1,13 @@
 'use client';
 import type { Heartbeat, Monitor } from '@/types/monitor';
-import { Badge, Card, CardBody, CardHeader, Chip, Divider, Progress } from '@heroui/react';
+import { Button, Card, CardBody, CardHeader, Chip, Divider } from '@heroui/react';
 import { motion } from 'framer-motion';
-import { AlertCircle, CheckCircle2, MinusCircle } from 'lucide-react';
+import { AlertCircle, CheckCircle2, MoveDiagonal2, MinusCircle } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { Cell, PolarAngleAxis, RadialBar, RadialBarChart, ResponsiveContainer } from 'recharts';
 import { MonitoringChart } from './charts/MonitoringChart';
+import { ResponsStats } from './charts/ResponsStats';
 import { StatusBlockIndicator } from './charts/StatusBlockIndicator';
+import clsx from 'clsx';
 
 interface MonitorCardProps {
   monitor: Monitor;
@@ -23,7 +24,6 @@ export function MonitorCard({ monitor, heartbeats, uptime24h, isHome = true }: M
   const chartColor = status === 1 ? 'success' : status === 2 ? 'warning' : 'danger';
 
   const StatusIcon = status === 1 ? CheckCircle2 : status === 2 ? MinusCircle : AlertCircle;
-  // const statusText = status === 1 ? '在线' : status === 2 ? '维护中' : '离线';
 
   const uptimeData = [
     {
@@ -45,17 +45,13 @@ export function MonitorCard({ monitor, heartbeats, uptime24h, isHome = true }: M
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.3 }}
-      className={isHome ? 'cursor-pointer transition-transform hover:scale-[1.02]' : ''}
-      onClick={handleClick}
+      className="group"
     >
-      <Card className="w-full">
+      <Card className={clsx(isHome ? 'w-full' : 'w-full md:w-2/3 mx-auto')}>
         <CardHeader className="flex justify-between items-center">
           <div className="flex flex-col gap-2">
             <div className="flex items-center gap-2">
-              <Badge>
-                <StatusIcon size={18} className={`text-${chartColor} h-4 w-4`} />
-              </Badge>
-
+              <StatusIcon className={`text-${chartColor} h-5 w-5 ml-1`} />
               <h3 className="text-lg font-semibold">{monitor.name}</h3>
             </div>
             {monitor.tags && monitor.tags.length > 0 && (
@@ -77,23 +73,25 @@ export function MonitorCard({ monitor, heartbeats, uptime24h, isHome = true }: M
               </div>
             )}
           </div>
-          <div className="inline-flex items-center">
-            <div className="w-10 h-10">
-              <ResponsiveContainer width="100%" height="100%">
-                <RadialBarChart
-                  innerRadius="65%"
-                  outerRadius="100%"
-                  data={uptimeData}
-                  startAngle={90}
-                  endAngle={-270}
-                >
-                  <PolarAngleAxis type="number" domain={[0, 100]} angleAxisId={0} tick={false} />
-                  <RadialBar background dataKey="value" cornerRadius={30} fill="#17c964" />
-                </RadialBarChart>
-              </ResponsiveContainer>
+          {isHome ? (
+            <Button
+              isIconOnly
+              variant="light"
+              size="sm"
+              radius="full"
+              className="opacity-0 group-hover:opacity-100 transition-opacity mr-2"
+              onClick={handleClick}
+            >
+              <MoveDiagonal2 className="h-6 w-6" />
+            </Button>
+          ) : (
+            <div className="mr-4">
+              <ResponsStats
+                value={uptimeData[0].value}
+                fill={uptimeData[0].fill}
+              />
             </div>
-            <span className="text-sm text-gray-500">{uptimeData[0].value.toFixed(2)}%</span>
-          </div>
+          )}
         </CardHeader>
         <CardBody>
           <StatusBlockIndicator heartbeats={heartbeats} className="mb-4" isHome={isHome} />

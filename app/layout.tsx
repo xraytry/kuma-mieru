@@ -5,7 +5,7 @@ import type { Metadata, Viewport } from 'next';
 import { Footer } from '@/components/Footer';
 import Analytics from '@/components/basic/google-analytics';
 import { Navbar } from '@/components/basic/navbar';
-import { fontSans } from '@/config/fonts';
+import { fontMono, fontSans } from '@/config/fonts';
 import { siteConfig } from '@/config/site';
 import packageJson from '@/package.json';
 import { getGlobalConfig } from '@/services/config.server';
@@ -51,7 +51,13 @@ export default async function RootLayout({
   return (
     <html suppressHydrationWarning lang={locale}>
       <head />
-      <body className={clsx('min-h-screen bg-background font-sans antialiased', fontSans.variable)}>
+      <body
+        className={clsx(
+          'min-h-screen bg-background font-sans antialiased',
+          fontSans.variable,
+          fontMono.variable,
+        )}
+      >
         {googleAnalyticsId && <Analytics id={googleAnalyticsId} />}
         <NextIntlClientProvider messages={messages}>
           <Providers themeProps={{ attribute: 'class', defaultTheme: theme }}>
