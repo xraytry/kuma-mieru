@@ -1,6 +1,6 @@
 import { Tooltip as HeroTooltip, type TooltipProps } from '@heroui/react';
-import type { ReactNode } from 'react';
 import { cn } from '@heroui/react';
+import type { ReactNode } from 'react';
 
 export interface CustomTooltipProps extends Omit<TooltipProps, 'content'> {
   content: ReactNode;

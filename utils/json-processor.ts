@@ -14,10 +14,13 @@ export const preprocessJson = (str: string): string => {
     .replace(/;?\s*$/, '')
     .trim();
 
-  // 处理单引号包裹的字符串
   processed = processed.replace(/'([^'\\]*(?:\\.[^'\\]*)*)'/g, (match, p1) => {
-    // 将单引号字符串转换为双引号字符串，同时保持转义
-    return `"${p1.replace(/\\'/g, "'").replace(/"/g, '\\"')}"`;
+    return `"${
+      p1
+        .replace(/\\/g, '\\\\') // 先处理反斜杠
+        .replace(/'/g, "\\'") // 处理单引号
+        .replace(/"/g, '\\"') // 处理双引号
+    }"`;
   });
 
   return processed;

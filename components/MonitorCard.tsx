@@ -1,13 +1,13 @@
 'use client';
 import type { Heartbeat, Monitor } from '@/types/monitor';
 import { Button, Card, CardBody, CardHeader, Chip, Divider } from '@heroui/react';
+import clsx from 'clsx';
 import { motion } from 'framer-motion';
-import { AlertCircle, CheckCircle2, MoveDiagonal2, MinusCircle } from 'lucide-react';
+import { AlertCircle, CheckCircle2, MinusCircle, MoveDiagonal2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { MonitoringChart } from './charts/MonitoringChart';
 import { ResponsStats } from './charts/ResponsStats';
 import { StatusBlockIndicator } from './charts/StatusBlockIndicator';
-import clsx from 'clsx';
 
 interface MonitorCardProps {
   monitor: Monitor;
@@ -86,10 +86,7 @@ export function MonitorCard({ monitor, heartbeats, uptime24h, isHome = true }: M
             </Button>
           ) : (
             <div className="mr-4">
-              <ResponsStats
-                value={uptimeData[0].value}
-                fill={uptimeData[0].fill}
-              />
+              <ResponsStats value={uptimeData[0].value} fill={uptimeData[0].fill} />
             </div>
           )}
         </CardHeader>

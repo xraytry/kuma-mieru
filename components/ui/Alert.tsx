@@ -54,9 +54,7 @@ export const Alert = ({
                 isExpanded ? 'grid-rows-[1fr] opacity-100 mt-2' : 'grid-rows-[0fr] opacity-0',
               )}
             >
-              <div className="overflow-hidden">
-                {children}
-              </div>
+              <div className="overflow-hidden">{children}</div>
             </div>
           </div>
           {isExpanded ? (
