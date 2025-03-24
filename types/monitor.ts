@@ -48,7 +48,10 @@ export interface MonitoringData {
  */
 export interface Incident {
   id: number;
-  style: 'warning' | 'danger' | 'success' | 'info';
+  style: 'info' | 'warning' | 'danger' | 'primary' | 'light' | 'dark';
+  // info -> primary
+  // light -> default
+  // dark -> secondary
   title: string;
   content: string;
   pin: number;

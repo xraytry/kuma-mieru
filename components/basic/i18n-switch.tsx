@@ -11,7 +11,7 @@ export const I18NSwitch = () => {
   const [isPending, startTransition] = useTransition();
 
   return (
-    <Dropdown>
+    <Dropdown aria-label="Switch Language">
       <DropdownTrigger>
         <Button
           className={cn(

@@ -45,7 +45,7 @@ export const Alert = ({
         <div className="flex items-start justify-between w-full">
           <div className="flex-1 mr-2">
             <h5 className="text-sm font-medium">{title}</h5>
-            {!isExpanded && !children && description && (
+            {!isExpanded && description && (
               <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-1">{description}</p>
             )}
             <div
@@ -55,9 +55,6 @@ export const Alert = ({
               )}
             >
               <div className="overflow-hidden">
-                {description && (
-                  <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">{description}</p>
-                )}
                 {children}
               </div>
             </div>

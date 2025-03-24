@@ -2,7 +2,7 @@ import { Alert } from '@/components/ui/Alert';
 import type { Incident } from '@/types/monitor';
 import { useFormatter, useTranslations } from 'next-intl';
 import React, { useMemo } from 'react';
-import { dateStringToTimestamp } from './utils/format';
+import { dateStringToTimestamp, extractSentence } from './utils/format';
 
 // Workaround for https://github.com/markdown-it/markdown-it/issues/1082
 const MarkdownIt = require('markdown-it');
@@ -26,12 +26,16 @@ function IncidentAlert({ incident }: { incident: Incident }) {
 
   const alertColor = useMemo(() => {
     switch (style) {
+      case 'info':
+        return 'primary';
       case 'warning':
         return 'warning';
       case 'danger':
         return 'danger';
-      case 'success':
-        return 'success';
+      case 'light':
+        return 'default';
+      case 'dark':
+        return 'secondary';
       default:
         return 'primary';
     }
@@ -42,7 +46,13 @@ function IncidentAlert({ incident }: { incident: Incident }) {
   }, [content]);
 
   return (
-    <Alert title={title} description={content} color={alertColor} variant="flat" className="mb-8">
+    <Alert
+      title={title}
+      description={extractSentence(content)}
+      color={alertColor}
+      variant="flat"
+      className="mb-8"
+    >
       <div
         className="prose prose-sm dark:prose-invert w-full [&>:first-child]:mt-0 [&>:last-child]:mb-0
           prose-p:text-gray-600 dark:prose-p:text-gray-300

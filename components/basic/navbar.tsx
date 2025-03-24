@@ -204,6 +204,7 @@ export const Navbar = () => {
                         : 'foreground'
                   }
                   href={item.href}
+                  target={item.external ? '_blank' : '_self'}
                   size="lg"
                 >
                   {t(item.label)}
