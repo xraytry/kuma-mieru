@@ -1,9 +1,9 @@
 'use client';
 import type { Heartbeat, Monitor } from '@/types/monitor';
-import { Button, Card, CardBody, CardHeader, Chip, Divider } from '@heroui/react';
+import { Card, CardBody, CardHeader, Chip, Divider } from '@heroui/react';
 import clsx from 'clsx';
 import { motion } from 'framer-motion';
-import { AlertCircle, CheckCircle2, MinusCircle, MoveDiagonal2 } from 'lucide-react';
+import { AlertCircle, CheckCircle2, MinusCircle } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { MonitoringChart } from './charts/MonitoringChart';
 import { ResponsStats } from './charts/ResponsStats';
@@ -46,8 +46,14 @@ export function MonitorCard({ monitor, heartbeats, uptime24h, isHome = true }: M
       exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.3 }}
       className="group"
+      onClick={handleClick}
     >
-      <Card className={clsx(isHome ? 'w-full' : 'w-full md:w-2/3 mx-auto')}>
+      <Card
+        className={clsx(
+          isHome ? 'w-full' : 'w-full md:w-2/3 mx-auto',
+          'cursor-pointer hover:shadow-lg transition-shadow',
+        )}
+      >
         <CardHeader className="flex justify-between items-center">
           <div className="flex flex-col gap-2">
             <div className="flex items-center gap-2">
@@ -73,22 +79,9 @@ export function MonitorCard({ monitor, heartbeats, uptime24h, isHome = true }: M
               </div>
             )}
           </div>
-          {isHome ? (
-            <Button
-              isIconOnly
-              variant="light"
-              size="sm"
-              radius="full"
-              className="opacity-0 group-hover:opacity-100 transition-opacity mr-2"
-              onClick={handleClick}
-            >
-              <MoveDiagonal2 className="h-6 w-6" />
-            </Button>
-          ) : (
-            <div className="mr-4">
-              <ResponsStats value={uptimeData[0].value} fill={uptimeData[0].fill} />
-            </div>
-          )}
+          <div className={clsx('mr-4', isHome ? 'mr-0' : 'mr-4')}>
+            <ResponsStats value={uptimeData[0].value} fill={uptimeData[0].fill} isHome={isHome} />
+          </div>
         </CardHeader>
         <CardBody>
           <StatusBlockIndicator heartbeats={heartbeats} className="mb-4" isHome={isHome} />
