@@ -1,3 +1,5 @@
+import sanitizeHtml from 'sanitize-html';
+
 /**
  * Format latency value with appropriate unit
  * @param ms latency in milliseconds
@@ -113,7 +115,13 @@ export function extractSentence(markdown: string): string {
   });
 
   const content = contentLines.join(' ');
-  const noHtml = content.replace(/<[^>]+>/g, '');
+  const noHtml = sanitizeHtml(content, {
+    allowedTags: ['img'],
+    allowedAttributes: {
+      img: ['src', 'alt'],
+    },
+  });
+
   const cleaned = noHtml.replace(/\s+/g, ' ').trim();
 
   const match = cleaned.match(/[^.!?]+[.!?]/);

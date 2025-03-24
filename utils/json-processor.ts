@@ -15,12 +15,8 @@ export const preprocessJson = (str: string): string => {
     .trim();
 
   processed = processed.replace(/'([^'\\]*(?:\\.[^'\\]*)*)'/g, (match, p1) => {
-    return `"${
-      p1
-        .replace(/\\/g, '\\\\') // 先处理反斜杠
-        .replace(/'/g, "\\'") // 处理单引号
-        .replace(/"/g, '\\"') // 处理双引号
-    }"`;
+    const unescaped = p1.replace(/\\(['\\])/g, '$1');
+    return `"${unescaped.replace(/["\\]/g, '\\$&')}"`;
   });
 
   return processed;
