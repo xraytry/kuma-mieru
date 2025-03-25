@@ -1,8 +1,24 @@
 import { apiConfig } from '@/config/api';
 import { getPreloadData } from '@/services/config.server';
 import type { HeartbeatData, MonitorGroup, MonitoringData, UptimeData } from '@/types/monitor';
-import { customFetchOptions } from './utils/common';
+import { customFetchOptions, ensureUTCTimezone } from './utils/common';
 import { customFetch } from './utils/fetch';
+
+/**
+ * Process heartbeat data to ensure UTC timezone
+ * @param data - Heartbeat data
+ * @returns Heartbeat data with UTC timezone
+ */
+function processHeartbeatData(data: HeartbeatData): HeartbeatData {
+  const processed: HeartbeatData = {};
+  for (const [key, heartbeats] of Object.entries(data)) {
+    processed[key] = heartbeats.map((hb) => ({
+      ...hb,
+      time: ensureUTCTimezone(hb.time),
+    }));
+  }
+  return processed;
+}
 
 class MonitorDataError extends Error {
   constructor(
@@ -24,14 +40,16 @@ export async function getMonitoringData(): Promise<{
 
     // 验证监控组数据
     if (!Array.isArray(preloadData.publicGroupList)) {
-      throw new MonitorDataError('监控组数据必须是数组类型');
+      throw new MonitorDataError('Monitor group data must be an array');
     }
 
     // 获取监控数据
     const apiResponse = await customFetch(apiConfig.apiEndpoint, customFetchOptions);
 
     if (!apiResponse.ok) {
-      throw new MonitorDataError(`API 请求失败: ${apiResponse.status} ${apiResponse.statusText}`);
+      throw new MonitorDataError(
+        `API request failed: ${apiResponse.status} ${apiResponse.statusText}`,
+      );
     }
 
     let monitoringData: MonitoringData;
@@ -43,24 +61,27 @@ export async function getMonitoringData(): Promise<{
 
       // 验证监控数据结构
       if (!rawData || typeof rawData !== 'object') {
-        throw new MonitorDataError('监控数据必须是一个对象');
+        throw new MonitorDataError('Monitor data must be an object');
       }
 
       if (!('heartbeatList' in rawData) || !('uptimeList' in rawData)) {
-        throw new MonitorDataError('监控数据缺少必要的字段');
+        throw new MonitorDataError('Monitor data is missing required fields');
       }
 
       // 验证心跳列表和正常运行时间列表的数据类型
       if (typeof rawData.heartbeatList !== 'object' || typeof rawData.uptimeList !== 'object') {
-        throw new MonitorDataError('心跳列表和正常运行时间列表必须是对象类型');
+        throw new MonitorDataError('Heartbeat list and uptime list must be objects');
       }
 
-      monitoringData = rawData;
+      monitoringData = {
+        ...rawData,
+        heartbeatList: processHeartbeatData(rawData.heartbeatList),
+      };
     } catch (error) {
       if (error instanceof SyntaxError) {
-        throw new MonitorDataError('监控数据 JSON 解析失败', error);
+        throw new MonitorDataError('Monitor data JSON parsing failed', error);
       }
-      throw new MonitorDataError('监控数据解析失败', error);
+      throw new MonitorDataError('Monitor data parsing failed', error);
     }
 
     return {
@@ -69,8 +90,8 @@ export async function getMonitoringData(): Promise<{
     };
   } catch (error) {
     console.error(
-      '获取监控数据失败:',
-      error instanceof MonitorDataError ? error.message : '未知错误',
+      'Failed to get monitoring data:',
+      error instanceof MonitorDataError ? error.message : 'Unknown error',
       {
         error:
           error instanceof Error

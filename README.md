@@ -196,9 +196,24 @@ docker run -d \
 
 Kuma Mieru 与备受好评的开源监控工具 [Uptime Kuma](https://github.com/louislam/uptime-kuma) 无缝集成，您只需要：
 
-1. **安装并配置 Uptime Kuma**
-2. **在 Uptime Kuma 中创建 "状态页面"**
-3. **在 `.env` 文件中配置环境变量**
+1. 安装并配置 Uptime Kuma
+2. 在 Uptime Kuma 设置中修改 `Display Timezone` (显示时区) 为任意 `UTC+0` 时区
+3. 在 Uptime Kuma 中创建 "状态页面"
+4. 在 `.env` 文件中配置环境变量
+
+## FAQ :question:
+
+### 为什么我在 Kuma Mieru 中看到的时间与 Uptime Kuma 中有偏移？
+
+由于 Uptime Kuma 后端传递到前端的时间 **没有携带时区信息**，为了方便开发，Kuma Mieru 会 **自动将时间转换为 UTC+0 时区** 并显示。
+
+如果您发现时区偏移，请前往 Uptime Kuma 设置中修改 `Display Timezone` (显示时区) 为任意 `UTC+0` 时区。
+
+### 请问兼容 Uptime Robot / Better Stack / 其他监控数据源吗？
+
+Kuma Mieru 设计之初就是为了解决 Uptime Kuma 的不足，所以 v1 暂时不考虑支持其他监控数据源。
+
+不过 v2 版本可能会考虑支持 Uptime Robot / Better Stack 等其他监控工具的 API 接口。
 
 ## 贡献指南 :handshake:
 

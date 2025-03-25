@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 
 interface ApiResponse {
   success: boolean;
-  timestamp: string;
+  timestamp: number;
   error?: string;
 }
 
@@ -36,7 +36,7 @@ export async function createApiResponse<T>(
       {
         ...data,
         success: true,
-        timestamp: new Date().toISOString(),
+        timestamp: Date.now(),
       },
       {
         status: 200,
@@ -49,7 +49,7 @@ export async function createApiResponse<T>(
       {
         success: false,
         error: error instanceof Error ? error.message : 'Connection Error',
-        timestamp: new Date().toISOString(),
+        timestamp: Date.now(),
       },
       { status: 500 },
     );

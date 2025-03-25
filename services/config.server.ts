@@ -5,7 +5,7 @@ import { extractPreloadData } from '@/utils/json-processor';
 import { sanitizeJsonString } from '@/utils/json-sanitizer';
 import * as cheerio from 'cheerio';
 import { cache } from 'react';
-import { customFetchOptions } from './utils/common';
+import { customFetchOptions, ensureUTCTimezone } from './utils/common';
 import { customFetch } from './utils/fetch';
 
 export const getGlobalConfig = cache(async (): Promise<GlobalConfig> => {
@@ -13,19 +13,19 @@ export const getGlobalConfig = cache(async (): Promise<GlobalConfig> => {
     const preloadData = await getPreloadData();
 
     if (!preloadData.config) {
-      throw new ConfigError('配置数据缺失');
+      throw new ConfigError('Configuration data is missing');
     }
 
     const requiredFields = ['slug', 'title', 'description', 'icon', 'theme'];
 
     for (const field of requiredFields) {
       if (!(field in preloadData.config)) {
-        throw new ConfigError(`配置缺少必要字段: ${field}`);
+        throw new ConfigError(`Configuration is missing required field: ${field}`);
       }
     }
 
     if (typeof preloadData.config.theme !== 'string') {
-      throw new ConfigError('主题设置必须是字符串类型');
+      throw new ConfigError('Theme must be a string');
     }
 
     const theme =
@@ -40,14 +40,20 @@ export const getGlobalConfig = cache(async (): Promise<GlobalConfig> => {
         ...preloadData.config,
         theme,
       },
-      incident: preloadData.incident,
+      incident: preloadData.incident
+        ? {
+            ...preloadData.incident,
+            createdDate: ensureUTCTimezone(preloadData.incident.createdDate),
+            lastUpdatedDate: ensureUTCTimezone(preloadData.incident.lastUpdatedDate),
+          }
+        : undefined,
     };
 
     return config;
   } catch (error) {
     console.error(
-      '获取配置数据失败:',
-      error instanceof ConfigError ? error.message : '未知错误',
+      'Failed to get configuration data:',
+      error instanceof ConfigError ? error.message : 'Unknown error',
       error,
     );
 
@@ -75,7 +81,9 @@ export async function getPreloadData() {
     const htmlResponse = await customFetch(apiConfig.htmlEndpoint, customFetchOptions);
 
     if (!htmlResponse.ok) {
-      throw new ConfigError(`HTML 获取失败: ${htmlResponse.status} ${htmlResponse.statusText}`);
+      throw new ConfigError(
+        `Failed to get HTML: ${htmlResponse.status} ${htmlResponse.statusText}`,
+      );
     }
 
     const html = await htmlResponse.text();
@@ -83,7 +91,7 @@ export async function getPreloadData() {
     const preloadScript = $('#preload-data').text();
 
     if (!preloadScript) {
-      throw new ConfigError('预加载数据脚本标签未找到');
+      throw new ConfigError('Preload script tag not found');
     }
 
     try {
@@ -92,7 +100,7 @@ export async function getPreloadData() {
     } catch (error) {
       if (error instanceof SyntaxError) {
         throw new ConfigError(
-          `JSON 解析失败: ${error.message}\n预处理后的数据: ${preloadScript.slice(0, 100)}...`,
+          `JSON parsing failed: ${error.message}\nProcessed data: ${preloadScript.slice(0, 100)}...`,
           error,
         );
       }
@@ -100,7 +108,7 @@ export async function getPreloadData() {
         throw error;
       }
       throw new ConfigError(
-        `预加载数据解析失败: ${error instanceof Error ? error.message : '未知错误'}`,
+        `Failed to parse preload data: ${error instanceof Error ? error.message : 'Unknown error'}`,
         error,
       );
     }
@@ -109,7 +117,7 @@ export async function getPreloadData() {
       throw error;
     }
     // 添加更详细的错误日志
-    console.error('获取预加载数据失败:', {
+    console.error('Failed to get preload data:', {
       endpoint: apiConfig.htmlEndpoint,
       error:
         error instanceof Error
@@ -121,6 +129,8 @@ export async function getPreloadData() {
             }
           : error,
     });
-    throw new ConfigError('获取预加载数据失败，请检查网络连接和服务器状态');
+    throw new ConfigError(
+      'Failed to get preload data, please check network connection and server status',
+    );
   }
 }

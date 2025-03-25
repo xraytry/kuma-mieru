@@ -213,26 +213,6 @@ Directly access the health check API:
 curl http://localhost:3883/api/health
 ```
 
-## Architecture :file_folder:
-
-Built with Next.js 15 (App Router):
-
-```
-kuma-mieru/
-├── app/                   # Next.js core
-│   ├── api/               # API routes
-│   ├── layout.tsx         # Root layout
-│   └── page.tsx           # Homepage
-├── components/            # Reusable UI components
-├── config/                # App configurations
-├── public/                # Static assets
-├── services/              # Data services
-├── styles/                # Global CSS
-├── types/                 # TypeScript types
-├── utils/                 # Helper functions
-└── ...                    # Config files
-```
-
 ## Integration with Uptime Kuma :link:
 
 Seamlessly works with the popular self-hosted monitoring tool:  
@@ -241,8 +221,23 @@ Seamlessly works with the popular self-hosted monitoring tool:
 **Prerequisites**:
 
 1. A running Uptime Kuma instance
-2. Created status page in Uptime Kuma
-3. Correct environment variables configuration
+2. Change `Display Timezone` to any `UTC+0` time zone in the Uptime Kuma settings.
+3. Created status page in Uptime Kuma
+4. Correct environment variables configuration
+
+## FAQ :question:
+
+### Why is the time I see in Kuma Mieru offset from the time I see in Uptime Kuma?
+
+Since the time passed from the Uptime Kuma backend to the frontend **doesn't carry time zone information**, Kuma Mieru **automatically converts the time to the UTC+0 time zone** and displays it in order to facilitate development.
+
+If you find that the time zone is shifted, please go to Uptime Kuma settings and change `Display Timezone` to any `UTC+0` time zone.
+
+### Is Uptime Robot / Better Stack / other monitoring data sources compatible?
+
+Kuma Mieru was designed to address the shortcomings of Uptime Kuma, so v1 does not consider supporting other monitoring data sources for now.
+
+However, v2 may consider to support API interface of other monitoring tools such as Uptime Robot / Better Stack.
 
 ## Contribution Guide :handshake:
 

@@ -1,7 +1,7 @@
 import { Tooltip } from '@heroui/react';
+import { clsx } from 'clsx';
 import { useTranslations } from 'next-intl';
 import { PolarAngleAxis, RadialBar, RadialBarChart, ResponsiveContainer } from 'recharts';
-import { clsx } from 'clsx';
 
 interface ResponsStatsProps {
   value: number;
