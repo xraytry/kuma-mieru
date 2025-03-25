@@ -10,6 +10,11 @@ Built with Next.js 15, TypeScript, and Recharts, this project enhances Uptime Ku
 >
 > you can manually enable the `Auto Update from Upstream` workflow in the `Actions` page of your forked repository.
 
+> [!WARNING]
+> New version (v1.1.4+) has refactored the time processing logic,
+>
+> please note to modify the `Display Timezone` (Display Timezone) to `UTC+0` time zone in the _Uptime Kuma_ settings.
+
 ## Key Features :sparkles:
 
 - **Real-Time Monitoring & Auto-Refresh** :arrows_clockwise: Live status updates without manual refreshing.

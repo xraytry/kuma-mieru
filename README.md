@@ -9,6 +9,9 @@
 >
 > 并找到 `Auto Update from Upstream` workflow 后手动 Enable 此工作流。
 
+> [!WARNING]
+> 新版 (v1.1.4+) 重构了时间处理逻辑，请注意修改 _Uptime Kuma_ 后台设置的 `Display Timezone` (显示时区) 为 `UTC+0` 时区。
+
 ## 功能亮点 :sparkles:
 
 - **实时监控，自动刷新** :arrows_clockwise:：状态显示**实时更新**，无需手动刷新，随时掌握最新动态。
