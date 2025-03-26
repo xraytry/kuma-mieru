@@ -3,20 +3,21 @@
 import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from '@heroui/react';
 import { motion } from 'framer-motion';
 import { Monitor, Moon, Sun } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useTheme } from 'next-themes';
 
 const mode = {
   light: {
     icon: <Sun size={22} />,
-    text: '浅色模式',
+    text: 'modeLight',
   },
   dark: {
     icon: <Moon size={22} />,
-    text: '深色模式',
+    text: 'modeDark',
   },
   system: {
     icon: <Monitor size={22} />,
-    text: '跟随系统',
+    text: 'modeSystem',
   },
 };
 
@@ -25,7 +26,9 @@ export const ThemeSwitch = ({
 }: {
   radius?: 'none' | 'full' | 'sm' | 'md' | 'lg' | undefined;
 }) => {
+  const t = useTranslations();
   const { theme, setTheme } = useTheme();
+
   return (
     <Dropdown aria-label="Switch Theme">
       <DropdownTrigger>
@@ -53,7 +56,7 @@ export const ThemeSwitch = ({
             onPress={() => setTheme(key)}
             className="flex flex-row items-center gap-2 text-default-500"
           >
-            {value.text}
+            {t(value.text)}
           </DropdownItem>
         ))}
       </DropdownMenu>

@@ -37,5 +37,9 @@
   "ariaMobileNav": "移动端主导航栏",
   "ariaSearch": "搜索",
 
+  "modeLight": "浅色模式",
+  "modeDark": "深色模式",
+  "modeSystem": "跟随系统",
+
   "": ""
 }

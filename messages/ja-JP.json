@@ -37,5 +37,9 @@
   "ariaMobileNav": "モバイルメインナビゲーション",
   "ariaSearch": "検索",
 
+  "modeLight": "ライト",
+  "modeDark": "ダーク",
+  "modeSystem": "システム",
+  
   "": ""
 }
