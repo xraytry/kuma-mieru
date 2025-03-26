@@ -36,5 +36,9 @@
   "ariaMobileNav": "Mobile navigation",
   "ariaSearch": "Search",
 
+  "modeLight": "Light",
+  "modeDark": "Dark",
+  "modeSystem": "System",
+
   "": ""
 }

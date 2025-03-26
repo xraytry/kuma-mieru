@@ -51,14 +51,14 @@ export function MonitorCard({ monitor, heartbeats, uptime24h, isHome = true }: M
       <Card
         className={clsx(
           isHome ? 'w-full' : 'w-full md:w-2/3 mx-auto',
-          'cursor-pointer hover:shadow-lg transition-shadow',
+          isHome && 'cursor-pointer hover:shadow-lg transition-shadow',
         )}
       >
         <CardHeader className="flex justify-between items-center">
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 w-[50%]">
             <div className="flex items-center gap-2">
               <StatusIcon className={`text-${chartColor} h-5 w-5 ml-1`} />
-              <h3 className="text-lg font-semibold">{monitor.name}</h3>
+              <h3 className="text-lg font-semibold truncate">{monitor.name}</h3>
             </div>
             {monitor.tags && monitor.tags.length > 0 && (
               <div className="flex flex-wrap gap-1">
