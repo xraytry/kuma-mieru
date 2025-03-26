@@ -13,20 +13,7 @@ export const I18NSwitch = () => {
   return (
     <Dropdown aria-label="Switch Language">
       <DropdownTrigger>
-        <Button
-          className={cn(
-            'px-px transition-opacity hover:opacity-80',
-            'w-auto h-auto',
-            'bg-transparent',
-            'rounded-lg',
-            'flex items-center justify-center',
-            'group-data-[selected=true]:bg-transparent',
-            '!text-default-500',
-            'pt-px',
-            'px-0',
-            'mx-0',
-          )}
-        >
+        <Button variant="light" isIconOnly className="text-default-500">
           {isPending ? (
             <Loader2 size={22} className="animate-spin [animation-duration:0.3s]" />
           ) : (
@@ -34,7 +21,7 @@ export const I18NSwitch = () => {
           )}
         </Button>
       </DropdownTrigger>
-      <DropdownMenu aria-label="Switch Language">
+      <DropdownMenu aria-label="Switch Language" variant="faded">
         {locales.map((item) => (
           <DropdownItem
             key={item.key}
@@ -54,7 +41,6 @@ export const I18NSwitch = () => {
                 loading="lazy"
               />
             }
-            variant="faded"
           >
             {item.name}
           </DropdownItem>

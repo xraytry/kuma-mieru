@@ -8,9 +8,7 @@ import {
   Navbar as HeroUINavbar,
   NavbarBrand,
   NavbarContent,
-  NavbarItem,
   NavbarMenu,
-  NavbarMenuItem,
   NavbarMenuToggle,
 } from '@heroui/navbar';
 import { link as linkStyles } from '@heroui/theme';
@@ -19,12 +17,14 @@ import Image from 'next/image';
 import NextLink from 'next/link';
 import { useEffect, useState } from 'react';
 
-import { DiscordIcon, GithubIcon, Logo, SearchIcon, TwitterIcon } from '@/components/basic/icons';
+import { GithubIcon, Logo, SearchIcon } from '@/components/basic/icons';
 import { ThemeSwitch } from '@/components/basic/theme-switch';
 import { NavbarSkeleton } from '@/components/ui/CommonSkeleton';
 import { siteConfig } from '@/config/site';
 import { useSourceConfig } from '@/hooks/useSourceConfig';
 import type { Config } from '@/types/config';
+import { motion } from 'framer-motion';
+import { Menu, X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { I18NSwitch } from './i18n-switch';
 
@@ -83,6 +83,19 @@ export const Navbar = () => {
       }
       type="search"
     />
+  );
+
+  const starButton = (
+    <Button
+      isExternal
+      as={Link}
+      className="text-sm font-normal text-default-600 bg-default-100"
+      href={siteConfig.links.github}
+      startContent={<GithubIcon />}
+      variant="flat"
+    >
+      Star on Github
+    </Button>
   );
 
   const navItems = [
@@ -156,18 +169,7 @@ export const Navbar = () => {
               <I18NSwitch />
             </li>
             <li className="hidden lg:block">{searchInput}</li>
-            <li className="hidden md:block">
-              <Button
-                isExternal
-                as={Link}
-                className="text-sm font-normal text-default-600 bg-default-100"
-                href={siteConfig.links.github}
-                startContent={<GithubIcon />}
-                variant="flat"
-              >
-                Star on Github
-              </Button>
-            </li>
+            <li className="hidden sm:block">{starButton}</li>
           </ul>
         </nav>
       </NavbarContent>
@@ -183,13 +185,28 @@ export const Navbar = () => {
               <I18NSwitch />
             </li>
             <li>
-              <NavbarMenuToggle />
+              <NavbarMenuToggle
+                icon={(isOpen) => (
+                  <motion.div
+                    variants={{
+                      closed: { rotate: 0, opacity: 1 },
+                      open: { rotate: 90, opacity: 1 },
+                    }}
+                    animate={isOpen ? 'open' : 'closed'}
+                    transition={{ duration: 0.3 }}
+                    className="text-default-500"
+                  >
+                    {isOpen ? <X width={24} /> : <Menu size={24} />}
+                  </motion.div>
+                )}
+              />
             </li>
           </ul>
         </nav>
       </NavbarContent>
 
       <NavbarMenu className="z-[60]">
+        {starButton}
         {searchInput}
         <nav aria-label={t('ariaMobileNav')}>
           <ul className="mx-4 mt-2 flex flex-col gap-2">
