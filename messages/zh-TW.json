@@ -22,7 +22,7 @@
   "nodeOffline": "離線",
   "nodeMaintenance": "維護中",
 
-  "nodeCount": "最近 {count} 次紀錄",
+  "nodeCount": "最近 {count} 次",
 
   "alertCreatedAt": "發佈於 {time}",
   "alertUpdatedAt": "更新於 {time}",
@@ -40,6 +40,6 @@
   "modeLight": "淺色模式",
   "modeDark": "深色模式",
   "modeSystem": "跟隨系統",
-  
+
   "": ""
 }

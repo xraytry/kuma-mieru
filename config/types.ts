@@ -7,4 +7,6 @@ export interface GeneratedConfig {
     icon: string;
   };
   isPlaceholder: boolean;
+  isEditThisPage: boolean;
+  isShowStarButton: boolean;
 }

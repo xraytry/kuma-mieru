@@ -1,45 +1,46 @@
 'use client';
 
-import generatedConfig from './generated-config.json';
+import { env } from './env';
 
 const baseConfig = {
   name: 'Kuma Mieru',
   description: 'A beautiful and modern uptime monitoring dashboard',
-  icon: '/favicon.ico',
+  icon: '/favicon.svg',
 } as const;
 
+type NavItem = {
+  label: string;
+  href: string;
+  external: boolean;
+};
+
+const navItems: NavItem[] = [
+  {
+    label: 'pageMain',
+    href: '/',
+    external: false,
+  },
+  {
+    label: 'pageEdit',
+    href: `${env.config.baseUrl}/manage-status-page`,
+    external: true,
+  },
+];
+
 export const siteConfig = {
-  name: generatedConfig.siteMeta.title || baseConfig.name,
-  description: generatedConfig.siteMeta.description || baseConfig.description,
-  icon: generatedConfig.siteMeta.icon
-    ? generatedConfig.siteMeta.icon.startsWith('http')
-      ? generatedConfig.siteMeta.icon
-      : `${generatedConfig.baseUrl}/${generatedConfig.siteMeta.icon.replace(/^\//, '')}`
+  name: env.config.siteMeta.title || baseConfig.name,
+  description: env.config.siteMeta.description || baseConfig.description,
+  icon: env.config.siteMeta.icon
+    ? env.config.siteMeta.icon.startsWith('http')
+      ? env.config.siteMeta.icon
+      : `${env.config.baseUrl}/${env.config.siteMeta.icon.replace(/^\//, '')}`
     : baseConfig.icon,
-  navItems: [
-    {
-      label: 'pageMain',
-      href: '/',
-      external: false,
-    },
-    {
-      label: 'pageEdit',
-      href: `${generatedConfig.baseUrl}/manage-status-page`,
-      external: true,
-    },
-  ],
-  navMenuItems: [
-    {
-      label: 'pageMain',
-      href: '/',
-      external: false,
-    },
-    {
-      label: 'pageEdit',
-      href: `${generatedConfig.baseUrl}/manage-status-page`,
-      external: true,
-    },
-  ],
+  navItems: navItems.filter((item): item is NavItem =>
+    item.label !== 'pageEdit' ? true : env.config.isEditThisPage,
+  ),
+  navMenuItems: navItems.filter((item): item is NavItem =>
+    item.label !== 'pageEdit' ? true : env.config.isEditThisPage,
+  ),
   links: {
     github: 'https://github.com/Alice39s/kuma-mieru',
     docs: 'https://github.com/Alice39s/kuma-mieru/blob/main/README.md',

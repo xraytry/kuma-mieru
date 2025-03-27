@@ -28,22 +28,25 @@ export const ThemeSwitch = ({
 }) => {
   const t = useTranslations();
   const { theme, setTheme } = useTheme();
+  
+  const currentTheme = (theme as keyof typeof mode) || 'system';
+  const themeIcon = mode[currentTheme]?.icon || mode.system.icon;
 
   return (
     <Dropdown aria-label="Switch Theme">
       <DropdownTrigger>
         <Button isIconOnly variant="light" radius={radius} className="text-default-500">
-          {theme === 'system' ? (
-            <div key={theme}>{mode[theme as keyof typeof mode].icon}</div>
+          {currentTheme === 'system' ? (
+            <div key={currentTheme}>{themeIcon}</div>
           ) : (
             <motion.div
-              key={theme} // 根据主题变化设置唯一 key
+              key={currentTheme}
               initial={{ rotate: -90, opacity: 0 }}
               animate={{ rotate: 0, opacity: 1 }}
               exit={{ rotate: 90, opacity: 0 }}
               transition={{ duration: 0.3 }}
             >
-              {mode[theme as keyof typeof mode].icon}
+              {themeIcon}
             </motion.div>
           )}
         </Button>

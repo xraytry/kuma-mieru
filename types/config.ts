@@ -1,11 +1,9 @@
+import type { GeneratedConfig } from '@/config/types';
 import type { Incident, MonitorGroup } from './monitor';
 
-export interface Config {
-  baseUrl: string;
-  pageId: string;
+export interface Config extends GeneratedConfig {
   htmlEndpoint: string;
   apiEndpoint: string;
-  isPlaceholder: boolean;
 }
 
 export interface SiteConfig {

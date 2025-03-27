@@ -62,7 +62,12 @@ export function MonitoringChart({
     <div className="w-full mt-2">
       <div className="mb-4 mt-3 items-center justify-center flex gap-2">
         {/* TODO: 切换图表时重绘动画 */}
-        <Tabs size="sm" selectedKey={selectedRange} onSelectionChange={handleRangeChange}>
+        <Tabs
+          size="sm"
+          selectedKey={selectedRange}
+          onSelectionChange={handleRangeChange}
+          className="font-light text-sm"
+        >
           {countRanges.map((range) => (
             <Tab key={range.key} title={t('nodeCount', { count: range.count })} />
           ))}

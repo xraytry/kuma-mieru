@@ -22,7 +22,7 @@
   "nodeOffline": "离线",
   "nodeMaintenance": "维护中",
 
-  "nodeCount": "最近 {count} 次记录",
+  "nodeCount": "最近 {count} 次",
 
   "alertCreatedAt": "发布于 {time}",
   "alertUpdatedAt": "更新于 {time}",
