@@ -222,6 +222,11 @@ curl http://localhost:3883/api/health
 
 ## Integration with Uptime Kuma :link:
 
+> [!NOTE]
+> For the latest stable version of Uptime Kuma (v1.23.0+), Kuma Mieru has been fully tested and is compatible.
+>
+> If you are using an older version, please refer to the [Uptime Kuma official documentation](https://github.com/louislam/uptime-kuma/wiki/%F0%9F%86%99-How-to-Update) to try to upgrade to the latest stable version (v1.23.0+), and remember to back up your data.
+
 Seamlessly works with the popular self-hosted monitoring tool:  
 [Uptime Kuma](https://github.com/louislam/uptime-kuma)
 

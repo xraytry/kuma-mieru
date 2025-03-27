@@ -199,6 +199,11 @@ docker run -d \
 
 ## 与 Uptime Kuma 集成 :link:
 
+> [!NOTE]
+> 经测试，本项目兼容 Uptime Kuma 的最新稳定版本 (v1.23.0+)
+>
+> 如您使用的版本较低，请参考 [Uptime Kuma 官方文档](https://github.com/louislam/uptime-kuma/wiki/%F0%9F%86%99-How-to-Update) 尝试升级到最新稳定版 (v1.23.0+)，注意备份好数据。
+
 Kuma Mieru 与备受好评的开源监控工具 [Uptime Kuma](https://github.com/louislam/uptime-kuma) 无缝集成，您只需要：
 
 1. 安装并配置 Uptime Kuma
