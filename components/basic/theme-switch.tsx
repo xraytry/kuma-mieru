@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { Monitor, Moon, Sun } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useTheme } from 'next-themes';
+import { useEffect, useState } from 'react';
 
 const mode = {
   light: {
@@ -28,9 +29,22 @@ export const ThemeSwitch = ({
 }) => {
   const t = useTranslations();
   const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
   
   const currentTheme = (theme as keyof typeof mode) || 'system';
   const themeIcon = mode[currentTheme]?.icon || mode.system.icon;
+
+  if (!mounted) {
+    return (
+      <Button isIconOnly variant="light" radius={radius} className="text-default-500">
+        <Monitor size={22} />
+      </Button>
+    );
+  }
 
   return (
     <Dropdown aria-label="Switch Theme">

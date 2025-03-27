@@ -2,9 +2,14 @@
 
 import { cn } from '@heroui/react';
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
 import { Pause, Play, RefreshCw } from 'lucide-react';
 import { useFormatter, useTranslations } from 'next-intl';
 import { type ReactNode, useCallback, useEffect, useState } from 'react';
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 interface AutoRefreshProps {
   onRefresh: () => Promise<void>;
@@ -89,7 +94,7 @@ export default function AutoRefresh({ onRefresh, interval = 60000, children }: A
 
     try {
       await onRefresh();
-      setLastRefreshTime(Date.now());
+      setLastRefreshTime(dayjs().valueOf());
     } catch (error) {
       console.error(t('errorRefresh'), ':', error);
     } finally {
@@ -152,7 +157,15 @@ export default function AutoRefresh({ onRefresh, interval = 60000, children }: A
         <div className="flex justify-between text-sm text-gray-500 dark:text-gray-400 max-w-7xl mx-auto transition-colors duration-300">
           <div suppressHydrationWarning>
             {t('timerLastTime', {
-              time: format.dateTime(lastRefreshTime, 'normal'),
+              time: format.dateTime(dayjs(lastRefreshTime).toDate(), {
+                timeZone: dayjs.tz.guess(),
+                hour: 'numeric',
+                minute: 'numeric',
+                second: 'numeric',
+                year: 'numeric',
+                month: 'numeric',
+                day: 'numeric',
+              }),
             })}
           </div>
           {!isPaused && (
