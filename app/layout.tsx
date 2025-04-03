@@ -13,6 +13,8 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getMessages } from 'next-intl/server';
 import { Providers } from './providers';
 
+import { Toaster } from 'sonner';
+
 export const metadata: Metadata = {
   title: {
     default: 'Kuma Mieru',
@@ -65,6 +67,7 @@ export default async function RootLayout({
               <Navbar />
               <main className="container mx-auto max-w-7xl pt-4 px-6 flex-grow">{children}</main>
               <Footer config={config} />
+              <Toaster position="top-center" richColors />
             </div>
           </Providers>
         </NextIntlClientProvider>

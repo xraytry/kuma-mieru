@@ -10,6 +10,14 @@
   "timerRefreshNow": "Refresh now",
   "timerLastTime": "Last refresh: {time}",
   "timerNextTime": "Refresh in {sec} seconds",
+  "timerRefreshSuccess": "Refresh successful",
+  "timerPausedInfo": "Auto refresh paused",
+  "timerResumedInfo": "Auto refresh resumed",
+  
+  "localeChanging": "Switching to {locale}...",
+  "localeChanged": "Switched to {locale}",
+  "localeChangeError": "Failed to change language",
+  "errorUnknown": "Unknown error",
 
   "nodeSearch": "Search (TODO)",
   "nodeUptimeStatus": "Uptime Status (Daily)",

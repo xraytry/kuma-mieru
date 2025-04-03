@@ -10,6 +10,14 @@
   "timerRefreshNow": "立即重新整理",
   "timerLastTime": "上次更新：{time}",
   "timerNextTime": "將於 {sec} 秒後重新整理",
+  "timerRefreshSuccess": "重新整理成功",
+  "timerPausedInfo": "自動重新整理已暫停",
+  "timerResumedInfo": "自動重新整理已恢復",
+  
+  "localeChanging": "正在切換到 {locale}...",
+  "localeChanged": "已切換到 {locale}",
+  "localeChangeError": "語言切換失敗",
+  "errorUnknown": "未知錯誤",
 
   "nodeSearch": "搜尋節點...（未實作）",
   "nodeUptimeStatus": "可用率 (24 小時)",

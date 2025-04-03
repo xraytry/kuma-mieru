@@ -10,6 +10,14 @@
   "timerRefreshNow": "今すぐ更新",
   "timerLastTime": "最終更新: {time}",
   "timerNextTime": "更新まで {sec} 秒",
+  "timerRefreshSuccess": "更新成功",
+  "timerPausedInfo": "自動更新を一時停止しました",
+  "timerResumedInfo": "自動更新を再開しました",
+  
+  "localeChanging": "{locale} に切り替え中...",
+  "localeChanged": "{locale} に切り替えました",
+  "localeChangeError": "言語切り替え失敗",
+  "errorUnknown": "不明なエラー",
 
   "nodeSearch": "ノードを検索...（未実装）",
   "nodeUptimeStatus": "稼働率（24時間）",
