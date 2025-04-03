@@ -45,50 +45,53 @@ export function MonitorCard({ monitor, heartbeats, uptime24h, isHome = true }: M
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.3 }}
-      className="group"
+      className="group h-full"
       onClick={handleClick}
     >
       <Card
         className={clsx(
+          'h-full grid grid-rows-[auto_1fr]',
           isHome ? 'w-full' : 'w-full md:w-2/3 mx-auto',
           isHome && 'cursor-pointer hover:shadow-lg transition-shadow',
         )}
       >
-        <CardHeader className="flex justify-between items-center">
-          <div className="flex flex-col gap-2 w-[50%]">
+        <CardHeader className="grid grid-cols-[1fr_auto] gap-4 items-start">
+          <div className="grid grid-rows-[auto_minmax(28px,auto)] gap-2">
             <div className="flex items-center gap-2">
               <StatusIcon className={`text-${chartColor} h-5 w-5 ml-1`} />
               <h3 className="text-lg font-semibold truncate">{monitor.name}</h3>
             </div>
-            {monitor.tags && monitor.tags.length > 0 && (
-              <div className="flex flex-wrap gap-1">
-                {monitor.tags.map((tag) => (
-                  <Chip
-                    key={tag.id}
-                    size="sm"
-                    variant="flat"
-                    style={{
-                      backgroundColor: `${tag.color}15`,
-                      color: tag.color,
-                    }}
-                  >
-                    {tag.name}
-                    {tag?.value && `: ${tag.value}`}
-                  </Chip>
-                ))}
-              </div>
-            )}
+            <div>
+              {monitor.tags && monitor.tags.length > 0 && (
+                <div className="flex flex-wrap gap-1">
+                  {monitor.tags.map((tag) => (
+                    <Chip
+                      key={tag.id}
+                      size="sm"
+                      variant="flat"
+                      style={{
+                        backgroundColor: `${tag.color}15`,
+                        color: tag.color,
+                      }}
+                    >
+                      {tag.name}
+                      {tag?.value && `: ${tag.value}`}
+                    </Chip>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
-          <div className={clsx('mr-4', isHome ? 'mr-0' : 'mr-4')}>
+          <div className={isHome ? '' : 'mr-4'}>
             <ResponsStats value={uptimeData[0].value} fill={uptimeData[0].fill} isHome={isHome} />
           </div>
         </CardHeader>
-        <CardBody>
-          <StatusBlockIndicator heartbeats={heartbeats} className="mb-4" isHome={isHome} />
-
-          <Divider className="my-2" />
-
-          <div className="space-y-4">
+        <CardBody className="grid grid-rows-[auto_auto_1fr] gap-4">
+          <StatusBlockIndicator heartbeats={heartbeats} isHome={isHome} />
+          
+          <Divider />
+          
+          <div className="self-end w-full">
             <MonitoringChart heartbeats={heartbeats} height={120} color={chartColor} showGrid />
           </div>
         </CardBody>
