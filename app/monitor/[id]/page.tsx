@@ -3,11 +3,11 @@
 import AutoRefresh from '@/components/AutoRefresh';
 import { MonitorCard } from '@/components/MonitorCard';
 import { MonitorCardSkeleton } from '@/components/ui/CommonSkeleton';
-import type { Monitor, MonitorGroup, MonitoringData } from '@/types/monitor';
+import { useMonitor, revalidateData } from '@/components/utils/swr';
 import { motion } from 'framer-motion';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
-import { use, useCallback, useEffect, useState } from 'react';
+import { use } from 'react';
 
 const pageVariants = {
   initial: {
@@ -37,65 +37,14 @@ export default function MonitorDetail({
   params: Promise<{ id: string }>;
 }) {
   const t = useTranslations();
-
   const resolvedParams = use(params);
   const router = useRouter();
-  const [monitor, setMonitor] = useState<Monitor | null>(null);
-  const [data, setData] = useState<MonitoringData>({
-    heartbeatList: {},
-    uptimeList: {},
-  });
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  
+  const { monitor, monitoringData, isLoading, isError, error } = useMonitor(resolvedParams.id);
 
-  const fetchData = useCallback(async () => {
-    if (!resolvedParams.id) return;
-
-    try {
-      const monitorId = Number.parseInt(resolvedParams.id, 10);
-
-      // 获取监控数据
-      const monitorResponse = await fetch('/api/monitor');
-      const monitorData = await monitorResponse.json();
-
-      if (!monitorData.success) {
-        throw new Error('获取监控数据失败');
-      }
-
-      // 在所有监控组中查找指定 ID 的监控项
-      const foundMonitor = monitorData.monitorGroups
-        .flatMap((group: MonitorGroup) => group.monitorList)
-        .find((m: Monitor) => m.id === monitorId);
-
-      if (!foundMonitor) {
-        throw new Error(t('errorMonitorNotFound'));
-      }
-
-      setMonitor(foundMonitor);
-
-      // 提取该监控项的数据
-      const monitoringData = {
-        heartbeatList: {
-          [monitorId]: monitorData.data.heartbeatList[monitorId] || [],
-        },
-        uptimeList: {
-          [`${monitorId}_24`]: monitorData.data.uptimeList[`${monitorId}_24`] || 0,
-        },
-      };
-
-      setData(monitoringData);
-      setError(null);
-    } catch (error) {
-      setError(error instanceof Error ? error.message : t('errorRequestData'));
-      console.error(t('errorRequestData'), ':', error);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [resolvedParams.id, t]);
-
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+  const handleRefresh = async () => {
+    await revalidateData();
+  };
 
   const handleBack = () => {
     try {
@@ -130,7 +79,7 @@ export default function MonitorDetail({
     );
   }
 
-  if (error || !monitor) {
+  if (isError || !monitor) {
     return (
       <motion.div
         initial="initial"
@@ -139,7 +88,7 @@ export default function MonitorDetail({
         variants={pageVariants}
         className="flex flex-col items-center justify-center min-h-screen gap-4"
       >
-        <p className="text-xl text-gray-500">{error || t('errorMonitorNotFound')}</p>
+        <p className="text-xl text-gray-500">{error instanceof Error ? error.message : t('errorMonitorNotFound')}</p>
         <button
           type="button"
           onClick={handleBack}
@@ -153,7 +102,7 @@ export default function MonitorDetail({
 
   return (
     <motion.div initial="initial" animate="animate" exit="exit" variants={pageVariants}>
-      <AutoRefresh onRefresh={fetchData} interval={60000}>
+      <AutoRefresh onRefresh={handleRefresh} interval={60000}>
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-6xl mx-auto">
             <motion.div
@@ -172,8 +121,8 @@ export default function MonitorDetail({
             </motion.div>
             <MonitorCard
               monitor={monitor}
-              heartbeats={data.heartbeatList[monitor.id] || []}
-              uptime24h={data.uptimeList[`${monitor.id}_24`] || 0}
+              heartbeats={monitoringData.heartbeatList[monitor.id] || []}
+              uptime24h={monitoringData.uptimeList[`${monitor.id}_24`] || 0}
               isHome={false}
             />
           </div>

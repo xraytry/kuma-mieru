@@ -4,53 +4,20 @@ import AlertMarkdown from '@/components/AlertMarkdown';
 import AutoRefresh from '@/components/AutoRefresh';
 import { MonitorCard } from '@/components/MonitorCard';
 import { MonitorCardSkeleton } from '@/components/ui/CommonSkeleton';
-import type { GlobalConfig } from '@/types/config';
-import type { MonitorGroup, MonitoringData } from '@/types/monitor';
-import { useCallback, useEffect, useState } from 'react';
+import { useMonitorData, useConfig, revalidateData } from '@/components/utils/swr';
 
 export default function Home() {
-  const [monitorGroups, setMonitorGroups] = useState<MonitorGroup[]>([]);
-  const [data, setData] = useState<MonitoringData>({ heartbeatList: {}, uptimeList: {} });
-  const [globalConfig, setGlobalConfig] = useState<GlobalConfig | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const { monitorGroups, monitoringData, isLoading: isLoadingMonitors, revalidate: revalidateMonitors } = useMonitorData();
+  const { config: globalConfig, isLoading: isLoadingConfig } = useConfig();
+  
+  const isLoading = isLoadingMonitors || isLoadingConfig;
 
-  const fetchData = useCallback(async () => {
-    try {
-      const monitorResponse = await fetch('/api/monitor');
-      const monitorData = await monitorResponse.json();
-
-      if (!monitorData.success) {
-        throw new Error('获取监控数据失败');
-      }
-
-      if (monitorData.monitorGroups) {
-        setMonitorGroups(monitorData.monitorGroups);
-      }
-
-      if (monitorData.data) {
-        setData(monitorData.data);
-      }
-
-      const configResponse = await fetch('/api/config');
-      const configData = await configResponse.json();
-
-      if (configData) {
-        setGlobalConfig(configData);
-      }
-
-      setIsLoading(false);
-    } catch (error) {
-      console.error('获取数据失败:', error);
-      setIsLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+  const handleRefresh = async () => {
+    await revalidateData();
+  };
 
   return (
-    <AutoRefresh onRefresh={fetchData} interval={60000}>
+    <AutoRefresh onRefresh={handleRefresh} interval={60000}>
       <div className="mx-auto max-w-screen-2xl px-4 py-8 pt-4">
         {/* 公告显示 */}
         {globalConfig?.incident && <AlertMarkdown incident={globalConfig.incident} />}
@@ -80,8 +47,8 @@ export default function Home() {
                   <MonitorCard
                     key={monitor.id}
                     monitor={monitor}
-                    heartbeats={data.heartbeatList[monitor.id] || []}
-                    uptime24h={data.uptimeList[`${monitor.id}_24`] || 0}
+                    heartbeats={monitoringData.heartbeatList[monitor.id] || []}
+                    uptime24h={monitoringData.uptimeList[`${monitor.id}_24`] || 0}
                     isHome={true}
                   />
                 ))}

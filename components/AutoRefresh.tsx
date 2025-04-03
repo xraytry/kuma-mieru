@@ -12,7 +12,7 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 
 interface AutoRefreshProps {
-  onRefresh: () => Promise<void>;
+  onRefresh: () => Promise<void> | void;
   interval?: number;
   children: ReactNode;
 }
@@ -93,7 +93,10 @@ export default function AutoRefresh({ onRefresh, interval = 60000, children }: A
     setShowRefreshAnimation(true);
 
     try {
-      await onRefresh();
+      const result = onRefresh();
+      if (result instanceof Promise) {
+        await result;
+      }
       setLastRefreshTime(dayjs().valueOf());
     } catch (error) {
       console.error(t('errorRefresh'), ':', error);
