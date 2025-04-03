@@ -17,9 +17,9 @@
 
 ## 测试截图 :camera:
 
-| Dark Mode                            | Light Mode                             |
-| ------------------------------------ | -------------------------------------- |
-| ![Dark Mode](./docs/v1.0.0-dark.png) | ![Light Mode](./docs/v1.0.0-light.png) |
+| Dark Mode                               | Light Mode                                |
+| --------------------------------------- | ----------------------------------------- |
+| ![Dark Mode](./docs/v1.2.1-dark-zh.png) | ![Light Mode](./docs/v1.2.1-light-zh.png) |
 
 ## 快速部署 :star:
 

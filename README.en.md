@@ -20,9 +20,9 @@ Built with Next.js 15, TypeScript, and Recharts, this project enhances Uptime Ku
 
 ## Preview :camera:
 
-| Dark Mode                            | Light Mode                             |
-| ------------------------------------ | -------------------------------------- |
-| ![Dark Mode](./docs/v1.0.0-dark.png) | ![Light Mode](./docs/v1.0.0-light.png) |
+| Dark Mode                               | Light Mode                                |
+| --------------------------------------- | ----------------------------------------- |
+| ![Dark Mode](./docs/v1.2.1-dark-en.png) | ![Light Mode](./docs/v1.2.1-light-en.png) |
 
 ## Deployment :star:
 
