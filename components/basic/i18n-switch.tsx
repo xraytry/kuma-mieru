@@ -16,20 +16,22 @@ export const I18NSwitch = () => {
   const handleLocaleChange = (locale: Locale, localeName: string) => {
     startTransition(async () => {
       try {
-        await toast.promise(
-          async () => {
-            await setUserLocale(locale);
-            // 我们需要刷新页面以应用新的语言设置
-            window.location.reload();
-          },
-          {
-            loading: t('localeChanging', { locale: localeName }),
-            success: t('localeChanged', { locale: localeName }),
-            error: (err) => `${t('localeChangeError')}: ${err.message || t('errorUnknown')}`,
-          },
-        );
+        const toastId = toast.loading(t('localeChanging', { locale: localeName }));
+
+        await setUserLocale(locale);
+
+        toast.success(t('localeChanged', { locale: localeName }), {
+          id: toastId,
+        });
+
+        setTimeout(() => {
+          window.location.reload();
+        }, 300);
       } catch (error) {
         console.error('Failed to change locale:', error);
+        toast.error(
+          `${t('localeChangeError')}: ${error instanceof Error ? error.message : t('errorUnknown')}`,
+        );
       }
     });
   };
