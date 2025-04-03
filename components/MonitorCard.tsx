@@ -52,14 +52,16 @@ export function MonitorCard({ monitor, heartbeats, uptime24h, isHome = true }: M
         className={clsx(
           'h-full grid grid-rows-[auto_1fr]',
           isHome ? 'w-full' : 'w-full md:w-2/3 mx-auto',
-          isHome && 'cursor-pointer hover:shadow-md transition-all'
+          isHome && 'cursor-pointer hover:shadow-md transition-all',
         )}
       >
         <CardHeader className="grid grid-cols-[1fr_auto] gap-4 items-start">
-          <div className="grid grid-rows-[auto_minmax(28px,auto)] gap-2">
-            <div className="flex items-center gap-2">
-              <StatusIcon className={`text-${chartColor} h-5 w-5 ml-1`} />
-              <h3 className="text-lg font-semibold truncate">{monitor.name}</h3>
+          <div className="grid grid-rows-[auto_minmax(28px,auto)] gap-2 min-w-0 overflow-hidden">
+            <div className="flex items-center gap-2 w-full min-w-0">
+              <StatusIcon className={`text-${chartColor} h-5 w-5 ml-1 flex-shrink-0`} />
+              <h3 className="text-lg font-semibold truncate overflow-ellipsis max-w-full">
+                {monitor.name}
+              </h3>
             </div>
             <div>
               {monitor.tags && monitor.tags.length > 0 && (
@@ -82,15 +84,15 @@ export function MonitorCard({ monitor, heartbeats, uptime24h, isHome = true }: M
               )}
             </div>
           </div>
-          <div className={isHome ? '' : 'mr-4'}>
+          <div className={clsx('flex-shrink-0', isHome ? '' : 'mr-4')}>
             <ResponsStats value={uptimeData[0].value} fill={uptimeData[0].fill} isHome={isHome} />
           </div>
         </CardHeader>
         <CardBody className="grid grid-rows-[auto_auto_1fr] gap-4">
           <StatusBlockIndicator heartbeats={heartbeats} isHome={isHome} />
-          
+
           <Divider />
-          
+
           <div className="self-end w-full">
             <MonitoringChart heartbeats={heartbeats} height={120} color={chartColor} showGrid />
           </div>

@@ -1,7 +1,7 @@
 'use client';
 
 import { cn } from '@heroui/react';
-import { AlertTriangle, CheckCircle, Clock, X, type LucideIcon } from 'lucide-react';
+import { AlertTriangle, CheckCircle, Clock, type LucideIcon, X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 import { useConfig, useMonitorData } from './utils/swr';
@@ -54,7 +54,7 @@ export function MonitorHeaders() {
     if (isLoading) {
       return 'from-gray-400 to-gray-600 dark:from-gray-600 dark:to-gray-800';
     }
-    
+
     switch (systemStatus) {
       case 'normal':
         return 'from-green-400 to-green-600 dark:from-green-600 dark:to-green-800';
@@ -75,13 +75,13 @@ export function MonitorHeaders() {
     normal: CheckCircle,
     warning: AlertTriangle,
     error: X,
-    loading: Clock
+    loading: Clock,
   };
 
   const getStatusIcon = () => {
     const status = isLoading ? 'loading' : systemStatus;
     const Icon = statusIcons[status] || statusIcons.loading;
-    
+
     return (
       <Icon
         className={cn('w-6 h-6 text-white transition-transform', animate ? 'scale-110' : '')}
