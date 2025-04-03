@@ -40,19 +40,19 @@ export function MonitorCard({ monitor, heartbeats, uptime24h, isHome = true }: M
 
   return (
     <motion.div
-      layout
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -20 }}
-      transition={{ duration: 0.3 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.2 }}
       className="group h-full"
       onClick={handleClick}
+      whileHover={isHome ? { y: -3, transition: { duration: 0.2 } } : {}}
     >
       <Card
         className={clsx(
           'h-full grid grid-rows-[auto_1fr]',
           isHome ? 'w-full' : 'w-full md:w-2/3 mx-auto',
-          isHome && 'cursor-pointer hover:shadow-lg transition-shadow',
+          isHome && 'cursor-pointer hover:shadow-md transition-all'
         )}
       >
         <CardHeader className="grid grid-cols-[1fr_auto] gap-4 items-start">
