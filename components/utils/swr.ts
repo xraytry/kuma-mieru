@@ -3,6 +3,12 @@ import type { MonitorResponse, MonitoringData } from '@/types/monitor';
 import useSWR, { mutate } from 'swr';
 import type { SWRConfiguration } from 'swr';
 
+/**
+ * swr 通用 fetcher
+ * @param url - 请求的 URL
+ * @returns 解析后的 JSON data
+ * @throws 请求失败抛出错误
+ */
 const fetcher = async (url: string) => {
   const response = await fetch(url);
   const data = await response.json();
@@ -14,13 +20,28 @@ const fetcher = async (url: string) => {
   return data;
 };
 
+/**
+ * SWR Cache Key
+ */
 export const SWR_KEYS = {
   MONITOR: '/api/monitor',
   CONFIG: '/api/config',
 };
 
 /**
- * Hook to fetch all monitor data
+ * 默认配置
+ */
+const DEFAULT_SWR_CONFIG: SWRConfiguration = {
+  revalidateOnFocus: true,
+  revalidateOnReconnect: true,
+  dedupingInterval: 5000, // 防抖措施，五秒内重复请求强制缓存
+  errorRetryCount: 3, // 错误重试次数
+};
+
+/**
+ * 获取监控数据的 hook
+ * @param config - SWR 配置
+ * @returns 监控数据、加载状态和错误信息
  */
 export function useMonitorData(config?: SWRConfiguration) {
   const {
@@ -29,8 +50,8 @@ export function useMonitorData(config?: SWRConfiguration) {
     isLoading,
     mutate: revalidate,
   } = useSWR<MonitorResponse>(SWR_KEYS.MONITOR, fetcher, {
-    refreshInterval: 60000, // Refresh every 60 seconds
-    revalidateOnFocus: true,
+    ...DEFAULT_SWR_CONFIG,
+    refreshInterval: 60000, // 每60秒刷新一次
     ...config,
   });
 
@@ -45,7 +66,10 @@ export function useMonitorData(config?: SWRConfiguration) {
 }
 
 /**
- * Hook to fetch a specific monitor by ID
+ * 获取单个 monitor 数据
+ * @param monitorId - 监控 ID
+ * @param config - SWR 配置选项
+ * @returns 特定监控的数据、加载状态和错误信息
  */
 export function useMonitor(monitorId: number | string, config?: SWRConfiguration) {
   const numericId = typeof monitorId === 'string' ? Number.parseInt(monitorId, 10) : monitorId;
@@ -56,17 +80,15 @@ export function useMonitor(monitorId: number | string, config?: SWRConfiguration
     isLoading,
     mutate: revalidate,
   } = useSWR<MonitorResponse>(SWR_KEYS.MONITOR, fetcher, {
+    ...DEFAULT_SWR_CONFIG,
     refreshInterval: 60000,
-    revalidateOnFocus: true,
     ...config,
   });
 
-  // Find the specific monitor
   const monitor = data?.monitorGroups
     ?.flatMap((group) => group.monitorList)
     .find((m) => m.id === numericId);
 
-  // Extract data for this specific monitor
   const monitoringData: MonitoringData = {
     heartbeatList: {
       [numericId]: data?.data?.heartbeatList[numericId] || [],
@@ -87,7 +109,9 @@ export function useMonitor(monitorId: number | string, config?: SWRConfiguration
 }
 
 /**
- * Hook to fetch global configuration
+ * 获取 SWR 全局配置
+ * @param config - SWR 配置选项
+ * @returns 全局配置数据、加载状态和错误信息
  */
 export function useConfig(config?: SWRConfiguration) {
   const {
@@ -96,7 +120,8 @@ export function useConfig(config?: SWRConfiguration) {
     isLoading,
     mutate: revalidate,
   } = useSWR<GlobalConfig>(SWR_KEYS.CONFIG, fetcher, {
-    revalidateOnFocus: true,
+    ...DEFAULT_SWR_CONFIG,
+    revalidateIfStale: false, // 除非明确要求，否则不重新验证陈旧数据
     ...config,
   });
 
@@ -110,13 +135,14 @@ export function useConfig(config?: SWRConfiguration) {
 }
 
 /**
- * Manually trigger revalidation for a specific key or all keys
+ * 数据刷新 hook
+ * @param key - 需要重新验证的缓存键
+ * @returns Promise，完成后数据会被更新
  */
 export function revalidateData(key?: string) {
   if (key) {
     return mutate(key);
   }
 
-  // Revalidate all keys if no specific key provided
   return Promise.all([mutate(SWR_KEYS.MONITOR), mutate(SWR_KEYS.CONFIG)]);
 }
