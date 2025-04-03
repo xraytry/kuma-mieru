@@ -13,7 +13,7 @@
   "timerRefreshSuccess": "重新整理成功",
   "timerPausedInfo": "自動重新整理已暫停",
   "timerResumedInfo": "自動重新整理已恢復",
-  
+
   "localeChanging": "正在切換到 {locale}...",
   "localeChanged": "已切換到 {locale}",
   "localeChangeError": "語言切換失敗",

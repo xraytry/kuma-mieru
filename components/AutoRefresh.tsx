@@ -106,7 +106,7 @@ export default function AutoRefresh({ onRefresh, interval = 60000, children }: A
           loading: t('timerRefreshing'),
           success: t('timerRefreshSuccess'),
           error: (err) => `${t('errorRefresh')}: ${err.message || t('errorUnknown')}`,
-        }
+        },
       );
     } catch (error) {
       console.error(t('errorRefresh'), ':', error);
@@ -120,7 +120,7 @@ export default function AutoRefresh({ onRefresh, interval = 60000, children }: A
   const handleTogglePause = useCallback(() => {
     const newPausedState = !isPaused;
     setIsPaused(newPausedState);
-    
+
     if (newPausedState) {
       toast.info(t('timerPausedInfo'));
     } else {

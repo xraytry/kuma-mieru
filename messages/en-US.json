@@ -13,7 +13,7 @@
   "timerRefreshSuccess": "Refresh successful",
   "timerPausedInfo": "Auto refresh paused",
   "timerResumedInfo": "Auto refresh resumed",
-  
+
   "localeChanging": "Switching to {locale}...",
   "localeChanged": "Switched to {locale}",
   "localeChangeError": "Failed to change language",

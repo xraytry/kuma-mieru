@@ -13,7 +13,7 @@
   "timerRefreshSuccess": "刷新成功",
   "timerPausedInfo": "自动刷新已暂停",
   "timerResumedInfo": "自动刷新已恢复",
-  
+
   "localeChanging": "正在切换到 {locale}...",
   "localeChanged": "已切换到 {locale}",
   "localeChangeError": "语言切换失败",

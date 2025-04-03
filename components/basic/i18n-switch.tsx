@@ -1,11 +1,11 @@
 'use client';
 
-import { locales, type Locale } from '@/utils/i18n/config';
+import { type Locale, locales } from '@/utils/i18n/config';
 import { setUserLocale } from '@/utils/i18n/locale';
 import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, cn } from '@heroui/react';
 import { Languages, Loader2 } from 'lucide-react';
-import Image from 'next/image';
 import { useTranslations } from 'next-intl';
+import Image from 'next/image';
 import { useTransition } from 'react';
 import { toast } from 'sonner';
 
@@ -26,7 +26,7 @@ export const I18NSwitch = () => {
             loading: t('localeChanging', { locale: localeName }),
             success: t('localeChanged', { locale: localeName }),
             error: (err) => `${t('localeChangeError')}: ${err.message || t('errorUnknown')}`,
-          }
+          },
         );
       } catch (error) {
         console.error('Failed to change locale:', error);
