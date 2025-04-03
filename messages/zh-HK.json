@@ -41,5 +41,12 @@
   "modeDark": "深色模式",
   "modeSystem": "跟隨系統",
 
+  "status": {
+    "loading": "正在載入...",
+    "systemNormal": "所有服務運行正常",
+    "systemWarning": "部分服務出現問題",
+    "systemError": "系統嚴重故障",
+    "systemUnknown": "系統狀態未明"
+  },
   "": ""
 }

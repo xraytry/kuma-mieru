@@ -40,5 +40,13 @@
   "modeDark": "Dark",
   "modeSystem": "System",
 
+  "status": {
+    "loading": "Loading...",
+    "systemNormal": "All systems operational",
+    "systemWarning": "Partial service degradation detected",
+    "systemError": "Critical system failure",
+    "systemUnknown": "System status unavailable"
+  },
+
   "": ""
 }
