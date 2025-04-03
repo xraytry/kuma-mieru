@@ -3,7 +3,7 @@
 import AutoRefresh from '@/components/AutoRefresh';
 import { MonitorCard } from '@/components/MonitorCard';
 import { MonitorCardSkeleton } from '@/components/ui/CommonSkeleton';
-import { useMonitor, revalidateData } from '@/components/utils/swr';
+import { revalidateData, useMonitor } from '@/components/utils/swr';
 import { motion } from 'framer-motion';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
@@ -39,7 +39,7 @@ export default function MonitorDetail({
   const t = useTranslations();
   const resolvedParams = use(params);
   const router = useRouter();
-  
+
   const { monitor, monitoringData, isLoading, isError, error } = useMonitor(resolvedParams.id);
 
   const handleRefresh = async () => {
@@ -88,7 +88,9 @@ export default function MonitorDetail({
         variants={pageVariants}
         className="flex flex-col items-center justify-center min-h-screen gap-4"
       >
-        <p className="text-xl text-gray-500">{error instanceof Error ? error.message : t('errorMonitorNotFound')}</p>
+        <p className="text-xl text-gray-500">
+          {error instanceof Error ? error.message : t('errorMonitorNotFound')}
+        </p>
         <button
           type="button"
           onClick={handleBack}

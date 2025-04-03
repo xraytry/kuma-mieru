@@ -58,3 +58,12 @@ export interface Incident {
   createdDate: string;
   lastUpdatedDate: string;
 }
+
+/**
+ * Monitor Response
+ */
+export interface MonitorResponse {
+  success: boolean;
+  monitorGroups: MonitorGroup[];
+  data: MonitoringData;
+}

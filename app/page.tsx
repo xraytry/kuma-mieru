@@ -4,12 +4,17 @@ import AlertMarkdown from '@/components/AlertMarkdown';
 import AutoRefresh from '@/components/AutoRefresh';
 import { MonitorCard } from '@/components/MonitorCard';
 import { MonitorCardSkeleton } from '@/components/ui/CommonSkeleton';
-import { useMonitorData, useConfig, revalidateData } from '@/components/utils/swr';
+import { revalidateData, useConfig, useMonitorData } from '@/components/utils/swr';
 
 export default function Home() {
-  const { monitorGroups, monitoringData, isLoading: isLoadingMonitors, revalidate: revalidateMonitors } = useMonitorData();
+  const {
+    monitorGroups,
+    monitoringData,
+    isLoading: isLoadingMonitors,
+    revalidate: revalidateMonitors,
+  } = useMonitorData();
   const { config: globalConfig, isLoading: isLoadingConfig } = useConfig();
-  
+
   const isLoading = isLoadingMonitors || isLoadingConfig;
 
   const handleRefresh = async () => {
