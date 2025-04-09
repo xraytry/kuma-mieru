@@ -129,9 +129,9 @@ export function MonitorHeaders() {
                   }
                 }
               `}</style>
-              <div className="absolute -inset-4 bg-white/20 rounded-full" style={pingAnimation} />
+              <div className="absolute -inset-4 bg-white/20 rounded-full -z-10" style={pingAnimation} />
               <div
-                className={`rounded-full p-2.5 mr-3 ${getIconBgStyle()} backdrop-blur-sm transition-all relative`}
+                className={`rounded-full p-2.5 mr-3 ${getIconBgStyle()} backdrop-blur-sm transition-all relative z-10`}
               >
                 {getStatusIcon()}
               </div>
