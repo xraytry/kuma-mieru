@@ -95,20 +95,22 @@ export default function AutoRefresh({ onRefresh, interval = 60000, children }: A
 
     try {
       const toastId = toast.loading(t('timerRefreshing'));
-      
+
       const result = onRefresh();
       if (result instanceof Promise) {
         await result;
       }
-      
+
       toast.success(t('timerRefreshSuccess'), {
         id: toastId,
       });
-      
+
       setLastRefreshTime(dayjs().valueOf());
     } catch (error) {
       console.error(t('errorRefresh'), ':', error);
-      toast.error(`${t('errorRefresh')}: ${error instanceof Error ? error.message : t('errorUnknown')}`);
+      toast.error(
+        `${t('errorRefresh')}: ${error instanceof Error ? error.message : t('errorUnknown')}`,
+      );
     } finally {
       setIsRefreshing(false);
       setTimeLeft(interval);

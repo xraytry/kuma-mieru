@@ -6,6 +6,10 @@ import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 import { useConfig, useMonitorData } from './utils/swr';
 
+const pingAnimation = {
+  animation: 'slowPing 3s cubic-bezier(0,0,0.2,1) infinite',
+} as const;
+
 export function MonitorHeaders() {
   const t = useTranslations('status');
   const { monitoringData, monitorGroups, isLoading: isLoadingMonitors } = useMonitorData();
@@ -116,10 +120,21 @@ export function MonitorHeaders() {
       <div className="max-w-screen-xl mx-auto">
         <div className="flex flex-col items-center md:items-start">
           <div className={cn('flex items-center relative z-10', animate ? 'animate-pulse' : '')}>
-            <div
-              className={`rounded-full p-2.5 mr-3 ${getIconBgStyle()} backdrop-blur-sm transition-all`}
-            >
-              {getStatusIcon()}
+            <div className="relative">
+              <style>{`
+                @keyframes slowPing {
+                  75%, 100% {
+                    transform: scale(2);
+                    opacity: 0;
+                  }
+                }
+              `}</style>
+              <div className="absolute -inset-4 bg-white/20 rounded-full" style={pingAnimation} />
+              <div
+                className={`rounded-full p-2.5 mr-3 ${getIconBgStyle()} backdrop-blur-sm transition-all relative`}
+              >
+                {getStatusIcon()}
+              </div>
             </div>
             <h1 className="text-white font-bold text-xl md:text-xl tracking-wide">
               {isLoading ? (
@@ -127,9 +142,7 @@ export function MonitorHeaders() {
               ) : (
                 getStatusText()
               )}
-              <span className="text-white/90 text-sm md:text-base ml-2">
-                {`(${onlineMonitors}/${totalMonitors})`}
-              </span>
+              <span className="text-white/90 text-sm md:text-base ml-2">{`(${onlineMonitors}/${totalMonitors})`}</span>
             </h1>
           </div>
         </div>
