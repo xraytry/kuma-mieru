@@ -19,13 +19,40 @@ Kuma Mieru 是一款基于 Next.js 15、TypeScript 和 Recharts 构建的第三�
 
 [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org/) [![React](https://img.shields.io/badge/React-v19-387CA0?style=flat-square&logo=react&logoColor=white)](https://reactjs.org/) [![Next.js](https://img.shields.io/badge/Next.js-15-black?style=flat-square&logo=next.js&logoColor=white)](https://nextjs.org/)
 
-[![Bun](https://img.shields.io/badge/Bun-Package%20Manager-14151A?style=flat-square&logo=bun&logoColor=white)](https://bun.sh/) [![Recharts](https://img.shields.io/badge/Recharts-Charting%20Library-8884d8?style=flat-square&logo=recharts&logoColor=white)](https://recharts.org/en-US/) [![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-v3-4EB9FA?style=flat-square&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![Bun](https://img.shields.io/badge/Bun-Package%20Manager-14151A?style=flat-square&logo=bun&logoColor=white)](https://bun.sh/) [![Recharts](https://img.shields.io/badge/Recharts-Charting%20Library-8884d8?style=flat-square&logo=recharts&logoColor=white)](https://recharts.org/en-US/) [![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-v3-4EB9FA?style=flat-square&logo=tailwind-css&logoColor=white)](https://v3.tailwindcss.com/)
 
 <!-- Project Data -->
 
 [![Stars](https://img.shields.io/github/stars/Alice39s/kuma-mieru?style=flat-square&logo=github&color=yellow&label=Stars)](https://github.com/Alice39s/kuma-mieru/stargazers) [![Forks](https://img.shields.io/github/forks/Alice39s/kuma-mieru?style=flat-square&logo=github&color=yellow&label=Forks)](https://github.com/Alice39s/kuma-mieru/network/members)
 
 </div>
+
+## 目录
+
+- [目录](#目录)
+- [功能亮点 :sparkles:](#功能亮点-sparkles)
+- [测试截图 :camera:](#测试截图-camera)
+- [快速部署 :star:](#快速部署-star)
+  - [使用 Vercel 部署 (推荐)](#使用-vercel-部署-推荐)
+    - [1. Fork 仓库](#1-fork-仓库)
+    - [2. 导入到 Vercel](#2-导入到-vercel)
+    - [3. 配置环境变量](#3-配置环境变量)
+    - [4. 更新仓库](#4-更新仓库)
+  - [本地部署](#本地部署)
+- [Docker 部署 :whale: (Beta)](#docker-部署-whale-beta)
+  - [使用 Docker Compose（推荐）](#使用-docker-compose-推荐)
+  - [Docker Run 部署](#docker-run-部署)
+    - [1. 获取容器镜像](#1-获取容器镜像)
+    - [2. 修改环境变量](#2-修改环境变量)
+    - [3. 启动容器服务](#3-启动容器服务)
+- [环境变量配置](#环境变量配置)
+- [与 Uptime Kuma 集成 :link:](#与-uptime-kuma-集成-link)
+- [FAQ :question:](#faq-question)
+  - [为什么我在 Kuma Mieru 中看到的时间与 Uptime Kuma 中有偏移？](#为什么我在-kuma-mieru-中看到的时间与-uptime-kuma-中有偏移)
+  - [请问兼容 Uptime Robot / Better Stack / 其他监控数据源吗？](#请问兼容-uptime-robot-better-stack-其他监控数据源吗)
+- [贡献指南 :handshake:](#贡献指南-handshake)
+- [Star History :star2:](#star-history-star2)
+- [开源许可 :lock:](#开源许可-lock)
 
 ## 功能亮点 :sparkles:
 
@@ -54,6 +81,8 @@ Fork 本仓库到您的 GitHub 用户下，如图所示：
 
 > [!NOTE]
 > 请确保您 Fork 的仓库是公开的，否则后续可能无法快速同步本仓库的更新。
+>
+> 请放心，您所有的配置均使用环境变量配置，Fork 的代码库 **不会泄漏** 您的任何配置信息。
 
 #### 2. 导入到 Vercel
 

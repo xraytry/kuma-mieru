@@ -28,6 +28,31 @@ Built with Next.js 15, TypeScript, and Recharts, this project enhances Uptime Ku
 
 </div>
 
+## Table of Contents
+
+- [Table of Contents](#table-of-contents)
+- [Key Features :sparkles:](#key-features-sparkles)
+- [Preview :camera:](#preview-camera)
+- [Deployment :star:](#deployment-star)
+  - [Vercel Deployment (Recommended)](#vercel-deployment-recommended)
+    - [1. Fork Repository](#1-fork-repository)
+    - [2. Import to Vercel](#2-import-to-vercel)
+    - [3. Configure Environment Variables](#3-configure-environment-variables)
+    - [4. Update Repository](#4-update-repository)
+  - [Local Installation](#local-installation)
+- [Docker Deployment :whale: (Beta)](#docker-deployment-whale-beta)
+  - [Using Docker Compose (Recommended)](#using-docker-compose-recommended)
+  - [Manual Docker Deployment](#manual-docker-deployment)
+  - [Environment Variables](#environment-variables)
+  - [Health Check](#health-check)
+- [Integration with Uptime Kuma :link:](#integration-with-uptime-kuma-link)
+- [FAQ :question:](#faq-question)
+  - [Why is the time I see in Kuma Mieru offset from the time I see in Uptime Kuma?](#why-is-the-time-i-see-in-kuma-mieru-offset-from-the-time-i-see-in-uptime-kuma)
+  - [Is Uptime Robot / Better Stack / other monitoring data sources compatible?](#is-uptime-robot-better-stack-other-monitoring-data-sources-compatible)
+- [Contribution Guide :handshake:](#contribution-guide-handshake)
+- [Star History :star2:](#star-history-star2)
+- [License :lock:](#license-lock)
+
 ## Key Features :sparkles:
 
 - **Real-Time Monitoring & Auto-Refresh** :arrows_clockwise: Live status updates without manual refreshing.
@@ -53,6 +78,8 @@ Built with Next.js 15, TypeScript, and Recharts, this project enhances Uptime Ku
 
 > [!NOTE]
 > Please ensure your forked repository is public, otherwise you may encounter issues when synchronizing updates.
+>
+> Your configuration is stored in environment variables, so your forked repository will not leak any configuration information.
 
 #### 2. Import to Vercel
 
@@ -204,7 +231,7 @@ Go to https://vercel.com/new, select **Import** to import the repository you jus
 | FEATURE_SHOW_STAR_BUTTON | No       | Whether to show "Star on Github" button | true                               |
 | FEATURE_TITLE            | No       | Custom page title                       | My Monitoring Dashboard            |
 | FEATURE_DESCRIPTION      | No       | Custom page description                 | A beautiful monitoring dashboard   |
-| FEATURE_ICON             | No       | Custom page icon URL                    | /icon.svg                       |
+| FEATURE_ICON             | No       | Custom page icon URL                    | /icon.svg                          |
 
 ### Health Check
 
