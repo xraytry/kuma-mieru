@@ -185,12 +185,15 @@ docker run -d \
 
 假如您的 Uptime Kuma 的状态页面 URL 为 `https://example.kuma-mieru.invalid/status/test1`，那么您需要配置的环境变量如下：
 
-| 变量名                   | 必填 | 说明                           | 示例/可选值                        |
-| ------------------------ | ---- | ------------------------------ | ---------------------------------- |
-| UPTIME_KUMA_BASE_URL     | 是   | Uptime Kuma 实例的基础 URL     | https://example.kuma-mieru.invalid |
-| PAGE_ID                  | 是   | Uptime Kuma 实例的状态页面 ID  | test1                              |
-| FEATURE_EDIT_THIS_PAGE   | 否   | 是否展示 “编辑此页面” 按钮     | true/false                         |
-| FEATURE_SHOW_STAR_BUTTON | 否   | 是否展示 “Star on Github” 按钮 | true/false                         |
+| 变量名                   | 必填 | 说明                           | 示例/默认值                                        |
+| ------------------------ | ---- | ------------------------------ | -------------------------------------------------- |
+| UPTIME_KUMA_BASE_URL     | Yes  | Uptime Kuma 实例的基础 URL     | https://example.kuma-mieru.invalid                 |
+| PAGE_ID                  | Yes  | Uptime Kuma 实例的状态页面 ID  | test1                                              |
+| FEATURE_EDIT_THIS_PAGE   | No   | 是否展示 "Edit This Page" 按钮 | false                                              |
+| FEATURE_SHOW_STAR_BUTTON | No   | 是否展示 "Star on Github" 按钮 | true                                               |
+| FEATURE_TITLE            | No   | 自定义页面标题                 | Kuma Mieru                                         |
+| FEATURE_DESCRIPTION      | No   | 自定义页面描述                 | A beautiful and modern uptime monitoring dashboard |
+| FEATURE_ICON             | No   | 自定义页面图标URL              | /icon.svg                                       |
 
 ## 与 Uptime Kuma 集成 :link:
 

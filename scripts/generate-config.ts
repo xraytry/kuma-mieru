@@ -8,7 +8,7 @@ import { sanitizeJsonString } from '../utils/json-sanitizer';
 const siteMetaSchema = z.object({
   title: z.string().default('Kuma Mieru'),
   description: z.string().default('A beautiful and modern uptime monitoring dashboard'),
-  icon: z.string().default('/favicon.svg'),
+  icon: z.string().default('/icon.svg'),
 });
 
 const configSchema = z.object({
@@ -34,7 +34,28 @@ function getBooleanEnvVar(name: string, defaultValue = true): boolean {
   return value.toLowerCase() === 'true';
 }
 
+function getOptionalEnvVar(name: string, defaultValue: string | null = null): string | null {
+  const value = process.env[name];
+  return value !== undefined ? value : defaultValue;
+}
+
 async function fetchSiteMeta(baseUrl: string, pageId: string) {
+  const customTitle = getOptionalEnvVar('FEATURE_TITLE');
+  const customDescription = getOptionalEnvVar('FEATURE_DESCRIPTION');
+  const customIcon = getOptionalEnvVar('FEATURE_ICON');
+
+  const hasAnyCustomValue = customTitle || customDescription || customIcon;
+
+  const hasAllCustomValues = customTitle && customDescription && customIcon;
+
+  if (hasAllCustomValues) {
+    return siteMetaSchema.parse({
+      title: customTitle,
+      description: customDescription,
+      icon: customIcon,
+    });
+  }
+
   try {
     const response = await fetch(`${baseUrl}/status/${pageId}`);
     if (!response.ok) {
@@ -52,13 +73,23 @@ async function fetchSiteMeta(baseUrl: string, pageId: string) {
     const jsonStr = sanitizeJsonString(preloadScript);
     const preloadData = extractPreloadData(jsonStr);
 
+    // 合并自定义值，自定义优先级 > API
     return siteMetaSchema.parse({
-      title: preloadData.config.title || undefined, // 触发 zod 默认值
-      description: preloadData.config.description || undefined,
-      icon: preloadData.config.icon || undefined,
+      title: customTitle || preloadData.config.title || undefined, // 触发 zod 默认值
+      description: customDescription || preloadData.config.description || undefined,
+      icon: customIcon || preloadData.config.icon || undefined,
     });
   } catch (error) {
     console.error('Error fetching site meta:', error);
+
+    if (hasAnyCustomValue) {
+      return siteMetaSchema.parse({
+        title: customTitle || undefined,
+        description: customDescription || undefined,
+        icon: customIcon || undefined,
+      });
+    }
+
     return siteMetaSchema.parse({});
   }
 }
@@ -75,8 +106,8 @@ async function generateConfig() {
       throw new Error('UPTIME_KUMA_BASE_URL must be a valid URL');
     }
 
-    const isEditThisPage = getBooleanEnvVar('FEATURE_EDIT_THIS_PAGE');
-    const isShowStarButton = getBooleanEnvVar('FEATURE_SHOW_STAR_BUTTON');
+    const isEditThisPage = getBooleanEnvVar('FEATURE_EDIT_THIS_PAGE', false);
+    const isShowStarButton = getBooleanEnvVar('FEATURE_SHOW_STAR_BUTTON', true);
     const siteMeta = await fetchSiteMeta(baseUrl, pageId);
 
     const config = configSchema.parse({

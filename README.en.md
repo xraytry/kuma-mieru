@@ -182,8 +182,11 @@ Go to https://vercel.com/new, select **Import** to import the repository you jus
 | ------------------------ | -------- | --------------------------------------- | ---------------------------------- |
 | UPTIME_KUMA_BASE_URL     | Yes      | Base URL of Uptime Kuma instance        | https://example.kuma-mieru.invalid |
 | PAGE_ID                  | Yes      | Status page path of Uptime Kuma         | test1                              |
-| FEATURE_EDIT_THIS_PAGE   | No       | Whether to show "Edit This Page" button | true/false                         |
-| FEATURE_SHOW_STAR_BUTTON | No       | Whether to show "Star on Github" button | true/false                         |
+| FEATURE_EDIT_THIS_PAGE   | No       | Whether to show "Edit This Page" button | false                              |
+| FEATURE_SHOW_STAR_BUTTON | No       | Whether to show "Star on Github" button | true                               |
+| FEATURE_TITLE            | No       | Custom page title                       | My Monitoring Dashboard            |
+| FEATURE_DESCRIPTION      | No       | Custom page description                 | A beautiful monitoring dashboard   |
+| FEATURE_ICON             | No       | Custom page icon URL                    | /icon.svg                       |
 
 ### Health Check
 
