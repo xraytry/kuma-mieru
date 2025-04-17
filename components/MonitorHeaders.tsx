@@ -143,9 +143,11 @@ export function MonitorHeaders() {
               {isLoading ? (
                 <div className="h-7 w-56 bg-white/20 rounded animate-pulse" />
               ) : (
-                getStatusText()
+                <>
+                  {getStatusText()}
+                  <span className="text-white/90 text-sm md:text-base ml-2">{`(${onlineMonitors}/${totalMonitors})`}</span>
+                </>
               )}
-              <span className="text-white/90 text-sm md:text-base ml-2">{`(${onlineMonitors}/${totalMonitors})`}</span>
             </h1>
           </div>
         </div>
