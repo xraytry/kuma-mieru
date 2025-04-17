@@ -32,19 +32,22 @@ jobs:
         id: package_version
         run: |
           echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
-          echo "previous_version=$(git show HEAD^:package.json | node -p "require(require('fs').readFileSync(0)).version")" >> $GITHUB_OUTPUT
 
-      - name: Check version change
-        id: version_check
+      - name: Check if release exists
+        id: check_release
         run: |
-          if [ "${{ steps.package_version.outputs.version }}" != "${{ steps.package_version.outputs.previous_version }}" ]; then
-            echo "changed=true" >> $GITHUB_OUTPUT
+          latest_release=$(curl -s https://api.github.com/repos/${{ github.repository }}/releases/latest || echo '{"tag_name":"none"}')
+          latest_version=$(echo $latest_release | jq -r .tag_name | sed 's/^v//')
+          current_version=${{ steps.package_version.outputs.version }}
+
+          if [ "$latest_version" == "$current_version" ]; then
+            echo "version_exists=true" >> $GITHUB_OUTPUT
           else
-            echo "changed=false" >> $GITHUB_OUTPUT
+            echo "version_exists=false" >> $GITHUB_OUTPUT
           fi
 
       - name: Generate changelog
-        if: steps.version_check.outputs.changed == 'true'
+        if: steps.check_release.outputs.version_exists == 'false'
         id: changelog
         env:
           COMMIT_URL: ${{ steps.env_vars.outputs.commit_url }}
@@ -89,7 +92,7 @@ jobs:
           echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Create Release
-        if: steps.version_check.outputs.changed == 'true'
+        if: steps.check_release.outputs.version_exists == 'false'
         uses: softprops/action-gh-release@v1
         env:
           VERSION: ${{ steps.package_version.outputs.version }}
@@ -105,7 +108,7 @@ jobs:
             ## 🔄 更新指南
 
             ### Docker
-            
+
             ```bash
             # 拉取最新代码
             git pull
