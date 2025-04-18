@@ -1,18 +1,18 @@
-name: Docker Build and Push
+name: Docker Build and Push to GHCR
 
 on:
-  # push:
-  #   branches: ["main"]
-  #   paths:
-  #     - "package.json"
-  #     - "Dockerfile"
-  #     - ".github/workflows/docker-build.yml"
-  #     - "docker-compose.yml"
-  # pull_request:
-  #   branches: ["main"]
-  #   paths:
-  #     - "package.json"
-  #     - "Dockerfile"
+  push:
+    branches: ["main"]
+    paths:
+      - "package.json"
+      - "Dockerfile"
+      - ".github/workflows/docker-build.yml"
+      - "docker-compose.yml"
+  pull_request:
+    branches: ["main"]
+    paths:
+      - "package.json"
+      - "Dockerfile"
   workflow_dispatch:
 
 env:

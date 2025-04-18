@@ -10,7 +10,11 @@ services:
         VCS_REF: ${VCS_REF:-unknown}
         UPTIME_KUMA_BASE_URL: ${UPTIME_KUMA_BASE_URL}
         PAGE_ID: ${PAGE_ID}
-        CI_MODE: ${CI_MODE:-false}
+        FEATURE_EDIT_THIS_PAGE: ${FEATURE_EDIT_THIS_PAGE:-false}
+        FEATURE_SHOW_STAR_BUTTON: ${FEATURE_SHOW_STAR_BUTTON:-true}
+        FEATURE_TITLE: ${FEATURE_TITLE:-Uptime Kuma}
+        FEATURE_DESCRIPTION: ${FEATURE_DESCRIPTION:-A beautiful and modern uptime monitoring dashboard}
+        FEATURE_ICON: ${FEATURE_ICON}
       dockerfile: Dockerfile
     container_name: kuma-mieru
     restart: unless-stopped
@@ -22,7 +26,11 @@ services:
       - NODE_ENV=production
       - UPTIME_KUMA_BASE_URL=${UPTIME_KUMA_BASE_URL}
       - PAGE_ID=${PAGE_ID}
-      - CI_MODE=${CI_MODE:-false}
+      - FEATURE_EDIT_THIS_PAGE=${FEATURE_EDIT_THIS_PAGE}
+      - FEATURE_SHOW_STAR_BUTTON=${FEATURE_SHOW_STAR_BUTTON}
+      - FEATURE_TITLE=${FEATURE_TITLE}
+      - FEATURE_DESCRIPTION=${FEATURE_DESCRIPTION}
+      - FEATURE_ICON=${FEATURE_ICON}
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
       interval: 30s
