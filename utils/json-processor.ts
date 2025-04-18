@@ -1,5 +1,5 @@
-import type { PreloadData } from '@/types/config';
-import { ConfigError } from '@/utils/errors';
+import type { PreloadData } from '../types/config';
+import { ConfigError } from '../utils/errors';
 import JSON5 from 'json5';
 import { decodeUnicodeEscapes } from './decoder';
 import { validatePreloadData } from './json-sanitizer';

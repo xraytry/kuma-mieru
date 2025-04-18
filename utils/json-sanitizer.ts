@@ -2,7 +2,7 @@
  * JSON 数据清理和验证工具
  */
 
-import type { PreloadData } from '@/types/config';
+import type { PreloadData } from '../types/config';
 
 /**
  * 清理 JSON 字符串
