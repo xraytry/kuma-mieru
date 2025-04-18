@@ -82,6 +82,9 @@ COPY --from=builder /app/bun.lock ./
 COPY --from=builder /app/node_modules ./node_modules
 # Generated config files
 COPY --from=builder /app/config ./config
+# Scripts & Utilities
+COPY --from=builder /app/scripts ./scripts
+COPY --from=builder /app/utils ./utils
 COPY --from=builder /app/.next/static ./.next/static
 
 EXPOSE ${PORT}

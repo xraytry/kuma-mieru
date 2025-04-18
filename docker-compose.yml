@@ -1,6 +1,6 @@
 services:
   kuma-mieru:
-    image: ghcr.io/alice39s/kuma-mieru:main # 还在测试中，建议 build 安装
+    image: ghcr.io/alice39s/kuma-mieru:latest # 还在测试中，建议 build 安装
     # build:
     #   context: .
     #   args:
