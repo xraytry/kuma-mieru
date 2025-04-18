@@ -26,7 +26,7 @@ jobs:
         include:
           - runner: ubuntu-latest
             platform: linux/amd64
-          - runner: arm64
+          - runner: ubuntu-24.04-arm
             platform: linux/arm64
     runs-on: ${{ matrix.runner }}
     permissions:
