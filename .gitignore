@@ -45,3 +45,6 @@ generated-*.json
 dist/
 
 *.lock
+!bun.lock
+
+@*.md

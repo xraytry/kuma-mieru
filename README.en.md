@@ -87,6 +87,11 @@ Go to https://vercel.com/new, select **Import** to import the repository you jus
 
 #### 3. Configure Environment Variables
 
+> [!NOTE]
+> Please ensure you have configured the `UPTIME_KUMA_BASE_URL` and `PAGE_ID` environment variables, otherwise the monitoring data will not be displayed correctly.
+>
+> For more information about the `UPTIME_KUMA_BASE_URL` and `PAGE_ID` configuration, please refer to the [Environment Variables](#environment-variables) section.
+
 1. Click `Environment Variables` to add the following two environment variables:  
    `UPTIME_KUMA_BASE_URL` and `PAGE_ID`.
 
@@ -222,6 +227,10 @@ Go to https://vercel.com/new, select **Import** to import the repository you jus
    ```
 
 ### Environment Variables
+
+First, assume your Uptime Kuma status page URL is `https://example.kuma-mieru.invalid/status/test1`
+
+Then, the environment variables you need to configure are as follows:
 
 | Variable Name            | Required | Description                             | Example                            |
 | ------------------------ | -------- | --------------------------------------- | ---------------------------------- |

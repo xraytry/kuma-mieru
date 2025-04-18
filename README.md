@@ -92,6 +92,11 @@ Fork 本仓库到您的 GitHub 用户下，如图所示：
 
 #### 3. 配置环境变量
 
+> [!NOTE]
+> 请确保您已经配置了 `UPTIME_KUMA_BASE_URL` 和 `PAGE_ID` 两个环境变量，否则无法正常显示监控数据。
+>
+> 关于 `UPTIME_KUMA_BASE_URL` 和 `PAGE_ID` 等配置，请参考 [环境变量配置](#环境变量配置) 一节。
+
 1. 点击 `Environment Variables` 添加 `UPTIME_KUMA_BASE_URL` 和 `PAGE_ID` 两个环境变量，如图所示：
 
 ![部署到 Vercel](./docs/vercel-deploy.png)
@@ -232,7 +237,9 @@ docker run -d \
 
 ## 环境变量配置
 
-假如您的 Uptime Kuma 的状态页面 URL 为 `https://example.kuma-mieru.invalid/status/test1`，那么您需要配置的环境变量如下：
+首先，假设您的 Uptime Kuma 的状态页面 URL 为 `https://example.kuma-mieru.invalid/status/test1`
+
+那么您需要配置的环境变量如下：
 
 | 变量名                   | 必填 | 说明                           | 示例/默认值                                        |
 | ------------------------ | ---- | ------------------------------ | -------------------------------------------------- |
