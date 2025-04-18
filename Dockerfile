@@ -77,6 +77,11 @@ RUN if [ "$PAGE_ID" = "demo" ]; then \
 
 COPY --from=builder /app/.next/standalone/ ./
 COPY --from=builder /app/public ./public
+COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/bun.lock ./
+COPY --from=builder /app/node_modules ./node_modules
+# Generated config files
+COPY --from=builder /app/config ./config
 COPY --from=builder /app/.next/static ./.next/static
 
 EXPOSE ${PORT}
