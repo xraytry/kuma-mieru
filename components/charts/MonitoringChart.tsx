@@ -35,33 +35,57 @@ export function MonitoringChart({
   color = 'default',
 }: MonitoringChartProps) {
   const t = useTranslations();
+  const containerRef = React.useRef<HTMLDivElement>(null);
+  const [containerWidth, setContainerWidth] = React.useState(0);
+
+  React.useEffect(() => {
+    const updateWidth = () => {
+      if (containerRef.current) {
+        setContainerWidth(containerRef.current.clientWidth);
+      }
+    };
+
+    updateWidth();
+    window.addEventListener('resize', updateWidth);
+    return () => window.removeEventListener('resize', updateWidth);
+  }, []);
 
   const [selectedRange, setSelectedRange] = React.useState('50-points');
 
   const filteredData = React.useMemo(() => {
     const count = countRanges.find((r) => r.key === selectedRange)?.count || 100;
 
-    return heartbeats.slice(-count).map((hb) => ({
-      time: new Date(hb.time).getTime(),
-      ping: hb.ping || 0,
-      status: hb.status,
-      color: getLatencyColor(hb.ping || 0),
-    }));
+    return heartbeats
+      .slice(-count)
+      .filter((hb) => hb && typeof hb.ping === 'number' && !Number.isNaN(hb.ping))
+      .map((hb) => ({
+        time: new Date(hb.time).getTime(),
+        ping: hb.ping || 0,
+        status: hb.status,
+        color: getLatencyColor(hb.ping || 0),
+      }));
   }, [heartbeats, selectedRange]);
 
   // Calculate min and max for better Y axis scaling
-  const pings = filteredData.map((d) => d.ping).filter((p) => p > 0);
-  const minPing = Math.max(0, Math.min(...pings) - 10);
-  const maxPing = Math.max(...pings) + 10;
+  const pings = filteredData.map((d) => d.ping).filter((p) => p > 0 && !Number.isNaN(p));
+  const minPing = pings.length > 0 ? Math.max(0, Math.min(...pings) - 10) : 0;
+  const maxPing = pings.length > 0 ? Math.max(...pings) + 10 : 100;
 
   const handleRangeChange = (key: React.Key) => {
     setSelectedRange(key as string);
   };
 
+  if (!filteredData.length) {
+    return (
+      <div className="w-full h-[200px] flex items-center justify-center text-default-500">
+        {t('noData')}
+      </div>
+    );
+  }
+
   return (
     <div className="w-full mt-2">
       <div className="mb-4 mt-3 items-center justify-center flex gap-2">
-        {/* TODO: 切换图表时重绘动画 */}
         <Tabs
           size="sm"
           selectedKey={selectedRange}
@@ -75,6 +99,7 @@ export function MonitoringChart({
       </div>
       <AnimatePresence mode="wait">
         <motion.div
+          ref={containerRef}
           key={selectedRange}
           initial={{ opacity: 0, scale: 0.98 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -83,13 +108,16 @@ export function MonitoringChart({
             duration: 0.4,
             ease: [0.4, 0, 0.2, 1],
           }}
+          style={{ width: '100%', minHeight: height }}
         >
-          <ResponsiveContainer
-            width="100%"
-            height={height}
-            className="[&_.recharts-surface]:outline-none"
-          >
-            <AreaChart data={filteredData} margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
+          {containerWidth > 0 && (
+            <AreaChart
+              width={containerWidth}
+              height={height}
+              data={filteredData}
+              margin={{ top: 5, right: 5, left: 5, bottom: 5 }}
+              className="[&_.recharts-surface]:outline-none"
+            >
               <defs>
                 <linearGradient id={`colorGradient-${color}`} x1="0" x2="0" y1="0" y2="1">
                   <stop
@@ -161,7 +189,7 @@ export function MonitoringChart({
                 dot={false}
               />
             </AreaChart>
-          </ResponsiveContainer>
+          )}
         </motion.div>
       </AnimatePresence>
     </div>

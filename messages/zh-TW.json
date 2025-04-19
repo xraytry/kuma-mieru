@@ -49,6 +49,8 @@
   "modeDark": "深色模式",
   "modeSystem": "跟隨系統",
 
+  "noData": "暫無資料",
+
   "status": {
     "loading": "載入中...",
     "systemNormal": "所有服務正常運作",

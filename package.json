@@ -14,7 +14,7 @@
     "dev": "bun run linter && next dev --turbopack --port 3881",
     "build": "next build",
     "start": "bun .next/standalone/server.js",
-    "start:docker": "bun run generate && bun ./server.js",
+    "start:docker": "bun run generate && bun run scripts/docker-init.ts && bun ./server.js",
     "lint": "biome check .",
     "lint:fix": "biome check --write .",
     "format": "biome format .",

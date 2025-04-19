@@ -1,21 +1,7 @@
 services:
   kuma-mieru:
-    image: ghcr.io/alice39s/kuma-mieru:latest # 还在测试中，建议 build 安装
-    # build:
-    #   context: .
-    #   args:
-    #     NODE_ENV: production
-    #     VERSION: ${VERSION:-dev}
-    #     BUILD_DATE: ${BUILD_DATE:-unknown}
-    #     VCS_REF: ${VCS_REF:-unknown}
-    #     UPTIME_KUMA_BASE_URL: ${UPTIME_KUMA_BASE_URL}
-    #     PAGE_ID: ${PAGE_ID}
-    #     FEATURE_EDIT_THIS_PAGE: ${FEATURE_EDIT_THIS_PAGE:-false}
-    #     FEATURE_SHOW_STAR_BUTTON: ${FEATURE_SHOW_STAR_BUTTON:-true}
-    #     FEATURE_TITLE: ${FEATURE_TITLE:-Uptime Kuma}
-    #     FEATURE_DESCRIPTION: ${FEATURE_DESCRIPTION:-A beautiful and modern uptime monitoring dashboard}
-    #     FEATURE_ICON: ${FEATURE_ICON}
-    #   dockerfile: Dockerfile
+    # image: ghcr.io/alice39s/kuma-mieru:latest # 还在测试中，建议 build 安装
+    image: kuma-mieru
     container_name: kuma-mieru
     restart: unless-stopped
     ports:

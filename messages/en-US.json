@@ -48,6 +48,8 @@
   "modeDark": "Dark",
   "modeSystem": "System",
 
+  "noData": "No data available",
+
   "status": {
     "loading": "Loading...",
     "systemNormal": "All systems operational",
