@@ -50,6 +50,7 @@
   "modeSystem": "跟随系统",
 
   "noData": "暂无数据",
+  "safariWarning": "暂不支持 Safari 浏览器",
 
   "status": {
     "loading": "加载中...",

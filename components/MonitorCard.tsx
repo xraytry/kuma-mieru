@@ -4,7 +4,9 @@ import { Card, CardBody, CardHeader, Chip, Divider } from '@heroui/react';
 import clsx from 'clsx';
 import { motion } from 'framer-motion';
 import { AlertCircle, CheckCircle2, MinusCircle } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { MonitoringChart } from './charts/MonitoringChart';
 import { ResponsStats } from './charts/ResponsStats';
 import { StatusBlockIndicator } from './charts/StatusBlockIndicator';
@@ -18,6 +20,23 @@ interface MonitorCardProps {
 
 export function MonitorCard({ monitor, heartbeats, uptime24h, isHome = true }: MonitorCardProps) {
   const router = useRouter();
+  const [isSafari, setIsSafari] = useState(false);
+  const t = useTranslations('');
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const userAgent = window.navigator.userAgent;
+      const isSafariBrowser =
+        /Safari/i.test(userAgent) &&
+        !/Chrome/i.test(userAgent) &&
+        !/Chromium/i.test(userAgent) &&
+        !/Edge/i.test(userAgent) &&
+        !/Firefox/i.test(userAgent);
+
+      setIsSafari(isSafariBrowser);
+    }
+  }, []);
+
   const lastHeartbeat = heartbeats[heartbeats.length - 1];
   const status = lastHeartbeat?.status ?? 0;
 
@@ -94,7 +113,14 @@ export function MonitorCard({ monitor, heartbeats, uptime24h, isHome = true }: M
           <Divider />
 
           <div className="self-end w-full">
-            <MonitoringChart heartbeats={heartbeats} height={120} color={chartColor} showGrid />
+            {!isSafari && (
+              <MonitoringChart heartbeats={heartbeats} height={120} color={chartColor} showGrid />
+            )}{' '}
+            {isSafari && (
+              <div className="w-full h-[120px] flex items-center justify-center text-default-500">
+                {t('safariWarning')}
+              </div>
+            )}
           </div>
         </CardBody>
       </Card>

@@ -28,131 +28,42 @@ const countRanges = [
   { key: '10-points', count: 10 },
 ];
 
-// Workaround: Safari & recharts issue with NaN values
-// Ref: https://github.com/recharts/recharts/issues/2395
-if (typeof window !== 'undefined') {
-  const originalCreateElement = React.createElement;
-
-  // @ts-ignore
-  React.createElement = function patchedCreateElement(type, props, ...children) {
-    if (props && typeof type === 'string') {
-      if (
-        type === 'rect' ||
-        type === 'path' ||
-        type === 'line' ||
-        type === 'circle' ||
-        type === 'svg'
-      ) {
-        const newProps = { ...props };
-        if (
-          newProps.width !== undefined &&
-          (Number.isNaN(newProps.width) || newProps.width === null)
-        ) {
-          newProps.width = '0';
+function SimplifiedChart({
+  data,
+  height,
+  color,
+  showGrid,
+  minPing,
+  maxPing,
+}: {
+  data: Array<{ time: number; ping: number }>;
+  height: number;
+  color: string;
+  showGrid: boolean;
+  minPing: number;
+  maxPing: number;
+}) {
+  return (
+    <div className="w-full h-full" style={{ height }}>
+      <style jsx global>{`
+        .safari-chart-fix .recharts-surface {
+          overflow: visible !important;
         }
-
-        if (
-          newProps.height !== undefined &&
-          (Number.isNaN(newProps.height) || newProps.height === null)
-        ) {
-          newProps.height = '0';
+        .safari-chart-fix .recharts-layer {
+          transform-origin: 0 0;
         }
+      `}</style>
 
-        if (newProps.x !== undefined && (Number.isNaN(newProps.x) || newProps.x === null)) {
-          newProps.x = '0';
-        }
-
-        if (newProps.y !== undefined && (Number.isNaN(newProps.y) || newProps.y === null)) {
-          newProps.y = '0';
-        }
-
-        return originalCreateElement(type, newProps, ...children);
-      }
-    }
-
-    return originalCreateElement(type, props, ...children);
-  };
-}
-
-export function MonitoringChart({
-  heartbeats,
-  height = 200,
-  showGrid = false,
-  color = 'default',
-}: MonitoringChartProps) {
-  const t = useTranslations();
-  const [selectedRange, setSelectedRange] = useState('50-points');
-  const [chartReady, setChartReady] = useState(false);
-  const chartContainerRef = useRef<HTMLDivElement>(null);
-
-  // wait for the chart to be ready before rendering
-  useEffect(() => {
-    let mounted = true;
-
-    const timer = setTimeout(() => {
-      if (mounted) {
-        requestAnimationFrame(() => {
-          if (mounted) {
-            setChartReady(true);
-          }
-        });
-      }
-    }, 200);
-
-    return () => {
-      mounted = false;
-      clearTimeout(timer);
-    };
-  }, []);
-
-  const filteredData = React.useMemo(() => {
-    if (!heartbeats || !Array.isArray(heartbeats)) return [];
-
-    const count = countRanges.find((r) => r.key === selectedRange)?.count || 100;
-
-    return heartbeats
-      .slice(-count)
-      .filter((hb) => hb && typeof hb.ping === 'number' && !Number.isNaN(hb.ping))
-      .map((hb) => ({
-        time: new Date(hb.time).getTime(),
-        ping: hb.ping || 0,
-        status: hb.status,
-        color: getLatencyColor(hb.ping || 0),
-      }));
-  }, [heartbeats, selectedRange]);
-
-  // Calculate min and max for better Y axis scaling
-  const pings = filteredData.map((d) => d.ping).filter((p) => p > 0 && !Number.isNaN(p));
-  const minPing = pings.length > 0 ? Math.max(0, Math.min(...pings) - 10) : 0;
-  const maxPing = pings.length > 0 ? Math.max(...pings) + 10 : 100;
-
-  const handleRangeChange = useCallback((key: React.Key) => {
-    setSelectedRange(key as string);
-  }, []);
-
-  if (!filteredData.length) {
-    return (
-      <div className="w-full h-[200px] flex items-center justify-center text-default-500">
-        {t('noData')}
-      </div>
-    );
-  }
-
-  // ensure height is a number and greater than 0
-  const chartHeight = typeof height === 'number' && height > 0 ? height : 200;
-
-  const chartContent = (
-    <div className="w-full h-full overflow-hidden">
-      <ResponsiveContainer width="100%" height={chartHeight}>
+      <ResponsiveContainer width="100%" height={height}>
         <AreaChart
-          data={filteredData}
+          data={data}
           margin={{ top: 5, right: 5, left: 5, bottom: 5 }}
           className="[&_.recharts-surface]:outline-none"
         >
           <defs>
-            <linearGradient id={`colorGradient-${color}`} x1="0" x2="0" y1="0" y2="1">
-              <stop offset="10%" stopColor={`hsl(var(--heroui-${color}-500))`} stopOpacity={0.3} />
-              <stop offset="100%" stopColor={`hsl(var(--heroui-${color}-100))`} stopOpacity={0.1} />
+            <linearGradient id={`colorGradient-${color}`} x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%" stopColor={`hsl(var(--heroui-${color}-500))`} stopOpacity={0.3} />
+              <stop offset="95%" stopColor={`hsl(var(--heroui-${color}-100))`} stopOpacity={0.1} />
             </linearGradient>
           </defs>
           {showGrid && (
@@ -199,9 +110,6 @@ export function MonitoringChart({
             dataKey="ping"
             stroke={`hsl(var(--heroui-${color}))`}
             strokeWidth={2}
-            fill={`url(#colorGradient-${color})`}
-            animationDuration={1000}
-            animationEasing="ease"
             connectNulls
             activeDot={{
               stroke: `hsl(var(--heroui-${color}))`,
@@ -215,8 +123,71 @@ export function MonitoringChart({
       </ResponsiveContainer>
     </div>
   );
+}
 
-  const placeholderContent = <div className="w-full" style={{ height: `${chartHeight}px` }} />;
+export function MonitoringChart({
+  heartbeats,
+  height = 200,
+  showGrid = false,
+  color = 'default',
+}: MonitoringChartProps) {
+  const t = useTranslations();
+  const [selectedRange, setSelectedRange] = useState('50-points');
+  const [chartReady, setChartReady] = useState(false);
+  const chartContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    let mounted = true;
+
+    const timer = setTimeout(() => {
+      if (mounted) {
+        requestAnimationFrame(() => {
+          if (mounted) {
+            setChartReady(true);
+          }
+        });
+      }
+    }, 200);
+
+    return () => {
+      mounted = false;
+      clearTimeout(timer);
+    };
+  }, []);
+
+  const filteredData = React.useMemo(() => {
+    if (!heartbeats || !Array.isArray(heartbeats)) return [];
+
+    const count = countRanges.find((r) => r.key === selectedRange)?.count || 100;
+
+    return heartbeats
+      .slice(-count)
+      .filter((hb) => hb && typeof hb.ping === 'number' && !Number.isNaN(hb.ping))
+      .map((hb) => ({
+        time: new Date(hb.time).getTime(),
+        ping: hb.ping || 0,
+        status: hb.status,
+        color: getLatencyColor(hb.ping || 0),
+      }));
+  }, [heartbeats, selectedRange]);
+
+  const pings = filteredData.map((d) => d.ping).filter((p) => p > 0 && !Number.isNaN(p));
+  const minPing = pings.length > 0 ? Math.max(0, Math.min(...pings) - 10) : 0;
+  const maxPing = pings.length > 0 ? Math.max(...pings) + 10 : 100;
+
+  const handleRangeChange = useCallback((key: React.Key) => {
+    setSelectedRange(key as string);
+  }, []);
+
+  if (!filteredData.length) {
+    return (
+      <div className="w-full h-[200px] flex items-center justify-center text-default-500">
+        {t('noData')}
+      </div>
+    );
+  }
+
+  const chartHeight = typeof height === 'number' && height > 0 ? height : 200;
 
   return (
     <div className="w-full mt-2" ref={chartContainerRef}>
@@ -245,7 +216,18 @@ export function MonitoringChart({
           className="w-full"
           style={{ minHeight: chartHeight, height: chartHeight }}
         >
-          {chartReady ? chartContent : placeholderContent}
+          {chartReady ? (
+            <SimplifiedChart
+              data={filteredData}
+              height={chartHeight}
+              color={color}
+              showGrid={showGrid}
+              minPing={minPing}
+              maxPing={maxPing}
+            />
+          ) : (
+            <div className="w-full" style={{ height: `${chartHeight}px` }} />
+          )}
         </motion.div>
       </AnimatePresence>
     </div>

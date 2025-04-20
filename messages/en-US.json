@@ -49,6 +49,7 @@
   "modeSystem": "System",
 
   "noData": "No data available",
+  "safariWarning": "Safari browser is not supported yet",
 
   "status": {
     "loading": "Loading...",
