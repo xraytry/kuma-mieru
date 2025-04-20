@@ -1,16 +1,13 @@
 'use client';
 
-import { Button } from '@heroui/button';
-import { Input } from '@heroui/input';
-import { Kbd } from '@heroui/kbd';
-import { Link } from '@heroui/link';
+import { Button, Input, Kbd, Link } from '@heroui/react';
 import {
   Navbar as HeroUINavbar,
   NavbarBrand,
   NavbarContent,
   NavbarMenu,
   NavbarMenuToggle,
-} from '@heroui/navbar';
+} from '@heroui/react';
 import { link as linkStyles } from '@heroui/theme';
 import clsx from 'clsx';
 import Image from 'next/image';
@@ -21,7 +18,6 @@ import { ThemeSwitch } from '@/components/basic/theme-switch';
 import { NavbarSkeleton } from '@/components/ui/CommonSkeleton';
 import { apiConfig } from '@/config/api';
 import { siteConfig } from '@/config/site';
-import type { Config } from '@/types/config';
 import { motion } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import { useTranslations } from 'next-intl';

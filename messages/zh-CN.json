@@ -52,6 +52,9 @@
   "noData": "暂无数据",
   "safariWarning": "暂不支持 Safari 浏览器",
 
+  "switchToLiteView": "切换到精简视图",
+  "switchToFullView": "切换到完整视图",
+
   "status": {
     "loading": "加载中...",
     "systemNormal": "所有服务一切正常",

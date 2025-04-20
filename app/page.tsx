@@ -6,6 +6,12 @@ import { MonitorCard } from '@/components/MonitorCard';
 import MonitorHeaders from '@/components/MonitorHeaders';
 import { MonitorCardSkeleton } from '@/components/ui/CommonSkeleton';
 import { revalidateData, useConfig, useMonitorData } from '@/components/utils/swr';
+import { Button, Tooltip } from '@heroui/react';
+import { LayoutGrid, LayoutList } from 'lucide-react';
+import { useTranslations } from 'next-intl';
+import { useEffect, useState } from 'react';
+
+const GLOBAL_VIEW_PREFERENCE_KEY = 'global-monitor-card-view-preference';
 
 export default function Home() {
   const {
@@ -15,11 +21,29 @@ export default function Home() {
     revalidate: revalidateMonitors,
   } = useMonitorData();
   const { config: globalConfig, isLoading: isLoadingConfig } = useConfig();
+  const [isGlobalLiteView, setIsGlobalLiteView] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const savedPreference = localStorage.getItem(GLOBAL_VIEW_PREFERENCE_KEY);
+      return savedPreference === 'lite';
+    }
+    return false;
+  });
+  const t = useTranslations();
 
   const isLoading = isLoadingMonitors || isLoadingConfig;
 
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(GLOBAL_VIEW_PREFERENCE_KEY, isGlobalLiteView ? 'lite' : 'full');
+    }
+  }, [isGlobalLiteView]);
+
   const handleRefresh = async () => {
     await revalidateData();
+  };
+
+  const toggleGlobalView = () => {
+    setIsGlobalLiteView((prev) => !prev);
   };
 
   return (
@@ -27,7 +51,20 @@ export default function Home() {
       <AutoRefresh onRefresh={handleRefresh} interval={60000}>
         <div className="mx-auto max-w-screen-2xl px-4 py-8 pt-4">
           {/* 状态总览 */}
-          <MonitorHeaders />
+          <div className="flex justify-between items-center mb-6">
+            <MonitorHeaders />
+            <Tooltip content={isGlobalLiteView ? t('switchToFullView') : t('switchToLiteView')}>
+              <Button
+                isIconOnly
+                variant="light"
+                onClick={toggleGlobalView}
+                className="ml-2"
+                aria-label={isGlobalLiteView ? t('switchToFullView') : t('switchToLiteView')}
+              >
+                {isGlobalLiteView ? <LayoutGrid size={20} /> : <LayoutList size={20} />}
+              </Button>
+            </Tooltip>
+          </div>
 
           {/* 公告显示 */}
           {globalConfig?.incident && <AlertMarkdown incident={globalConfig.incident} />}
@@ -60,6 +97,8 @@ export default function Home() {
                       heartbeats={monitoringData.heartbeatList[monitor.id] || []}
                       uptime24h={monitoringData.uptimeList[`${monitor.id}_24`] || 0}
                       isHome={true}
+                      isLiteView={isGlobalLiteView}
+                      disableViewToggle={true}
                     />
                   ))}
                 </div>

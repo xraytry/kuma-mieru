@@ -45,15 +45,6 @@ function SimplifiedChart({
 }) {
   return (
     <div className="w-full h-full" style={{ height }}>
-      <style jsx global>{`
-        .safari-chart-fix .recharts-surface {
-          overflow: visible !important;
-        }
-        .safari-chart-fix .recharts-layer {
-          transform-origin: 0 0;
-        }
-      `}</style>
-
       <ResponsiveContainer width="100%" height={height}>
         <AreaChart
           data={data}
@@ -61,9 +52,9 @@ function SimplifiedChart({
           className="[&_.recharts-surface]:outline-none"
         >
           <defs>
-            <linearGradient id={`colorGradient-${color}`} x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor={`hsl(var(--heroui-${color}-500))`} stopOpacity={0.3} />
-              <stop offset="95%" stopColor={`hsl(var(--heroui-${color}-100))`} stopOpacity={0.1} />
+            <linearGradient id="colorGradient" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="10%" stopColor={`hsl(var(--heroui-${color}-500))`} stopOpacity={0.5} />
+              <stop offset="100%" stopColor={`hsl(var(--heroui-${color}-100))`} stopOpacity={0.1} />
             </linearGradient>
           </defs>
           {showGrid && (
@@ -110,6 +101,7 @@ function SimplifiedChart({
             dataKey="ping"
             stroke={`hsl(var(--heroui-${color}))`}
             strokeWidth={2}
+            fill="url(#colorGradient)"
             connectNulls
             activeDot={{
               stroke: `hsl(var(--heroui-${color}))`,

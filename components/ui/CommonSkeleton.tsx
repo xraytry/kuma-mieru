@@ -1,6 +1,6 @@
 'use client';
 
-import { Navbar as HeroUINavbar, NavbarBrand, NavbarContent, NavbarItem } from '@heroui/navbar';
+import { Navbar as HeroUINavbar, NavbarBrand, NavbarContent, NavbarItem } from '@heroui/react';
 import { Card, CardBody, CardHeader, Skeleton } from '@heroui/react';
 import { motion } from 'framer-motion';
 

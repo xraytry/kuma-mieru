@@ -1,27 +1,40 @@
 'use client';
-import type { Heartbeat, Monitor } from '@/types/monitor';
-import { Card, CardBody, CardHeader, Chip, Divider } from '@heroui/react';
+import type { MonitorCardProps } from '@/types/monitor';
+import { Button, Card, CardBody, CardHeader, Chip, Divider, Tooltip } from '@heroui/react';
 import clsx from 'clsx';
 import { motion } from 'framer-motion';
-import { AlertCircle, CheckCircle2, MinusCircle } from 'lucide-react';
+import { AlertCircle, CheckCircle2, LayoutList, MinusCircle } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { MonitorCardLite } from './MonitorCardLite';
 import { MonitoringChart } from './charts/MonitoringChart';
 import { ResponsStats } from './charts/ResponsStats';
 import { StatusBlockIndicator } from './charts/StatusBlockIndicator';
 
-interface MonitorCardProps {
-  monitor: Monitor;
-  heartbeats: Heartbeat[];
-  uptime24h: number;
-  isHome?: boolean;
-}
+const VIEW_PREFERENCE_KEY = 'monitor-card-view-preference';
 
-export function MonitorCard({ monitor, heartbeats, uptime24h, isHome = true }: MonitorCardProps) {
+export function MonitorCard({
+  monitor,
+  heartbeats,
+  uptime24h,
+  isHome = true,
+  isLiteView: externalLiteView,
+  disableViewToggle = false,
+}: MonitorCardProps) {
   const router = useRouter();
   const [isSafari, setIsSafari] = useState(false);
+  const [localLiteView, setLocalLiteView] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const savedPreference = localStorage.getItem(VIEW_PREFERENCE_KEY);
+      return savedPreference === 'lite';
+    }
+    return false;
+  });
   const t = useTranslations('');
+
+  // 使用外部提供的视图模式或本地模式
+  const isLiteView = externalLiteView !== undefined ? externalLiteView : localLiteView;
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -36,6 +49,12 @@ export function MonitorCard({ monitor, heartbeats, uptime24h, isHome = true }: M
       setIsSafari(isSafariBrowser);
     }
   }, []);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && externalLiteView === undefined) {
+      localStorage.setItem(VIEW_PREFERENCE_KEY, localLiteView ? 'lite' : 'full');
+    }
+  }, [localLiteView, externalLiteView]);
 
   const lastHeartbeat = heartbeats[heartbeats.length - 1];
   const status = lastHeartbeat?.status ?? 0;
@@ -56,6 +75,24 @@ export function MonitorCard({ monitor, heartbeats, uptime24h, isHome = true }: M
       router.push(`/monitor/${monitor.id}`);
     }
   };
+
+  const toggleView = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setLocalLiteView((prev) => !prev);
+  };
+
+  if (isLiteView) {
+    return (
+      <MonitorCardLite
+        monitor={monitor}
+        heartbeats={heartbeats}
+        uptime24h={uptime24h}
+        isHome={isHome}
+        onToggleView={toggleView}
+        disableViewToggle={disableViewToggle}
+      />
+    );
+  }
 
   return (
     <motion.div
@@ -103,8 +140,17 @@ export function MonitorCard({ monitor, heartbeats, uptime24h, isHome = true }: M
               )}
             </div>
           </div>
-          <div className={clsx('flex-shrink-0', isHome ? '' : 'mr-4')}>
-            <ResponsStats value={uptimeData[0].value} fill={uptimeData[0].fill} isHome={isHome} />
+          <div className="flex items-start gap-2">
+            <div className={clsx('flex-shrink-0', isHome ? '' : 'mr-4')}>
+              <ResponsStats value={uptimeData[0].value} fill={uptimeData[0].fill} isHome={isHome} />
+            </div>
+            {!disableViewToggle && (
+              <Tooltip content={t('switchToLiteView')}>
+                <Button isIconOnly size="sm" variant="light" onClick={toggleView} className="mt-1">
+                  <LayoutList size={16} />
+                </Button>
+              </Tooltip>
+            )}
           </div>
         </CardHeader>
         <CardBody className="grid grid-rows-[auto_auto_1fr] gap-4">

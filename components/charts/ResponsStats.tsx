@@ -7,9 +7,10 @@ interface ResponsStatsProps {
   value: number;
   fill: string;
   isHome?: boolean;
+  size?: 'sm' | 'md' | 'lg';
 }
 
-export function ResponsStats({ value, fill, isHome }: ResponsStatsProps) {
+export function ResponsStats({ value, fill, isHome, size = 'md' }: ResponsStatsProps) {
   const data = [{ value, fill }];
   const t = useTranslations();
 
@@ -22,6 +23,9 @@ export function ResponsStats({ value, fill, isHome }: ResponsStatsProps) {
   ) : (
     `${t('nodeUptimeStatus')}: ${value.toFixed(2)}%`
   );
+
+  const chartSize = size === 'sm' ? 'w-6 h-6' : size === 'lg' ? 'w-12 h-12' : 'w-10 h-10';
+  const textSize = size === 'sm' ? 'text-xs' : size === 'lg' ? 'text-base' : 'text-sm';
 
   return (
     <Tooltip
@@ -49,7 +53,7 @@ export function ResponsStats({ value, fill, isHome }: ResponsStatsProps) {
       }}
     >
       <div className={clsx('inline-flex items-center', !isHome ? 'gap-2' : 'gap-1')}>
-        <div className="w-10 h-10">
+        <div className={chartSize}>
           <ResponsiveContainer width="100%" height="100%">
             <RadialBarChart
               innerRadius="65%"
@@ -57,7 +61,7 @@ export function ResponsStats({ value, fill, isHome }: ResponsStatsProps) {
               data={data}
               startAngle={90}
               endAngle={-270}
-              barSize={12}
+              barSize={size === 'sm' ? 6 : size === 'lg' ? 14 : 12}
               cx="50%"
               cy="50%"
             >
@@ -66,7 +70,7 @@ export function ResponsStats({ value, fill, isHome }: ResponsStatsProps) {
             </RadialBarChart>
           </ResponsiveContainer>
         </div>
-        <span className="text-sm text-gray-500">{value.toFixed(2)}%</span>
+        <span className={`${textSize} text-gray-500`}>{value.toFixed(2)}%</span>
       </div>
     </Tooltip>
   );

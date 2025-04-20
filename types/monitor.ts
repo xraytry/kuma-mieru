@@ -67,3 +67,15 @@ export interface MonitorResponse {
   monitorGroups: MonitorGroup[];
   data: MonitoringData;
 }
+
+/*
+ * Monitor Card Props
+ */
+export interface MonitorCardProps {
+  monitor: Monitor;
+  heartbeats: Heartbeat[];
+  uptime24h: number;
+  isHome?: boolean;
+  isLiteView?: boolean;
+  disableViewToggle?: boolean;
+}
