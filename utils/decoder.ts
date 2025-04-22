@@ -40,8 +40,11 @@ function decodeUnicodeEscapes(value: unknown): unknown {
             }) as Record<string, string>
           )[char] || char,
       )
-      // 处理 Unicode 转义序列
-      .replace(/\\u([0-9a-fA-F]{4})/g, (_, hex) => String.fromCharCode(Number.parseInt(hex, 16)));
+
+      // 处理 Unicode 转义序列 - \uXXXX
+      .replace(/\\u([0-9a-fA-F]{4})/g, (_, hex) => String.fromCharCode(Number.parseInt(hex, 16)))
+      // 二次转义序列
+      .replace(/\\\\u([0-9a-fA-F]{4})/g, (_, hex) => String.fromCharCode(Number.parseInt(hex, 16)));
 
     // 处理HTML实体
     // 1. 替换命名实体

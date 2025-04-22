@@ -1,3 +1,4 @@
+import { createContext, runInNewContext } from 'node:vm';
 import JSON5 from 'json5';
 import type { PreloadData } from '../types/config';
 import { ConfigError } from '../utils/errors';
@@ -5,77 +6,105 @@ import { decodeUnicodeEscapes } from './decoder';
 import { validatePreloadData } from './json-sanitizer';
 
 /**
+ * 使用 `node:vm` 模块直接执行 JS 获取预加载数据，可免去手动解析 unicode / html 转义字符的烦恼。
+ */
+export const executePreloadScript = (script: string): unknown => {
+  const ctx = createContext({ window: {} });
+
+  try {
+    runInNewContext(script, ctx);
+
+    if (ctx.window?.preloadData) {
+      return ctx.window.preloadData;
+    }
+
+    throw new Error("Can't find window.preloadData");
+  } catch (error) {
+    console.error('[executePreloadScript] Error:', error as Error);
+    throw error;
+  }
+};
+
+/**
  * 预处理 JSON 字符串，处理常见的非标准格式
  */
 export const preprocessJson = (str: string): string => {
   // 移除 JavaScript 变量声明和结尾分号
-  let processed = str
+  const processed = str
     .replace(/^\s*window\.preloadData\s*=\s*/, '')
     .replace(/;?\s*$/, '')
     .trim();
 
-  processed = processed.replace(/'([^'\\]*(?:\\.[^'\\]*)*)'/g, (match, p1) => {
-    const unescaped = p1.replace(/\\(['\\])/g, '$1');
-    return `"${unescaped.replace(/["\\]/g, '\\$&')}"`;
-  });
-
-  return processed;
+  try {
+    const parsed = JSON5.parse(processed);
+    return JSON.stringify(parsed);
+  } catch (error) {
+    console.debug('尝试使用 JSON5 解析失败，返回原始处理字符串', error);
+    return processed;
+  }
 };
 
 /**
  * 尝试从字符串中提取并解析预加载数据
  */
 export const extractPreloadData = (jsonStr: string): PreloadData => {
-  // 直接解析尝试
+  // 首先尝试 node:vm 方法
+  try {
+    const scriptWithContext = `window.preloadData = ${jsonStr};`;
+    const result = executePreloadScript(scriptWithContext);
+
+    if (validatePreloadData(result as PreloadData)) {
+      console.debug('成功使用 node:vm 解析出 preload 数据');
+      return result as PreloadData;
+    }
+  } catch (error) {
+    console.debug('node:vm 解析 preload 数据失败，尝试其他方法', error);
+  }
+
+  // 尝试提取 JS 部分再使用 node:vm
+  const scriptMatch = jsonStr.match(/window\.preloadData\s*=\s*({[\s\S]*?});?\s*$/);
+  if (scriptMatch) {
+    try {
+      const script = `window.preloadData = ${scriptMatch[1]};`;
+      const result = executePreloadScript(script);
+
+      if (validatePreloadData(result as PreloadData)) {
+        console.debug('通过提取 JS 并使用 VM 执行成功解析数据');
+        return result as PreloadData;
+      }
+    } catch (error) {
+      console.debug('提取 JS 并使用 VM 执行解析失败', error);
+    }
+  }
+
+  // 如果 VM 执行失败，尝试传统解析方法
   try {
     const processedJson = preprocessJson(jsonStr);
 
     if (process.env.NODE_ENV === 'development') {
-      console.debug('预处理后的 JSON:', processedJson.slice(0, 100));
+      console.debug('预处理后的 JSON:', processedJson.slice(0, 200));
     }
 
-    const directParsed = JSON5.parse(processedJson);
-    const decodedData = decodeUnicodeEscapes(directParsed); // 新增解码步骤
+    // 使用标准 JSON 解析
+    try {
+      const parsed = JSON.parse(processedJson);
+      if (validatePreloadData(parsed)) {
+        return parsed;
+      }
+    } catch (jsonError) {
+      console.debug('标准 JSON 解析失败，尝试 JSON5:', jsonError);
 
-    if (validatePreloadData(decodedData)) {
-      return decodedData;
-    }
-  } catch (error) {
-    console.debug('直接解析失败，尝试其他方法', error);
-  }
+      // 尝试 JSON5 解析
+      const parsed = JSON5.parse(processedJson);
+      const decodedData = decodeUnicodeEscapes(parsed);
 
-  // 模式匹配解析
-  const patterns = [
-    /{[\s\S]*}/,
-    /window\.preloadData\s*=\s*({[^;]*});?/,
-    /window\.preloadData\s*=\s*({[\s\S]*?})\s*$/,
-  ];
-
-  let lastError: Error | null = null;
-
-  for (const pattern of patterns) {
-    const match = jsonStr.match(pattern);
-    if (match) {
-      try {
-        const jsonData = preprocessJson(match[1] || match[0]);
-        console.debug(`尝试使用模式 ${pattern} 解析数据:`, jsonData.slice(0, 100));
-
-        const parsed = JSON5.parse(jsonData);
-        const decoded = decodeUnicodeEscapes(parsed); // 新增解码步骤
-
-        if (validatePreloadData(decoded)) {
-          console.debug('成功解析数据');
-          return decoded;
-        }
-      } catch (error) {
-        console.debug(`使用模式 ${pattern} 解析失败:`, error);
-        lastError = error instanceof Error ? error : new Error(String(error));
+      if (validatePreloadData(decodedData)) {
+        return decodedData;
       }
     }
+  } catch (error) {
+    console.debug('传统解析方法失败', error);
   }
 
-  throw new ConfigError(
-    `无法从脚本中提取预加载数据: ${lastError?.message || '未知错误'}\n` +
-      `清理后的数据: ${jsonStr.slice(0, 200)}...`,
-  );
+  throw new ConfigError(`所有解析方法都失败\n清理后的数据: ${jsonStr.slice(0, 200)}...`);
 };
