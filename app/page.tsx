@@ -28,13 +28,16 @@ export default function Home() {
   } = useMonitorData();
   const { config: globalConfig, isLoading: isLoadingConfig } = useConfig();
   const { maintenanceList, isLoading: isLoadingMaintenance } = useMaintenanceData();
-  const [isGlobalLiteView, setIsGlobalLiteView] = useState(() => {
+  const [isGlobalLiteView, setIsGlobalLiteView] = useState(false);
+
+  useEffect(() => {
     if (typeof window !== 'undefined') {
       const savedPreference = localStorage.getItem(GLOBAL_VIEW_PREFERENCE_KEY);
-      return savedPreference === 'lite';
+      if (savedPreference === 'lite') {
+        setIsGlobalLiteView(true);
+      }
     }
-    return false;
-  });
+  }, []);
   const t = useTranslations();
 
   const isLoading = isLoadingMonitors || isLoadingConfig || isLoadingMaintenance;

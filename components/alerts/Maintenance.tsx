@@ -1,7 +1,9 @@
+'use client';
+
 import { Alert } from '@/components/ui/Alert';
 import type { Maintenance } from '@/types/config';
 import { Progress } from '@heroui/react';
-import { AlertCircle, Clock, Hammer } from 'lucide-react';
+import { AlertCircle, Clock, Wrench } from 'lucide-react';
 import { useFormatter, useTranslations } from 'next-intl';
 import React, { useEffect } from 'react';
 import { dateStringToTimestamp } from '../utils/format';
@@ -73,7 +75,7 @@ function MaintenanceAlert({ maintenance }: { maintenance: Maintenance }) {
 
       return (
         <div className="mt-3">
-          <div className="flex justify-between text-sm text-gray-600 dark:text-gray-300 mb-1">
+          <div className="flex justify-between text-sm text-gray-600 dark:text-gray-300 mb-2">
             <span>{format.dateTime(startTime, 'normal')}</span>
             <span>{format.dateTime(endTime, 'normal')}</span>
           </div>
@@ -111,7 +113,7 @@ function MaintenanceAlert({ maintenance }: { maintenance: Maintenance }) {
   };
 
   const alertColor = isActive ? 'warning' : 'default';
-  const StatusIcon = isActive ? Hammer : AlertCircle;
+  const StatusIcon = isActive ? Wrench : AlertCircle;
   const statusTitle = `${getStatusTitle()}: ${maintenance.title}`;
 
   return (
@@ -121,9 +123,9 @@ function MaintenanceAlert({ maintenance }: { maintenance: Maintenance }) {
       color={alertColor}
       variant="flat"
       className="mb-8"
+      icon={<StatusIcon className="h-5 w-5" />}
     >
-      <div className="flex items-center gap-2 mb-2">
-        <StatusIcon className="h-5 w-5" />
+      <div className="flex items-center gap-2 mt-1 mb-8">
         <span className="font-medium">{statusTitle}</span>
       </div>
 

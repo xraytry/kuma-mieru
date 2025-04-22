@@ -10,6 +10,7 @@ interface AlertProps {
   variant?: 'solid' | 'bordered' | 'flat' | 'faded';
   className?: string;
   children?: React.ReactNode;
+  icon?: React.ReactNode;
 }
 
 export const Alert = ({
@@ -19,6 +20,7 @@ export const Alert = ({
   variant = 'flat',
   className,
   children,
+  icon,
 }: AlertProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -41,17 +43,22 @@ export const Alert = ({
       tabIndex={0}
       className="cursor-pointer w-full text-left"
     >
-      <HeroUIAlert className={className} color={color} variant={variant}>
+      <HeroUIAlert
+        className={className}
+        color={color}
+        variant={variant}
+        icon={!isExpanded ? icon : undefined}
+      >
         <div className="flex items-start justify-between w-full">
           <div className="flex-1 mr-2">
-            <h5 className="text-sm font-medium">{title}</h5>
+            {!isExpanded && <h5 className="text-sm font-medium">{title}</h5>}
             {!isExpanded && description && (
               <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-1">{description}</p>
             )}
             <div
               className={clsx(
                 'grid transition-all duration-200 ease-in-out w-full',
-                isExpanded ? 'grid-rows-[1fr] opacity-100 mt-2' : 'grid-rows-[0fr] opacity-0',
+                isExpanded ? 'grid-rows-[1fr] opacity-100 mt-0' : 'grid-rows-[0fr] opacity-0',
               )}
             >
               <div className="overflow-hidden">{children}</div>
