@@ -43,7 +43,8 @@ export interface Monitor {
     | 'steam'
     | 'mqtt'
     | 'tcp'
-    | 'docker';
+    | 'docker'
+    | string;
   url?: string;
   certExpiryDaysRemaining?: number; // only for 'http', 'keyword', 'certexpiry', 'json-query'
   validCert?: boolean; // only for cert expiry monitor
