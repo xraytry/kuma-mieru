@@ -4,13 +4,13 @@ import { cn } from '@heroui/react';
 import { AlertTriangle, CheckCircle, Clock, type LucideIcon, X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
-import { useConfig, useMonitorData } from './utils/swr';
+import { useConfig, useMonitorData } from '../utils/swr';
 
 const pingAnimation = {
   animation: 'slowPing 3s cubic-bezier(0,0,0.2,1) infinite',
 } as const;
 
-export function MonitorHeaders() {
+export function SystemStatusAlert() {
   const t = useTranslations('status');
   const { monitoringData, monitorGroups, isLoading: isLoadingMonitors } = useMonitorData();
   const { config, isLoading: isLoadingConfig } = useConfig();
@@ -156,4 +156,4 @@ export function MonitorHeaders() {
   );
 }
 
-export default MonitorHeaders;
+export default SystemStatusAlert;

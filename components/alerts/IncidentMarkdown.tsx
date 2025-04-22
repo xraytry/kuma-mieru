@@ -2,7 +2,7 @@ import { Alert } from '@/components/ui/Alert';
 import type { Incident } from '@/types/monitor';
 import { useFormatter, useTranslations } from 'next-intl';
 import React, { useMemo } from 'react';
-import { dateStringToTimestamp, extractSentence } from './utils/format';
+import { dateStringToTimestamp, extractSentence } from '../utils/format';
 
 // Workaround for https://github.com/markdown-it/markdown-it/issues/1082
 const MarkdownIt = require('markdown-it');
@@ -14,7 +14,7 @@ const md = MarkdownIt({
   listIndent: true,
 });
 
-function IncidentAlert({ incident }: { incident: Incident }) {
+function IncidentMarkdownAlert({ incident }: { incident: Incident }) {
   const t = useTranslations();
   const format = useFormatter();
   const now = Date.now();
@@ -85,4 +85,4 @@ function IncidentAlert({ incident }: { incident: Incident }) {
   );
 }
 
-export default IncidentAlert;
+export default IncidentMarkdownAlert;

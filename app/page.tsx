@@ -1,11 +1,17 @@
 'use client';
 
-import AlertMarkdown from '@/components/AlertMarkdown';
 import AutoRefresh from '@/components/AutoRefresh';
 import { MonitorCard } from '@/components/MonitorCard';
-import MonitorHeaders from '@/components/MonitorHeaders';
+import IncidentMarkdownAlert from '@/components/alerts/IncidentMarkdown';
+import MaintenanceAlert from '@/components/alerts/Maintenance';
+import SystemStatusAlert from '@/components/alerts/SystemStatus';
 import { MonitorCardSkeleton } from '@/components/ui/CommonSkeleton';
-import { revalidateData, useConfig, useMonitorData } from '@/components/utils/swr';
+import {
+  revalidateData,
+  useConfig,
+  useMaintenanceData,
+  useMonitorData,
+} from '@/components/utils/swr';
 import { Button, Tooltip } from '@heroui/react';
 import { LayoutGrid, LayoutList } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -21,6 +27,7 @@ export default function Home() {
     revalidate: revalidateMonitors,
   } = useMonitorData();
   const { config: globalConfig, isLoading: isLoadingConfig } = useConfig();
+  const { maintenanceList, isLoading: isLoadingMaintenance } = useMaintenanceData();
   const [isGlobalLiteView, setIsGlobalLiteView] = useState(() => {
     if (typeof window !== 'undefined') {
       const savedPreference = localStorage.getItem(GLOBAL_VIEW_PREFERENCE_KEY);
@@ -30,7 +37,12 @@ export default function Home() {
   });
   const t = useTranslations();
 
-  const isLoading = isLoadingMonitors || isLoadingConfig;
+  const isLoading = isLoadingMonitors || isLoadingConfig || isLoadingMaintenance;
+
+  // 筛选活动维护计划
+  const activeMaintenances = maintenanceList.filter(
+    (m) => m.active && (m.status === 'under-maintenance' || m.status === 'scheduled'),
+  );
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -51,23 +63,32 @@ export default function Home() {
       <AutoRefresh onRefresh={handleRefresh} interval={60000}>
         <div className="mx-auto max-w-screen-2xl px-4 py-8 pt-4">
           {/* 状态总览 */}
-          <div className="flex justify-between items-center mb-6">
-            <MonitorHeaders />
-            <Tooltip content={isGlobalLiteView ? t('switchToFullView') : t('switchToLiteView')}>
+          <div className="flex justify-between items-center mb-6" suppressHydrationWarning={true}>
+            <SystemStatusAlert />
+            <Tooltip
+              content={isGlobalLiteView ? t('switchToFullView') : t('switchToLiteView')}
+              suppressHydrationWarning={true}
+            >
               <Button
                 isIconOnly
                 variant="light"
                 onClick={toggleGlobalView}
                 className="ml-2"
                 aria-label={isGlobalLiteView ? t('switchToFullView') : t('switchToLiteView')}
+                suppressHydrationWarning={true}
               >
                 {isGlobalLiteView ? <LayoutGrid size={20} /> : <LayoutList size={20} />}
               </Button>
             </Tooltip>
           </div>
 
+          {/* 维护计划显示 */}
+          {activeMaintenances.map((maintenance) => (
+            <MaintenanceAlert key={maintenance.id} maintenance={maintenance} />
+          ))}
+
           {/* 公告显示 */}
-          {globalConfig?.incident && <AlertMarkdown incident={globalConfig.incident} />}
+          {globalConfig?.incident && <IncidentMarkdownAlert incident={globalConfig.incident} />}
 
           {/* 监控组和监控项 */}
           {isLoading ? (

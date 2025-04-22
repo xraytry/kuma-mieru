@@ -24,6 +24,7 @@ export interface SiteConfig {
 export interface GlobalConfig {
   config: SiteConfig;
   incident?: Incident;
+  maintenanceList?: Maintenance[];
 }
 
 /**
@@ -61,7 +62,7 @@ export interface Maintenance {
   durationMinutes: number | null;
   timezone: string;
   timezoneOption: string;
-  timezoneOffset: string; // example: "UTC+08:00"，使用时区以此为准 (仅 Maintenance 中有效)
+  timezoneOffset: string; // example: "+08:00"，使用时区以此为准 (仅 Maintenance 中有效)
   status: 'inactive' | 'under-maintenance' | 'scheduled' | 'ended' | 'unknown' | string;
 }
 

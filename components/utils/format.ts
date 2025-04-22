@@ -56,40 +56,35 @@ export function getLatencyColor(ms: number): 'success' | 'warning' | 'danger' {
 }
 
 /**
- * Convert a date string to a relative time string in Chinese
- * @param date ISO date string to convert
- * @returns relative time string in Chinese (e.g. "3 分钟前")
- */
-export function timeAgo(date: string): string {
-  const seconds = Math.floor((+new Date() - +new Date(date)) / 1000);
-
-  const intervals: { [key: string]: number } = {
-    年: 31536000,
-    个月: 2592000,
-    天: 86400,
-    小时: 3600,
-    分钟: 60,
-    秒: 1,
-  };
-
-  for (const [unit, secondsInUnit] of Object.entries(intervals)) {
-    const interval = Math.floor(seconds / secondsInUnit);
-    if (interval >= 1) {
-      return `${interval} ${unit}前`;
-    }
-  }
-
-  return '刚刚';
-}
-
-/**
- * Convert UTC date string to timestamp
- * @param date Date string in format 'YYYY-MM-DD HH:MM:SS' (UTC)
+ * Convert date string to timestamp with timezone support
+ * @param dateString Date string in ISO format or 'YYYY-MM-DD HH:MM:SS'
+ * @param tz Timezone offset in format '+HH:MM' or 'UTC'
  * @returns timestamp in milliseconds
  */
-export function dateStringToTimestamp(date: string): number {
-  const timestamp = new Date(date).getTime();
-  return Number.isFinite(timestamp) ? timestamp : 0;
+export function dateStringToTimestamp(dateString: string, tz = '+0000'): number {
+  if (!dateString) return 0;
+
+  try {
+    const dateStr = dateString.trim().replace(' +0000', '');
+    const timezone = tz.replace(':', '').replace('UTC', '+0000');
+
+    let timestamp = new Date(`${dateStr} ${timezone}`).getTime();
+
+    if (!Number.isFinite(timestamp)) {
+      timestamp = new Date(dateStr).getTime();
+
+      if (Number.isFinite(timestamp) && timezone !== '+0000') {
+        const tzOffsetMs =
+          Number.parseInt(timezone.slice(1, 3)) * 3600000 +
+          Number.parseInt(timezone.slice(3, 5)) * 60000;
+        timestamp += timezone.startsWith('-') ? tzOffsetMs : -tzOffsetMs;
+      }
+    }
+
+    return Number.isFinite(timestamp) ? timestamp : 0;
+  } catch {
+    return 0;
+  }
 }
 
 /**

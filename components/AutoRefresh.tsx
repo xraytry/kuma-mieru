@@ -180,7 +180,7 @@ export default function AutoRefresh({ onRefresh, interval = 60000, children }: A
         </div>
 
         <div className="flex justify-between text-sm text-gray-500 dark:text-gray-400 max-w-7xl mx-auto transition-colors duration-300">
-          <div suppressHydrationWarning>
+          <div suppressHydrationWarning={true}>
             {t('timerLastTime', {
               time: format.dateTime(dayjs(lastRefreshTime).toDate(), {
                 timeZone: dayjs.tz.guess(),
@@ -195,7 +195,7 @@ export default function AutoRefresh({ onRefresh, interval = 60000, children }: A
           </div>
           {!isPaused && (
             <div
-              suppressHydrationWarning
+              suppressHydrationWarning={true}
               className={`transition-opacity duration-300 ${isPaused ? 'opacity-0' : 'opacity-100'}`}
             >
               {t('timerNextTime', {

@@ -55,6 +55,16 @@
   "switchToLiteView": "切换到精简视图",
   "switchToFullView": "切换到完整视图",
 
+  "maintenance": {
+    "default": "计划维护中",
+    "InProgress": "正在维护中",
+    "Scheduled": "计划维护",
+    "Progress": "维护进度",
+    "StartsIn": "预计于 {time} 开始",
+    "EndsIn": "预计于 {time} 结束",
+    "timezoneInfo": "时区: {timezone}"
+  },
+
   "status": {
     "loading": "加载中...",
     "systemNormal": "所有服务一切正常",

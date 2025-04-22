@@ -1,4 +1,4 @@
-import type { GlobalConfig } from '@/types/config';
+import type { GlobalConfig, Maintenance } from '@/types/config';
 import type { MonitorResponse, MonitoringData } from '@/types/monitor';
 import useSWR, { mutate } from 'swr';
 import type { SWRConfiguration } from 'swr';
@@ -127,6 +127,32 @@ export function useConfig(config?: SWRConfiguration) {
 
   return {
     config: data,
+    isLoading,
+    isError: !!error,
+    error,
+    revalidate,
+  };
+}
+
+/**
+ * 获取维护计划数据的 hook
+ * @param config - SWR 配置选项
+ * @returns 维护计划数据、加载状态和错误信息
+ */
+export function useMaintenanceData(config?: SWRConfiguration) {
+  const {
+    data,
+    error,
+    isLoading,
+    mutate: revalidate,
+  } = useSWR<GlobalConfig>(SWR_KEYS.CONFIG, fetcher, {
+    ...DEFAULT_SWR_CONFIG,
+    refreshInterval: 60000, // 每60秒刷新一次
+    ...config,
+  });
+
+  return {
+    maintenanceList: data?.maintenanceList || [],
     isLoading,
     isError: !!error,
     error,

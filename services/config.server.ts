@@ -1,12 +1,87 @@
 import { apiConfig } from '@/config/api';
-import type { GlobalConfig } from '@/types/config';
+import type { GlobalConfig, Maintenance } from '@/types/config';
 import { ConfigError } from '@/utils/errors';
 import { extractPreloadData } from '@/utils/json-processor';
 import { sanitizeJsonString } from '@/utils/json-sanitizer';
 import * as cheerio from 'cheerio';
 import { cache } from 'react';
+import { ApiDataError, fetchApiData, logApiError } from './utils/api-service';
 import { customFetchOptions, ensureUTCTimezone } from './utils/common';
 import { customFetch } from './utils/fetch';
+
+function processMaintenanceData(maintenanceList: Maintenance[]): Maintenance[] {
+  return maintenanceList.map((maintenance) => {
+    const processed = {
+      ...maintenance,
+    };
+
+    if (maintenance.timeslotList && maintenance.timeslotList.length > 0) {
+      processed.timeslotList = maintenance.timeslotList.map((slot) => ({
+        startDate: ensureUTCTimezone(slot.startDate),
+        endDate: ensureUTCTimezone(slot.endDate),
+      }));
+    }
+
+    const now = Date.now();
+
+    if (processed.timeslotList && processed.timeslotList.length > 0) {
+      const { startDate, endDate } = processed.timeslotList[0];
+      const startTime = new Date(startDate).getTime();
+      const endTime = new Date(endDate).getTime();
+
+      if (now >= startTime && now < endTime) {
+        processed.status = 'under-maintenance';
+      } else if (now < startTime) {
+        processed.status = 'scheduled';
+      } else if (now >= endTime) {
+        processed.status = 'ended';
+      }
+    }
+
+    return processed;
+  });
+}
+
+/**
+ * 获取维护计划数据
+ * @returns 处理后的维护计划数据
+ */
+export async function getMaintenanceData() {
+  try {
+    const preloadData = await getPreloadData();
+
+    if (!Array.isArray(preloadData.maintenanceList)) {
+      throw new ApiDataError('Maintenance list data must be an array');
+    }
+
+    const maintenanceEndpoint = `${apiConfig.apiEndpoint}/maintenance`;
+    let detailedData: { maintenanceList: Maintenance[] } | null = null;
+
+    try {
+      detailedData = await fetchApiData<{ maintenanceList: Maintenance[] }>(maintenanceEndpoint);
+    } catch (error) {
+      console.warn('Failed to get detailed maintenance data, using preloaded data instead:', error);
+    }
+
+    const maintenanceList = detailedData?.maintenanceList || preloadData.maintenanceList;
+    const processedList = processMaintenanceData(maintenanceList);
+
+    return {
+      success: true,
+      maintenanceList: processedList,
+    };
+  } catch (error) {
+    logApiError('get maintenance data', error, {
+      endpoint: `${apiConfig.apiEndpoint}/maintenance`,
+    });
+
+    return {
+      success: false,
+      maintenanceList: [],
+      error: error instanceof Error ? error.message : 'Unknown error occurred',
+    };
+  }
+}
 
 export const getGlobalConfig = cache(async (): Promise<GlobalConfig> => {
   try {
@@ -35,6 +110,10 @@ export const getGlobalConfig = cache(async (): Promise<GlobalConfig> => {
           ? 'light'
           : 'system';
 
+    // 获取并处理维护计划数据
+    const maintenanceData = await getMaintenanceData();
+    const maintenanceList = maintenanceData.maintenanceList || [];
+
     const config: GlobalConfig = {
       config: {
         ...preloadData.config,
@@ -47,6 +126,7 @@ export const getGlobalConfig = cache(async (): Promise<GlobalConfig> => {
             lastUpdatedDate: ensureUTCTimezone(preloadData.incident.lastUpdatedDate),
           }
         : undefined,
+      maintenanceList: maintenanceList,
     };
 
     return config;
@@ -72,6 +152,7 @@ export const getGlobalConfig = cache(async (): Promise<GlobalConfig> => {
         googleAnalyticsId: null,
         showCertificateExpiry: false,
       },
+      maintenanceList: [],
     };
   }
 });
