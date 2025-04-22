@@ -21,9 +21,32 @@ export interface MonitorTag {
 export interface Monitor {
   id: number;
   name: string;
-  sendUrl: number;
-  type: 'http' | 'ping' | 'port';
+  sendUrl: number; // 0: no, 1: yes
+  // server/model/monitor.js (Uptime Kuma)
+  type:
+    | 'keyword'
+    | 'http'
+    | 'ping'
+    | 'port'
+    | 'push'
+    | 'socket'
+    | 'sqlserver'
+    | 'json-query'
+    | 'real-browser'
+    | 'kafka-producer'
+    | 'redis'
+    | 'radius'
+    | 'mysql'
+    | 'postgres'
+    | 'gamedig'
+    | 'dns'
+    | 'steam'
+    | 'mqtt'
+    | 'tcp'
+    | 'docker';
   url?: string;
+  certExpiryDaysRemaining?: number; // only for 'http', 'keyword', 'certexpiry', 'json-query'
+  validCert?: boolean; // only for cert expiry monitor
   tags?: MonitorTag[];
 }
 
