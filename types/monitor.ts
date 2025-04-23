@@ -1,5 +1,10 @@
+/**
+ * Monitor - Heartbeat Data
+ *
+ * Source: Uptime-Kuma - [server/model/heartbeat.js](https://github.com/louislam/uptime-kuma/blob/0876b1cbf5bc2beea8f28e7f93190a6f7e57f807/server/model/heartbeat.js#L3-L9)
+ */
 export interface Heartbeat {
-  status: number; // 0: down, 1: up, 2: maintenance
+  status: 0 | 1 | 2 | 3; // 0: down, 1: up, 2: pending, 3: maintenance
   time: string;
   msg: string;
   ping: number | null; // latency in ms
@@ -18,6 +23,11 @@ export interface MonitorTag {
   color: string;
 }
 
+/**
+ * Monitor Models
+ *
+ * Source: Uptime-Kuma - [server/model/...](https://github.com/louislam/uptime-kuma/tree/0876b1cbf5bc2beea8f28e7f93190a6f7e57f807/server/model)
+ */
 export interface Monitor {
   id: number;
   name: string;
