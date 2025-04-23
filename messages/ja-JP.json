@@ -28,6 +28,7 @@
 
   "nodeOnline": "稼働中",
   "nodeOffline": "停止中",
+  "nodePending": "再試行中",
   "nodeMaintenance": "保守中",
 
   "nodeCount": "直近 {count} 回分",

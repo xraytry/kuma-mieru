@@ -28,6 +28,7 @@
 
   "nodeOnline": "線上",
   "nodeOffline": "離線",
+  "nodePending": "重試中",
   "nodeMaintenance": "維護中",
 
   "nodeCount": "最近 {count} 次",

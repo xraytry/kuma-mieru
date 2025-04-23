@@ -28,6 +28,7 @@
 
   "nodeOnline": "Online",
   "nodeOffline": "Offline",
+  "nodePending": "Pending",
   "nodeMaintenance": "Maint.",
   "nodeCount": "Last {count} times",
 

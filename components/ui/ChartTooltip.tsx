@@ -20,10 +20,37 @@ export function ChartTooltip({ active, payload, label }: ChartTooltipProps) {
   const t = useTranslations();
   if (active && payload && payload.length) {
     const status = payload[0]?.payload?.status;
-    const statusText =
-      status === 1 ? t('nodeOnline') : status === 2 ? t('nodeMaintenance') : t('nodeOffline');
-    const statusColor =
-      status === 1 ? 'text-success' : status === 2 ? 'text-warning' : 'text-danger';
+
+    let statusText: string;
+    switch (status) {
+      case 1:
+        statusText = t('nodeOnline');
+        break;
+      case 2:
+        statusText = t('nodePending');
+        break;
+      case 3:
+        statusText = t('nodeMaintenance');
+        break;
+      default: // 0
+        statusText = t('nodeOffline');
+    }
+
+    let statusColor: string;
+    switch (status) {
+      case 1: // online
+        statusColor = 'text-success';
+        break;
+      case 2: // pending
+        statusColor = 'text-warning';
+        break;
+      case 3: // maintenance
+        statusColor = 'text-danger';
+        break;
+      default: // 0, offline
+        statusColor = 'text-danger';
+    }
+
     const ping = payload[0]?.value;
     const latencyColor = getLatencyColor(ping || 0);
 
