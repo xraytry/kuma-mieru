@@ -12,7 +12,7 @@ import { MonitoringChart } from './charts/MonitoringChart';
 import { ResponsStats } from './charts/ResponsStats';
 import { StatusBlockIndicator } from './charts/StatusBlockIndicator';
 
-const VIEW_PREFERENCE_KEY = 'monitor-card-view-preference';
+const VIEW_PREFERENCE_KEY = 'view-preference-monitor-card';
 
 export function MonitorCard({
   monitor,

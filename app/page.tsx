@@ -17,7 +17,7 @@ import { LayoutGrid, LayoutList } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 
-const GLOBAL_VIEW_PREFERENCE_KEY = 'global-monitor-card-view-preference';
+const GLOBAL_VIEW_PREFERENCE_KEY = 'view-preference';
 
 export default function Home() {
   const {
@@ -38,6 +38,7 @@ export default function Home() {
       }
     }
   }, []);
+
   const t = useTranslations();
 
   const isLoading = isLoadingMonitors || isLoadingConfig || isLoadingMaintenance;
