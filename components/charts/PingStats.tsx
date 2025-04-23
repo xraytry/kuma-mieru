@@ -18,7 +18,7 @@ const PING_LABELS = {
     full: 'nodeLatestPing',
   },
   av: {
-    short: 'AVG',
+    short: 'AL',
     full: 'nodeAvgPing',
   },
   ta: {

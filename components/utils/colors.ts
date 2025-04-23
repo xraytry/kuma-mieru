@@ -38,11 +38,11 @@ export const COLOR_SYSTEM = {
     label: 'nodePending',
     showInLegend: true,
   },
-  pending: {
+  maintenance: {
     text: 'text-primary-500/90 dark:text-primary-400/90',
     bg: {
-      light: 'bg-warning/60',
-      dark: 'bg-warning/60',
+      light: 'bg-primary/30',
+      dark: 'bg-primary/80',
     },
     label: 'nodeMaintenance',
     showInLegend: true,

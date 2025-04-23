@@ -42,7 +42,7 @@ export function ChartTooltip({ active, payload, label }: ChartTooltipProps) {
         statusColor = 'text-success';
         break;
       case 2: // pending
-        statusColor = 'text-warning';
+        statusColor = 'text-pending';
         break;
       case 3: // maintenance
         statusColor = 'text-danger';
