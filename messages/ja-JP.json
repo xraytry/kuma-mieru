@@ -55,6 +55,16 @@
   "switchToLiteView": "簡易表示に切り替え",
   "switchToFullView": "詳細表示に切り替え",
 
+  "maintenance": {
+    "default": "メンテナンス中",
+    "InProgress": "メンテナンス実施中",
+    "Scheduled": "計画メンテナンス",
+    "Progress": "メンテナンス進捗",
+    "StartsIn": "{time}に開始予定",
+    "EndsIn": "{time}に終了予定",
+    "timezoneInfo": "タイムゾーン: {timezone}"
+  },
+
   "status": {
     "loading": "読み込み中...",
     "systemNormal": "すべてのサービスが正常に稼働しています",

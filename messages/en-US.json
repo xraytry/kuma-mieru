@@ -54,6 +54,16 @@
   "switchToLiteView": "Switch to Lite View",
   "switchToFullView": "Switch to Full View",
 
+  "maintenance": {
+    "default": "Under Scheduled Maintenance",
+    "InProgress": "Maintenance In Progress",
+    "Scheduled": "Scheduled Maintenance",
+    "Progress": "Maintenance Progress",
+    "StartsIn": "Scheduled to begin at {time}",
+    "EndsIn": "Estimated to end by {time}",
+    "timezoneInfo": "Timezone: {timezone}"
+  },
+
   "status": {
     "loading": "Loading...",
     "systemNormal": "All systems operational",
