@@ -50,3 +50,4 @@ dist/
 !bun.lock
 
 @*.md
+p*.md

@@ -32,7 +32,12 @@
   },
 
   "node": {
-    "search": "搜索节点... (TODO)",
+    "search": "搜索节点...",
+    "clearSearch": "清除搜索",
+    "filterResults": "找到 {count} 个匹配节点",
+    "noMatchingResults": "没有找到匹配的节点",
+    "clearFilter": "清除筛选",
+    "searchTime": "耗时 {time}ms",
     "uptimeStatus": "可用率 (24 小时)",
     "latestPing": "最新延迟",
     "avgPing": "平均延迟",

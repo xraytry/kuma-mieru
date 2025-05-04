@@ -32,7 +32,12 @@
   },
 
   "node": {
-    "search": "搜尋節點...（未實作）",
+    "search": "搜尋節點...",
+    "clearSearch": "清除搜尋",
+    "filterResults": "{count} 個匹配節點",
+    "noMatchingResults": "未找到匹配節點",
+    "clearFilter": "清除篩選",
+    "searchTime": "耗時 {time}ms",
     "uptimeStatus": "可用率 (24 小時)",
     "latestPing": "最新延遲",
     "avgPing": "平均延遲",

@@ -32,7 +32,12 @@
   },
 
   "node": {
-    "search": "ノードを検索...（未実装）",
+    "search": "ノードを検索...",
+    "clearSearch": "検索をクリア",
+    "filterResults": "{count} 件の一致するノードが見つかりました",
+    "noMatchingResults": "一致するノードが見つかりません",
+    "clearFilter": "フィルターをクリア",
+    "searchTime": "検索時間: {time}ms",
     "uptimeStatus": "稼働率（24時間）",
     "latestPing": "最新レイテンシ",
     "avgPing": "平均レイテンシ",

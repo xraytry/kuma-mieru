@@ -32,7 +32,12 @@
   },
 
   "node": {
-    "search": "Search (TODO)",
+    "search": "Search monitors...",
+    "clearSearch": "Clear search",
+    "filterResults": "Found {count} matching nodes",
+    "noMatchingResults": "No matching monitors found",
+    "clearFilter": "Clear filter",
+    "searchTime": "Time: {time}ms",
     "uptimeStatus": "Uptime Status (Daily)",
     "latestPing": "Latest Ping",
     "avgPing": "Average Ping",

@@ -19,8 +19,10 @@ import { NavbarSkeleton } from '@/components/ui/CommonSkeleton';
 import { apiConfig } from '@/config/api';
 import { siteConfig } from '@/config/site';
 import { motion } from 'framer-motion';
-import { Menu, X } from 'lucide-react';
+import { Menu, Search, X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { useCallback } from 'react';
+import { useNodeSearch } from '../context/NodeSearchContext';
 import { I18NSwitch } from './i18n-switch';
 
 const isExternalUrl = (url: string) => {
@@ -29,32 +31,46 @@ const isExternalUrl = (url: string) => {
 
 export const Navbar = () => {
   const t = useTranslations();
+  const { searchTerm, setSearchTerm, clearSearch, isFiltering } = useNodeSearch();
 
   if (!apiConfig) {
     return <NavbarSkeleton />;
   }
 
+  const handleSearchChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setSearchTerm(e.target.value);
+    },
+    [setSearchTerm],
+  );
+
   const searchInput = (
-    // TODO: 实现节点过滤器
-    <Input
-      isDisabled
-      aria-label={t('navbar.search')}
-      classNames={{
-        inputWrapper: 'bg-default-100',
-        input: 'text-sm',
-      }}
-      endContent={
-        <Kbd className="hidden lg:inline-block" keys={['command']}>
-          K
-        </Kbd>
-      }
-      labelPlacement="outside"
-      placeholder={t('node.search')}
-      startContent={
-        <SearchIcon className="text-base text-default-400 pointer-events-none flex-shrink-0" />
-      }
-      type="search"
-    />
+    <div className="relative">
+      <Input
+        aria-label={t('navbar.search')}
+        classNames={{
+          inputWrapper: 'bg-default-100',
+          input: 'text-sm',
+        }}
+        endContent={
+          !isFiltering && (
+            <Kbd className="hidden lg:inline-block" keys={['command']}>
+              K
+            </Kbd>
+          )
+        }
+        value={searchTerm}
+        onChange={handleSearchChange}
+        isClearable={isFiltering}
+        onClear={clearSearch}
+        labelPlacement="outside"
+        placeholder={t('node.search')}
+        startContent={
+          <SearchIcon className="text-base text-default-400 pointer-events-none flex-shrink-0" />
+        }
+        type="search"
+      />
+    </div>
   );
 
   const starButton = (
