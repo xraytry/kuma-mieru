@@ -38,7 +38,7 @@ export const Navbar = () => {
     // TODO: 实现节点过滤器
     <Input
       isDisabled
-      aria-label={t('ariaSearch')}
+      aria-label={t('navbar.search')}
       classNames={{
         inputWrapper: 'bg-default-100',
         input: 'text-sm',
@@ -49,7 +49,7 @@ export const Navbar = () => {
         </Kbd>
       }
       labelPlacement="outside"
-      placeholder={t('nodeSearch')}
+      placeholder={t('node.search')}
       startContent={
         <SearchIcon className="text-base text-default-400 pointer-events-none flex-shrink-0" />
       }
@@ -93,7 +93,7 @@ export const Navbar = () => {
             <p className="font-bold text-inherit">{apiConfig.siteMeta.title}</p>
           </NextLink>
         </NavbarBrand>
-        <nav aria-label={t('ariaMainNav')}>
+        <nav aria-label={t('navbar.main')}>
           <ul className="hidden lg:flex gap-4 justify-start ml-2">
             {siteConfig.navItems.map((item) => (
               <li key={item.href}>
@@ -115,7 +115,7 @@ export const Navbar = () => {
       </NavbarContent>
 
       <NavbarContent className="hidden sm:flex basis-1/5 sm:basis-full" justify="end">
-        <nav aria-label={t('ariaToolbar')}>
+        <nav aria-label={t('navbar.toolbar')}>
           <ul className="flex items-center gap-4">
             <li>
               <ThemeSwitch />
@@ -131,7 +131,7 @@ export const Navbar = () => {
 
       {/* 移动端 */}
       <NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
-        <nav aria-label={t('ariaMobileToolbar')}>
+        <nav aria-label={t('navbar.toolbar')}>
           <ul className="flex items-center gap-2">
             <li>
               <ThemeSwitch />
@@ -163,7 +163,7 @@ export const Navbar = () => {
       <NavbarMenu className="z-[60]">
         {apiConfig.isShowStarButton && starButton}
         {searchInput}
-        <nav aria-label={t('ariaMobileNav')}>
+        <nav aria-label={t('navbar.mobileNav')}>
           <ul className="mx-4 mt-2 flex flex-col gap-2">
             {siteConfig.navItems.map((item, index) => (
               <li key={`${item}-${index}`}>

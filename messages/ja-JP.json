@@ -1,60 +1,75 @@
 {
-  "pageMain": "トップページ",
-  "pageEdit": "このページを編集",
-  "pageBack": "前のページに戻る",
-  "pageBackMonitor": "監視リストに戻る",
+  "page": {
+    "main": "トップページ",
+    "edit": "このページを編集",
+    "back": "前のページに戻る",
+    "backMonitor": "監視リストに戻る"
+  },
 
-  "timerPause": "一時停止",
-  "timerPaused": "一時停止中",
-  "timerRefreshing": "更新中...",
-  "timerRefreshNow": "今すぐ更新",
-  "timerLastTime": "最終更新: {time}",
-  "timerNextTime": "更新まで {sec} 秒",
-  "timerRefreshSuccess": "更新成功",
-  "timerPausedInfo": "自動更新を一時停止しました",
-  "timerResumedInfo": "自動更新を再開しました",
+  "timer": {
+    "pause": "一時停止",
+    "paused": "一時停止中",
+    "refreshing": "更新中...",
+    "refreshNow": "今すぐ更新",
+    "lastTime": "最終更新: {time}",
+    "nextTime": "更新まで {sec} 秒",
+    "refreshSuccess": "更新成功",
+    "pausedInfo": "自動更新を一時停止しました",
+    "resumedInfo": "自動更新を再開しました"
+  },
 
-  "localeChanging": "{locale} に切り替え中...",
-  "localeChanged": "{locale} に切り替えました",
-  "localeChangeError": "言語切り替え失敗",
-  "errorUnknown": "不明なエラー",
+  "locale": {
+    "changing": "{locale} に切り替え中...",
+    "changed": "{locale} に切り替えました",
+    "changeError": "言語切り替え失敗"
+  },
 
-  "nodeSearch": "ノードを検索...（未実装）",
-  "nodeUptimeStatus": "稼働率（24時間）",
+  "error": {
+    "unknown": "不明なエラー",
+    "refresh": "更新失敗",
+    "monitorNotFound": "監視項目が見つかりません",
+    "requestData": "データ取得に失敗しました"
+  },
 
-  "nodeLatestPing": "最新レイテンシ",
-  "nodeAvgPing": "平均レイテンシ",
-  "nodeTrimmedAvgPing": "調整後平均レイテンシ",
+  "node": {
+    "search": "ノードを検索...（未実装）",
+    "uptimeStatus": "稼働率（24時間）",
+    "latestPing": "最新レイテンシ",
+    "avgPing": "平均レイテンシ",
+    "trimmedAvgPing": "調整後平均レイテンシ",
+    "online": "稼働中",
+    "offline": "停止中",
+    "pending": "再試行中",
+    "maintenance": "保守中",
+    "count": "直近 {count} 回分"
+  },
 
-  "nodeOnline": "稼働中",
-  "nodeOffline": "停止中",
-  "nodePending": "再試行中",
-  "nodeMaintenance": "保守中",
+  "alert": {
+    "createdAt": "作成日時: {time}",
+    "updatedAt": "更新日時: {time}"
+  },
 
-  "nodeCount": "直近 {count} 回分",
+  "navbar": {
+    "main": "メインナビゲーション",
+    "toolbar": "ツールバー",
+    "mobileToolbar": "モバイルツールバー",
+    "mobileNav": "モバイルメインナビゲーション",
+    "search": "検索"
+  },
 
-  "alertCreatedAt": "作成日時: {time}",
-  "alertUpdatedAt": "更新日時: {time}",
-
-  "errorRefresh": "更新失敗",
-  "errorMonitorNotFound": "監視項目が見つかりません",
-  "errorRequestData": "データ取得に失敗しました",
-
-  "ariaMainNav": "メインナビゲーション",
-  "ariaToolbar": "ツールバー",
-  "ariaMobileToolbar": "モバイルツールバー",
-  "ariaMobileNav": "モバイルメインナビゲーション",
-  "ariaSearch": "検索",
-
-  "modeLight": "ライト",
-  "modeDark": "ダーク",
-  "modeSystem": "システム",
+  "mode": {
+    "light": "ライト",
+    "dark": "ダーク",
+    "system": "システム"
+  },
 
   "noData": "データがありません",
   "safariWarning": "Safari ブラウザはまだサポートされていません",
 
-  "switchToLiteView": "簡易表示に切り替え",
-  "switchToFullView": "詳細表示に切り替え",
+  "view": {
+    "switchToLite": "簡易表示に切り替え",
+    "switchToFull": "詳細表示に切り替え"
+  },
 
   "maintenance": {
     "default": "メンテナンス中",
@@ -72,6 +87,5 @@
     "systemWarning": "一部サービスに障害が発生しています",
     "systemError": "システムに重大障害が発生しました",
     "systemUnknown": "システム状態を確認できません"
-  },
-  "": ""
+  }
 }

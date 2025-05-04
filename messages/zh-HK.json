@@ -1,60 +1,75 @@
 {
-  "pageMain": "主頁",
-  "pageEdit": "編輯此頁",
-  "pageBack": "返回上一頁",
-  "pageBackMonitor": "返回監控列表",
+  "page": {
+    "main": "主頁",
+    "edit": "編輯此頁",
+    "back": "返回上一頁",
+    "backMonitor": "返回監控列表"
+  },
 
-  "timerPause": "暫停",
-  "timerPaused": "已暫停",
-  "timerRefreshing": "刷新中...",
-  "timerRefreshNow": "立即刷新",
-  "timerLastTime": "上次刷新: {time}",
-  "timerNextTime": "將於 {sec} 秒後刷新",
-  "timerRefreshSuccess": "刷新成功",
-  "timerPausedInfo": "自動刷新已暫停",
-  "timerResumedInfo": "自動刷新已恢復",
+  "timer": {
+    "pause": "暫停",
+    "paused": "已暫停",
+    "refreshing": "刷新中...",
+    "refreshNow": "立即刷新",
+    "lastTime": "上次刷新: {time}",
+    "nextTime": "將於 {sec} 秒後刷新",
+    "refreshSuccess": "刷新成功",
+    "pausedInfo": "自動刷新已暫停",
+    "resumedInfo": "自動刷新已恢復"
+  },
 
-  "localeChanging": "正在切換到 {locale}...",
-  "localeChanged": "已切換到 {locale}",
-  "localeChangeError": "語言切換失敗",
-  "errorUnknown": "未知錯誤",
+  "locale": {
+    "changing": "正在切換到 {locale}...",
+    "changed": "已切換到 {locale}",
+    "changeError": "語言切換失敗"
+  },
 
-  "nodeSearch": "搜尋節點... (待完成)",
-  "nodeUptimeStatus": "可用率 (24 小時)",
+  "error": {
+    "unknown": "未知錯誤",
+    "refresh": "刷新失敗",
+    "monitorNotFound": "未找到監控",
+    "requestData": "取得數據失敗"
+  },
 
-  "nodeLatestPing": "最新延遲",
-  "nodeAvgPing": "平均延遲",
-  "nodeTrimmedAvgPing": "修尾平均延遲",
+  "node": {
+    "search": "搜尋節點... (待完成)",
+    "uptimeStatus": "可用率 (24 小時)",
+    "latestPing": "最新延遲",
+    "avgPing": "平均延遲",
+    "trimmedAvgPing": "修尾平均延遲",
+    "online": "在線",
+    "offline": "離線",
+    "pending": "重試中",
+    "maintenance": "維護中",
+    "count": "最近 {count} 次"
+  },
 
-  "nodeOnline": "在線",
-  "nodeOffline": "離線",
-  "nodePending": "重試中",
-  "nodeMaintenance": "維護中",
+  "alert": {
+    "createdAt": "發佈於 {time}",
+    "updatedAt": "更新於 {time}"
+  },
 
-  "nodeCount": "最近 {count} 次",
+  "navbar": {
+    "main": "主導航欄",
+    "toolbar": "工具列",
+    "mobileToolbar": "流動版工具列",
+    "mobileNav": "流動版主導航欄",
+    "search": "搜尋"
+  },
 
-  "alertCreatedAt": "發佈於 {time}",
-  "alertUpdatedAt": "更新於 {time}",
-
-  "errorRefresh": "刷新失敗",
-  "errorMonitorNotFound": "未找到監控",
-  "errorRequestData": "取得數據失敗",
-
-  "ariaMainNav": "主導航欄",
-  "ariaToolbar": "工具列",
-  "ariaMobileToolbar": "流動版工具列",
-  "ariaMobileNav": "流動版主導航欄",
-  "ariaSearch": "搜尋",
-
-  "modeLight": "淺色模式",
-  "modeDark": "深色模式",
-  "modeSystem": "跟隨系統",
+  "mode": {
+    "light": "淺色模式",
+    "dark": "深色模式",
+    "system": "跟隨系統"
+  },
 
   "noData": "暫無數據",
   "safariWarning": "暫不支援 Safari 瀏覽器",
 
-  "switchToLiteView": "切換至精簡檢視",
-  "switchToFullView": "切換至完整檢視",
+  "view": {
+    "switchToLite": "切換至精簡檢視",
+    "switchToFull": "切換至完整檢視"
+  },
 
   "maintenance": {
     "default": "計劃維護中",
@@ -72,6 +87,5 @@
     "systemWarning": "部分服務出現問題",
     "systemError": "系統嚴重故障",
     "systemUnknown": "系統狀態未明"
-  },
-  "": ""
+  }
 }

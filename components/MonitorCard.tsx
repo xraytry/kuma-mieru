@@ -145,7 +145,7 @@ export function MonitorCard({
               <ResponsStats value={uptimeData[0].value} fill={uptimeData[0].fill} isHome={isHome} />
             </div>
             {!disableViewToggle && (
-              <Tooltip content={t('switchToLiteView')}>
+              <Tooltip content={t('view.switchToLite')}>
                 <Button isIconOnly size="sm" variant="light" onClick={toggleView} className="mt-1">
                   <LayoutList size={16} />
                 </Button>
@@ -164,7 +164,7 @@ export function MonitorCard({
             )}{' '}
             {isSafari && (
               <div className="w-full h-[120px] flex items-center justify-center text-default-500">
-                {t('safariWarning')}
+                {t('view.safariWarning')}
               </div>
             )}
           </div>

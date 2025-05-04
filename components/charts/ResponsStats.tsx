@@ -12,16 +12,16 @@ interface ResponsStatsProps {
 
 export function ResponsStats({ value, fill, isHome, size = 'md' }: ResponsStatsProps) {
   const data = [{ value, fill }];
-  const t = useTranslations();
+  const t = useTranslations('node');
 
   const tooltipContent = !isHome ? (
     <div className="flex flex-col gap-2">
       <span className="text-md text-gray-500">
-        {t('nodeUptimeStatus')}: {value.toFixed(2)}%
+        {t('uptimeStatus')}: {value.toFixed(2)}%
       </span>
     </div>
   ) : (
-    `${t('nodeUptimeStatus')}: ${value.toFixed(2)}%`
+    `${t('uptimeStatus')}: ${value.toFixed(2)}%`
   );
 
   const chartSize = size === 'sm' ? 'w-6 h-6' : size === 'lg' ? 'w-12 h-12' : 'w-10 h-10';

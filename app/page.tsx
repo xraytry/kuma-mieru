@@ -39,7 +39,7 @@ export default function Home() {
     }
   }, []);
 
-  const t = useTranslations();
+  const t = useTranslations('view');
 
   const isLoading = isLoadingMonitors || isLoadingConfig || isLoadingMaintenance;
 
@@ -70,7 +70,7 @@ export default function Home() {
           <div className="flex justify-between items-center mb-6" suppressHydrationWarning={true}>
             <SystemStatusAlert />
             <Tooltip
-              content={isGlobalLiteView ? t('switchToFullView') : t('switchToLiteView')}
+              content={isGlobalLiteView ? t('switchToFull') : t('switchToLite')}
               suppressHydrationWarning={true}
             >
               <Button
@@ -78,7 +78,7 @@ export default function Home() {
                 variant="light"
                 onClick={toggleGlobalView}
                 className="ml-2"
-                aria-label={isGlobalLiteView ? t('switchToFullView') : t('switchToLiteView')}
+                aria-label={isGlobalLiteView ? t('switchToFull') : t('switchToLite')}
                 suppressHydrationWarning={true}
               >
                 {isGlobalLiteView ? <LayoutGrid size={20} /> : <LayoutList size={20} />}

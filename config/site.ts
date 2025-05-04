@@ -16,12 +16,12 @@ type NavItem = {
 
 const navItems: NavItem[] = [
   {
-    label: 'pageMain',
+    label: 'page.main',
     href: '/',
     external: false,
   },
   {
-    label: 'pageEdit',
+    label: 'page.edit',
     href: `${env.config.baseUrl}/manage-status-page`,
     external: true,
   },

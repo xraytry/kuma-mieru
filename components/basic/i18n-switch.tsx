@@ -16,11 +16,11 @@ export const I18NSwitch = () => {
   const handleLocaleChange = (locale: Locale, localeName: string) => {
     startTransition(async () => {
       try {
-        const toastId = toast.loading(t('localeChanging', { locale: localeName }));
+        const toastId = toast.loading(t('locale.changing', { locale: localeName }));
 
         await setUserLocale(locale);
 
-        toast.success(t('localeChanged', { locale: localeName }), {
+        toast.success(t('locale.changed', { locale: localeName }), {
           id: toastId,
         });
 
@@ -30,7 +30,7 @@ export const I18NSwitch = () => {
       } catch (error) {
         console.error('Failed to change locale:', error);
         toast.error(
-          `${t('localeChangeError')}: ${error instanceof Error ? error.message : t('errorUnknown')}`,
+          `${t('locale.changeError')}: ${error instanceof Error ? error.message : t('error.unknown')}`,
         );
       }
     });

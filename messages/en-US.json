@@ -1,59 +1,75 @@
 {
-  "pageMain": "Home",
-  "pageEdit": "Edit this page",
-  "pageBack": "Go back",
-  "pageBackMonitor": "Back to monitor list",
+  "page": {
+    "main": "Home",
+    "edit": "Edit this page",
+    "back": "Go back",
+    "backMonitor": "Back to monitor list"
+  },
 
-  "timerPause": "Pause",
-  "timerPaused": "Paused",
-  "timerRefreshing": "Refreshing...",
-  "timerRefreshNow": "Refresh now",
-  "timerLastTime": "Last refresh: {time}",
-  "timerNextTime": "Refresh in {sec} seconds",
-  "timerRefreshSuccess": "Refresh successful",
-  "timerPausedInfo": "Auto refresh paused",
-  "timerResumedInfo": "Auto refresh resumed",
+  "timer": {
+    "pause": "Pause",
+    "paused": "Paused",
+    "refreshing": "Refreshing...",
+    "refreshNow": "Refresh now",
+    "lastTime": "Last refresh: {time}",
+    "nextTime": "Refresh in {sec} seconds",
+    "refreshSuccess": "Refresh successful",
+    "pausedInfo": "Auto refresh paused",
+    "resumedInfo": "Auto refresh resumed"
+  },
 
-  "localeChanging": "Switching to {locale}...",
-  "localeChanged": "Switched to {locale}",
-  "localeChangeError": "Failed to change language",
-  "errorUnknown": "Unknown error",
+  "locale": {
+    "changing": "Switching to {locale}...",
+    "changed": "Switched to {locale}",
+    "changeError": "Failed to change language"
+  },
 
-  "nodeSearch": "Search (TODO)",
-  "nodeUptimeStatus": "Uptime Status (Daily)",
+  "error": {
+    "unknown": "Unknown error",
+    "refresh": "Refresh failed",
+    "monitorNotFound": "Monitor not found",
+    "requestData": "Failed to fetch data"
+  },
 
-  "nodeLatestPing": "Latest Ping",
-  "nodeAvgPing": "Average Ping",
-  "nodeTrimmedAvgPing": "Trimmed Average",
+  "node": {
+    "search": "Search (TODO)",
+    "uptimeStatus": "Uptime Status (Daily)",
+    "latestPing": "Latest Ping",
+    "avgPing": "Average Ping",
+    "trimmedAvgPing": "Trimmed Average",
+    "online": "Online",
+    "offline": "Offline",
+    "pending": "Pending",
+    "maintenance": "Maint.",
+    "count": "Last {count} times"
+  },
 
-  "nodeOnline": "Online",
-  "nodeOffline": "Offline",
-  "nodePending": "Pending",
-  "nodeMaintenance": "Maint.",
-  "nodeCount": "Last {count} times",
+  "alert": {
+    "createdAt": "Published at {time}",
+    "updatedAt": "Updated at {time}"
+  },
 
-  "alertCreatedAt": "Published at {time}",
-  "alertUpdatedAt": "Updated at {time}",
+  "navbar": {
+    "main": "Main navigation",
+    "toolbar": "Toolbar",
+    "mobileToolbar": "Mobile toolbar",
+    "mobileNav": "Mobile navigation",
+    "search": "Search"
+  },
 
-  "errorRefresh": "Refresh failed",
-  "errorMonitorNotFound": "Monitor not found",
-  "errorRequestData": "Failed to fetch data",
-
-  "ariaMainNav": "Main navigation",
-  "ariaToolbar": "Toolbar",
-  "ariaMobileToolbar": "Mobile toolbar",
-  "ariaMobileNav": "Mobile navigation",
-  "ariaSearch": "Search",
-
-  "modeLight": "Light",
-  "modeDark": "Dark",
-  "modeSystem": "System",
+  "mode": {
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
 
   "noData": "No data available",
   "safariWarning": "Safari browser is not supported yet",
 
-  "switchToLiteView": "Switch to Lite View",
-  "switchToFullView": "Switch to Full View",
+  "view": {
+    "switchToLite": "Switch to Lite View",
+    "switchToFull": "Switch to Full View"
+  },
 
   "maintenance": {
     "default": "Under Scheduled Maintenance",
@@ -71,7 +87,5 @@
     "systemWarning": "Partial service degradation detected",
     "systemError": "Critical system failure",
     "systemUnknown": "System status unavailable"
-  },
-
-  "": ""
+  }
 }

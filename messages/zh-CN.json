@@ -1,60 +1,75 @@
 {
-  "pageMain": "首页",
-  "pageEdit": "编辑此页",
-  "pageBack": "返回上一页",
-  "pageBackMonitor": "返回监控列表",
+  "page": {
+    "main": "首页",
+    "edit": "编辑此页",
+    "back": "返回上一页",
+    "backMonitor": "返回监控列表"
+  },
 
-  "timerPause": "暂停",
-  "timerPaused": "已暂停",
-  "timerRefreshing": "刷新中...",
-  "timerRefreshNow": "立即刷新",
-  "timerLastTime": "上次刷新: {time}",
-  "timerNextTime": "将在 {sec} 秒后刷新",
-  "timerRefreshSuccess": "刷新成功",
-  "timerPausedInfo": "自动刷新已暂停",
-  "timerResumedInfo": "自动刷新已恢复",
+  "timer": {
+    "pause": "暂停",
+    "paused": "已暂停",
+    "refreshing": "刷新中...",
+    "refreshNow": "立即刷新",
+    "lastTime": "上次刷新: {time}",
+    "nextTime": "将在 {sec} 秒后刷新",
+    "refreshSuccess": "刷新成功",
+    "pausedInfo": "自动刷新已暂停",
+    "resumedInfo": "自动刷新已恢复"
+  },
 
-  "localeChanging": "正在切换到 {locale}...",
-  "localeChanged": "已切换到 {locale}",
-  "localeChangeError": "语言切换失败",
-  "errorUnknown": "未知错误",
+  "locale": {
+    "changing": "正在切换到 {locale}...",
+    "changed": "已切换到 {locale}",
+    "changeError": "语言切换失败"
+  },
 
-  "nodeSearch": "搜索节点... (TODO)",
-  "nodeUptimeStatus": "可用率 (24 小时)",
+  "error": {
+    "unknown": "未知错误",
+    "refresh": "刷新失败",
+    "monitorNotFound": "未找到监控",
+    "requestData": "获取数据失败"
+  },
 
-  "nodeLatestPing": "最新延迟",
-  "nodeAvgPing": "平均延迟",
-  "nodeTrimmedAvgPing": "修剪后平均",
+  "node": {
+    "search": "搜索节点... (TODO)",
+    "uptimeStatus": "可用率 (24 小时)",
+    "latestPing": "最新延迟",
+    "avgPing": "平均延迟",
+    "trimmedAvgPing": "修剪后平均",
+    "online": "在线",
+    "offline": "离线",
+    "pending": "重试中",
+    "maintenance": "维护中",
+    "count": "最近 {count} 次"
+  },
 
-  "nodeOnline": "在线",
-  "nodeOffline": "离线",
-  "nodePending": "重试中",
-  "nodeMaintenance": "维护中",
+  "alert": {
+    "createdAt": "发布于 {time}",
+    "updatedAt": "更新于 {time}"
+  },
 
-  "nodeCount": "最近 {count} 次",
+  "navbar": {
+    "main": "主导航栏",
+    "toolbar": "工具栏",
+    "mobileToolbar": "移动端工具栏",
+    "mobileNav": "移动端主导航栏",
+    "search": "搜索"
+  },
 
-  "alertCreatedAt": "发布于 {time}",
-  "alertUpdatedAt": "更新于 {time}",
-
-  "errorRefresh": "刷新失败",
-  "errorMonitorNotFound": "未找到监控",
-  "errorRequestData": "获取数据失败",
-
-  "ariaMainNav": "主导航栏",
-  "ariaToolbar": "工具栏",
-  "ariaMobileToolbar": "移动端工具栏",
-  "ariaMobileNav": "移动端主导航栏",
-  "ariaSearch": "搜索",
-
-  "modeLight": "浅色模式",
-  "modeDark": "深色模式",
-  "modeSystem": "跟随系统",
+  "mode": {
+    "light": "浅色模式",
+    "dark": "深色模式",
+    "system": "跟随系统"
+  },
 
   "noData": "暂无数据",
   "safariWarning": "暂不支持 Safari 浏览器",
 
-  "switchToLiteView": "切换到精简视图",
-  "switchToFullView": "切换到完整视图",
+  "view": {
+    "switchToLite": "切换到精简视图",
+    "switchToFull": "切换到完整视图"
+  },
 
   "maintenance": {
     "default": "计划维护中",
@@ -72,7 +87,5 @@
     "systemWarning": "部分服务出现异常",
     "systemError": "服务运行异常",
     "systemUnknown": "服务状态未知"
-  },
-
-  "": ""
+  }
 }

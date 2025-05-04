@@ -6,7 +6,7 @@ export const COLOR_SYSTEM = {
       light: 'bg-success',
       dark: 'bg-success',
     },
-    label: 'nodeOnline',
+    label: 'node.online',
     showInLegend: true,
   },
   good: {
@@ -16,7 +16,7 @@ export const COLOR_SYSTEM = {
       light: 'bg-success/80',
       dark: 'bg-success/80',
     },
-    label: 'nodeOnline',
+    label: 'node.online',
     showInLegend: false,
   },
   normal: {
@@ -26,7 +26,7 @@ export const COLOR_SYSTEM = {
       light: 'bg-success/60',
       dark: 'bg-success/60',
     },
-    label: 'nodeOnline',
+    label: 'node.online',
     showInLegend: false,
   },
   warning: {
@@ -35,7 +35,7 @@ export const COLOR_SYSTEM = {
       light: 'bg-warning/80',
       dark: 'bg-warning',
     },
-    label: 'nodePending',
+    label: 'node.pending',
     showInLegend: true,
   },
   maintenance: {
@@ -44,7 +44,7 @@ export const COLOR_SYSTEM = {
       light: 'bg-primary/30',
       dark: 'bg-primary/80',
     },
-    label: 'nodeMaintenance',
+    label: 'node.maintenance',
     showInLegend: true,
   },
   error: {
@@ -53,7 +53,7 @@ export const COLOR_SYSTEM = {
       light: 'bg-danger/80',
       dark: 'bg-danger',
     },
-    label: 'nodeOffline',
+    label: 'node.offline',
     showInLegend: true,
   },
 } as const;

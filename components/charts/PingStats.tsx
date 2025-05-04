@@ -15,15 +15,15 @@ interface PingStatsProps {
 const PING_LABELS = {
   lt: {
     short: 'LT',
-    full: 'nodeLatestPing',
+    full: 'latestPing',
   },
   av: {
     short: 'AL',
-    full: 'nodeAvgPing',
+    full: 'avgPing',
   },
   ta: {
     short: 'TA',
-    full: 'nodeTrimmedAvgPing',
+    full: 'trimmedAvgPing',
   },
 } as const;
 
@@ -53,7 +53,7 @@ const SinglePingStat = ({ label, value, isHome, t }: SinglePingStatProps) => {
 };
 
 export function PingStats({ heartbeats, isHome = false }: PingStatsProps) {
-  const t = useTranslations();
+  const t = useTranslations('node');
   const stats = useMemo(() => calculatePingMetrics(heartbeats), [heartbeats]);
 
   if (!stats) return null;
