@@ -46,7 +46,18 @@
     "offline": "離線",
     "pending": "重試中",
     "maintenance": "維護中",
-    "count": "最近 {count} 次"
+    "count": "最近 {count} 次",
+    "allStatus": "所有狀態",
+    "filterByStatus": "按狀態篩選",
+    "searchInGroups": "在分組中搜尋",
+    "filterTooltip": "啟用此選項可在組名中搜尋",
+    "groupMatched": "組名匹配",
+    "statusFilter": {
+      "up": "線上",
+      "down": "離線",
+      "pending": "重試中",
+      "maintenance": "維護中"
+    }
   },
 
   "alert": {

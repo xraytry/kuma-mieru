@@ -46,7 +46,18 @@
     "offline": "停止中",
     "pending": "再試行中",
     "maintenance": "保守中",
-    "count": "直近 {count} 回分"
+    "count": "直近 {count} 回分",
+    "allStatus": "すべてのステータス",
+    "filterByStatus": "ステータスでフィルター",
+    "searchInGroups": "グループ内で検索",
+    "filterTooltip": "グループ名で検索を有効にする",
+    "groupMatched": "グループ名一致",
+    "statusFilter": {
+      "up": "稼働中",
+      "down": "停止中",
+      "pending": "再試行中",
+      "maintenance": "保守中"
+    }
   },
 
   "alert": {

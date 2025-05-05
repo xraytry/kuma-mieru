@@ -46,7 +46,18 @@
     "offline": "Offline",
     "pending": "Pending",
     "maintenance": "Maint.",
-    "count": "Last {count} times"
+    "count": "Last {count} times",
+    "allStatus": "All Statuses",
+    "filterByStatus": "Filter by Status",
+    "searchInGroups": "Search in Groups",
+    "filterTooltip": "Enable to search in group names",
+    "groupMatched": "Group matched",
+    "statusFilter": {
+      "up": "Online",
+      "down": "Offline",
+      "pending": "Pending",
+      "maintenance": "Maintenance"
+    }
   },
 
   "alert": {

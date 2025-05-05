@@ -1,12 +1,13 @@
 'use client';
 
-import { Button, Input, Kbd, Link } from '@heroui/react';
+import { Button, Checkbox, Input, Kbd, Link } from '@heroui/react';
 import {
   Navbar as HeroUINavbar,
   NavbarBrand,
   NavbarContent,
   NavbarMenu,
   NavbarMenuToggle,
+  Tooltip,
 } from '@heroui/react';
 import { link as linkStyles } from '@heroui/theme';
 import clsx from 'clsx';
@@ -139,7 +140,9 @@ export const Navbar = () => {
             <li>
               <I18NSwitch />
             </li>
-            <li className="hidden lg:block">{searchInput}</li>
+            <li className="hidden lg:block">
+              <div className="flex flex-col">{searchInput}</div>
+            </li>
             <li className="hidden sm:block">{apiConfig.isShowStarButton && starButton}</li>
           </ul>
         </nav>
@@ -178,9 +181,9 @@ export const Navbar = () => {
 
       <NavbarMenu className="z-[60]">
         {apiConfig.isShowStarButton && starButton}
-        {searchInput}
+        <div className="flex flex-col gap-4">{searchInput}</div>
         <nav aria-label={t('navbar.mobileNav')}>
-          <ul className="mx-4 mt-2 flex flex-col gap-2">
+          <ul className="mx-4 mt-4 flex flex-col gap-2">
             {siteConfig.navItems.map((item, index) => (
               <li key={`${item}-${index}`}>
                 <Link

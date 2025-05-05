@@ -46,7 +46,18 @@
     "offline": "离线",
     "pending": "重试中",
     "maintenance": "维护中",
-    "count": "最近 {count} 次"
+    "count": "最近 {count} 次",
+    "allStatus": "所有状态",
+    "filterByStatus": "按状态筛选",
+    "searchInGroups": "在分组中搜索",
+    "filterTooltip": "启用此选项可在组名中搜索",
+    "groupMatched": "组名匹配",
+    "statusFilter": {
+      "up": "在线",
+      "down": "离线",
+      "pending": "重试中",
+      "maintenance": "维护中"
+    }
   },
 
   "alert": {
