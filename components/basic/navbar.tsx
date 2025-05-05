@@ -1,18 +1,18 @@
 'use client';
 
-import { Button, Checkbox, Input, Kbd, Link } from '@heroui/react';
+import { Button, Input, Kbd, Link } from '@heroui/react';
 import {
   Navbar as HeroUINavbar,
   NavbarBrand,
   NavbarContent,
   NavbarMenu,
   NavbarMenuToggle,
-  Tooltip,
 } from '@heroui/react';
 import { link as linkStyles } from '@heroui/theme';
 import clsx from 'clsx';
 import Image from 'next/image';
 import NextLink from 'next/link';
+import { useCallback, useEffect, useRef } from 'react';
 
 import { GithubIcon, SearchIcon } from '@/components/basic/icons';
 import { ThemeSwitch } from '@/components/basic/theme-switch';
@@ -20,9 +20,8 @@ import { NavbarSkeleton } from '@/components/ui/CommonSkeleton';
 import { apiConfig } from '@/config/api';
 import { siteConfig } from '@/config/site';
 import { motion } from 'framer-motion';
-import { Menu, Search, X } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { useCallback } from 'react';
 import { useNodeSearch } from '../context/NodeSearchContext';
 import { I18NSwitch } from './i18n-switch';
 
@@ -32,7 +31,21 @@ const isExternalUrl = (url: string) => {
 
 export const Navbar = () => {
   const t = useTranslations();
-  const { searchTerm, setSearchTerm, clearSearch, isFiltering } = useNodeSearch();
+  const { inputValue, setInputValue, clearSearch, isFiltering } = useNodeSearch();
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  // shortcut key (Command+K or Ctrl+K)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        inputRef.current?.focus();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   if (!apiConfig) {
     return <NavbarSkeleton />;
@@ -40,10 +53,22 @@ export const Navbar = () => {
 
   const handleSearchChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      setSearchTerm(e.target.value);
+      setInputValue(e.target.value);
     },
-    [setSearchTerm],
+    [setInputValue],
   );
+
+  const handleCompositionEnd = useCallback(
+    (e: React.CompositionEvent<HTMLInputElement>) => {
+      setInputValue((e.target as HTMLInputElement).value);
+    },
+    [setInputValue],
+  );
+
+  const handleClearSearch = useCallback(() => {
+    clearSearch();
+    inputRef.current?.focus();
+  }, [clearSearch]);
 
   const searchInput = (
     <div className="relative">
@@ -60,10 +85,12 @@ export const Navbar = () => {
             </Kbd>
           )
         }
-        value={searchTerm}
+        ref={inputRef}
+        value={inputValue}
         onChange={handleSearchChange}
+        onCompositionEnd={handleCompositionEnd}
         isClearable={isFiltering}
-        onClear={clearSearch}
+        onClear={handleClearSearch}
         labelPlacement="outside"
         placeholder={t('node.search')}
         startContent={

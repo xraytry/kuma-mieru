@@ -1,5 +1,5 @@
 import type { FilterStatus } from '@/components/context/NodeSearchContext';
-import { CheckCircle2, AlertCircle, MinusCircle, Settings, Search } from 'lucide-react';
+import { AlertCircle, CheckCircle2, MinusCircle, Search, Settings } from 'lucide-react';
 
 /**
  * Get color variant based on status

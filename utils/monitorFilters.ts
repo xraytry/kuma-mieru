@@ -1,5 +1,5 @@
-import type { Monitor } from '@/types/monitor';
 import type { FilterStatus } from '@/components/context/NodeSearchContext';
+import type { Monitor } from '@/types/monitor';
 import type { HeartbeatData } from '@/types/monitor';
 
 /**

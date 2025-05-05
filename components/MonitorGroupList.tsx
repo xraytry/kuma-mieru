@@ -2,10 +2,10 @@
 
 import { MonitorCard } from '@/components/MonitorCard';
 import { MonitorCardSkeleton } from '@/components/ui/CommonSkeleton';
+import type { MonitorGroup, MonitoringData } from '@/types/monitor';
 import { Button, Chip } from '@heroui/react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useTranslations } from 'next-intl';
-import type { MonitorGroup, MonitoringData } from '@/types/monitor';
 
 interface EnhancedMonitorGroup extends MonitorGroup {
   isGroupMatched?: boolean;

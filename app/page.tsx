@@ -1,8 +1,8 @@
 'use client';
 
 import AutoRefresh from '@/components/AutoRefresh';
-import MonitorGroupList from '@/components/MonitorGroupList';
 import FilterResults from '@/components/FilterResults';
+import MonitorGroupList from '@/components/MonitorGroupList';
 import IncidentMarkdownAlert from '@/components/alerts/IncidentMarkdown';
 import MaintenanceAlert from '@/components/alerts/Maintenance';
 import SystemStatusAlert from '@/components/alerts/SystemStatus';
@@ -13,11 +13,11 @@ import {
   useMaintenanceData,
   useMonitorData,
 } from '@/components/utils/swr';
+import { filterMonitorByStatus } from '@/utils/monitorFilters';
 import { Button, Tooltip } from '@heroui/react';
 import { LayoutGrid, LayoutList } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useEffect, useMemo, useState } from 'react';
-import { filterMonitorByStatus } from '@/utils/monitorFilters';
 
 import type { Monitor, MonitorGroup } from '@/types/monitor';
 
@@ -77,17 +77,30 @@ export default function Home() {
     if (!isFiltering) return monitorGroups as EnhancedMonitorGroup[];
 
     const searchTermLower = searchTerm.toLowerCase();
+    const hasSearchTerm = searchTermLower.length > 0;
+
+    // pre-filter by status
+    const statusFilter = (monitor: Monitor) =>
+      filterMonitorByStatus(monitor, filterStatus, monitoringData.heartbeatList);
 
     return monitorGroups
       .map((group) => {
         const groupNameMatches =
-          searchInGroup && group.name.toLowerCase().includes(searchTermLower);
+          searchInGroup && hasSearchTerm && group.name.toLowerCase().includes(searchTermLower);
+
+        if (groupNameMatches) {
+          const statusFilteredMonitors = group.monitorList.filter(statusFilter);
+          return {
+            ...group,
+            monitorList: statusFilteredMonitors,
+            isGroupMatched: true,
+          };
+        }
 
         const filteredMonitors = group.monitorList.filter((monitor) => {
-          if (!filterMonitorByStatus(monitor, filterStatus, monitoringData.heartbeatList))
-            return false;
+          if (!statusFilter(monitor)) return false;
 
-          if (searchTermLower === '') return true;
+          if (!hasSearchTerm) return true;
 
           return (
             monitor.name.toLowerCase().includes(searchTermLower) ||
@@ -99,17 +112,6 @@ export default function Home() {
             )
           );
         });
-
-        if (groupNameMatches) {
-          const statusFilteredMonitors = group.monitorList.filter((monitor) =>
-            filterMonitorByStatus(monitor, filterStatus, monitoringData.heartbeatList),
-          );
-          return {
-            ...group,
-            monitorList: statusFilteredMonitors,
-            isGroupMatched: true,
-          };
-        }
 
         if (filteredMonitors.length === 0) return null;
 

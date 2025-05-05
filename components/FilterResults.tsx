@@ -1,20 +1,20 @@
 'use client';
 
 import { useNodeSearch } from '@/components/context/NodeSearchContext';
+import { getStatusColor, getStatusIcon } from '@/utils/statusHelpers';
 import {
   Button,
-  Chip,
   Checkbox,
+  Chip,
   Dropdown,
-  DropdownTrigger,
-  DropdownMenu,
   DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
   Tooltip,
 } from '@heroui/react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Folders, Search, AlertCircle } from 'lucide-react';
+import { AlertCircle, Folders, Search } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { getStatusColor, getStatusIcon } from '@/utils/statusHelpers';
 import { useCallback } from 'react';
 
 interface FilterResultsProps {
@@ -49,7 +49,11 @@ export default function FilterResults({ matchedMonitorsCount }: FilterResultsPro
         initial={{ opacity: 0, height: 0, marginBottom: 0 }}
         animate={{ opacity: 1, height: 'auto', marginBottom: 16 }}
         exit={{ opacity: 0, height: 0, marginBottom: 0 }}
-        transition={{ duration: 0.2 }}
+        transition={{
+          duration: 0.3,
+          ease: 'easeInOut',
+          opacity: { duration: 0.2 },
+        }}
         className="bg-default-50 p-3 rounded-lg"
       >
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
