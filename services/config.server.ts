@@ -5,7 +5,7 @@ import { extractPreloadData } from '@/utils/json-processor';
 import { sanitizeJsonString } from '@/utils/json-sanitizer';
 import * as cheerio from 'cheerio';
 import { cache } from 'react';
-import { ApiDataError, fetchApiData, logApiError } from './utils/api-service';
+import { ApiDataError, logApiError } from './utils/api-service';
 import { customFetchOptions, ensureUTCTimezone } from './utils/common';
 import { customFetch } from './utils/fetch';
 
@@ -54,16 +54,7 @@ export async function getMaintenanceData() {
       throw new ApiDataError('Maintenance list data must be an array');
     }
 
-    const maintenanceEndpoint = `${apiConfig.apiEndpoint}/maintenance`;
-    let detailedData: { maintenanceList: Maintenance[] } | null = null;
-
-    try {
-      detailedData = await fetchApiData<{ maintenanceList: Maintenance[] }>(maintenanceEndpoint);
-    } catch (error) {
-      console.warn('Failed to get detailed maintenance data, using preloaded data instead:', error);
-    }
-
-    const maintenanceList = detailedData?.maintenanceList || preloadData.maintenanceList;
+    const maintenanceList = preloadData.maintenanceList;
     const processedList = processMaintenanceData(maintenanceList);
 
     return {
@@ -110,7 +101,6 @@ export const getGlobalConfig = cache(async (): Promise<GlobalConfig> => {
           ? 'light'
           : 'system';
 
-    // 获取并处理维护计划数据
     const maintenanceData = await getMaintenanceData();
     const maintenanceList = maintenanceData.maintenanceList || [];
 
@@ -197,7 +187,6 @@ export async function getPreloadData() {
     if (error instanceof ConfigError) {
       throw error;
     }
-    // 添加更详细的错误日志
     console.error('Failed to get preload data:', {
       endpoint: apiConfig.htmlEndpoint,
       error:

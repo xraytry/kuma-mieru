@@ -3,4 +3,8 @@ User-agent: *
 Disallow: /api/
 Disallow: /_next/
 Disallow: /monitor/
+Disallow: /?search=
+Disallow: /?status=
+Disallow: /?group=
+
 Allow: /

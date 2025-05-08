@@ -95,7 +95,7 @@ export function MonitorCardLite({
                 />
               </div>
               {!disableViewToggle && (
-                <Tooltip content={t('switchToFullView')}>
+                <Tooltip content={t('view.switchToFull')}>
                   <Button isIconOnly size="sm" variant="light" onClick={onToggleView}>
                     <LayoutGrid size={16} />
                   </Button>
