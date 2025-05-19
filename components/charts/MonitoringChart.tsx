@@ -191,7 +191,7 @@ export function MonitoringChart({
           className="font-light text-sm"
         >
           {countRanges.map((range) => (
-            <Tab key={range.key} title={t('nodeCount', { count: range.count })} />
+            <Tab key={range.key} title={t('node.count', { count: range.count })} />
           ))}
         </Tabs>
       </div>

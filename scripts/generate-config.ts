@@ -16,7 +16,7 @@ const configSchema = z.object({
   pageId: z.string(),
   siteMeta: siteMetaSchema,
   isPlaceholder: z.boolean().default(false),
-  isEditThisPage: z.boolean().default(true),
+  isEditThisPage: z.boolean().default(false),
   isShowStarButton: z.boolean().default(true),
 });
 
