@@ -19,12 +19,13 @@
     "lint:fix": "biome check --write .",
     "format": "biome format .",
     "format:fix": "biome format --write .",
+    "preinstall": "bun run generate",
     "predev": "bun run generate",
     "prebuild": "bun run generate",
     "prestart": "bun run generate",
     "postdev": "bun run linter",
     "linter": "bun lint:fix && bun format:fix",
-    "generate": "bun scripts/banner.ts && bun scripts/generate-config.ts && bun scripts/generate-image-domains.ts",
+    "generate": "bun scripts/generate-config.ts && bun scripts/generate-image-domains.ts && bun scripts/banner.ts",
     "generate-config": "bun scripts/generate-config.ts",
     "generate-image-domains": "bun scripts/generate-image-domains.ts",
     "banner": "bun scripts/banner.ts"
@@ -73,6 +74,7 @@
     "@typescript-eslint/eslint-plugin": "8.30.1",
     "@typescript-eslint/parser": "8.29.1",
     "autoprefixer": "10.4.21",
+    "dotenv": "^16.5.0",
     "postcss": "8.5.3",
     "prettier": "3.5.3",
     "shiki": "^3.4.2",
@@ -80,5 +82,8 @@
     "tailwindcss": "^3.4.17",
     "typescript": "^5.8.3"
   },
-  "trustedDependencies": ["@biomejs/biome", "@heroui/shared-utils"]
+  "trustedDependencies": [
+    "@biomejs/biome",
+    "@heroui/shared-utils"
+  ]
 }
