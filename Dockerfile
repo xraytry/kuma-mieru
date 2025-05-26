@@ -34,6 +34,7 @@ RUN if [ "$PAGE_ID" = "demo" ]; then \
 
 COPY package.json bun.lock ./
 COPY scripts ./scripts
+COPY utils ./utils
 
 RUN set -e && \
   echo "Installing dependencies..." && \
