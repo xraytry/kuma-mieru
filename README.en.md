@@ -185,18 +185,19 @@ Go to https://vercel.com/new, select **Import** to import the repository you jus
    docker compose up -d
    ```
 
-   Add `--build` flag to bypass build cache if needed:
-
-   ```bash
-   docker compose up -d --build
-   ```
-
    Service will be available at `http://0.0.0.0:3883`.
 
 4. **View Logs**
 
    ```bash
    docker compose logs -f
+   ```
+
+5. **Update Image**
+
+   ```bash
+   docker compose pull
+   docker compose up -d
    ```
 
 ### Manual Docker Deployment

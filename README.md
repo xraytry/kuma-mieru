@@ -187,19 +187,19 @@ Fork 本仓库到您的 GitHub 用户下，如图所示：
    docker compose up -d
    ```
 
-   > [!NOTE]
-   > 如果需要更新镜像，可以添加 `--build` 参数：
-
-   ```bash
-   docker compose up -d --build
-   ```
-
    服务将在 `http://0.0.0.0:3883` 上运行。
 
 4. **查看日志**
 
    ```bash
    docker compose logs -f
+   ```
+
+5. **更新镜像**
+
+   ```bash
+   docker compose pull
+   docker compose up -d
    ```
 
 ### Docker Run 部署
