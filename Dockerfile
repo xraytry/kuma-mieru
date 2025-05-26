@@ -33,6 +33,8 @@ RUN if [ "$PAGE_ID" = "demo" ]; then \
   fi
 
 COPY package.json bun.lock ./
+COPY scripts ./scripts
+
 RUN set -e && \
   echo "Installing dependencies..." && \
   bun install --frozen-lockfile || { echo "Failed to install dependencies"; exit 1; }
