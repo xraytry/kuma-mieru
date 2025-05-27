@@ -2,11 +2,12 @@
 
 import { Alert } from '@/components/ui/Alert';
 import type { Maintenance } from '@/types/config';
-import { Progress } from '@heroui/react';
-import { AlertCircle, Clock, Wrench } from 'lucide-react';
+import { Progress, Card, CardBody, Chip } from '@heroui/react';
+import { AlertCircle, Clock, Wrench, Calendar, Timer } from 'lucide-react';
 import { useFormatter, useTranslations } from 'next-intl';
 import React, { useEffect } from 'react';
 import { dateStringToTimestamp } from '../utils/format';
+import { getMarkdownClasses, useMarkdown } from '../utils/markdown';
 
 function MaintenanceAlert({ maintenance }: { maintenance: Maintenance }) {
   const t = useTranslations('maintenance');
@@ -15,6 +16,9 @@ function MaintenanceAlert({ maintenance }: { maintenance: Maintenance }) {
 
   const isActive = maintenance.status === 'under-maintenance';
   const isScheduled = maintenance.status === 'scheduled';
+
+  // 渲染 description 的 markdown 内容
+  const renderedDescription = useMarkdown(maintenance.description || '');
 
   useEffect(() => {
     if (process.env.NODE_ENV === 'development') {
@@ -70,42 +74,90 @@ function MaintenanceAlert({ maintenance }: { maintenance: Maintenance }) {
       const elapsed = now - startTime;
       const progressPercent = Math.min(
         Math.max(Math.floor((elapsed / totalDuration) * 100), 0),
-        100,
+        100
       );
 
       return (
-        <div className="mt-3">
-          <div className="flex justify-between text-sm text-gray-600 dark:text-gray-300 mb-2">
-            <span>{format.dateTime(startTime, 'normal')}</span>
-            <span>{format.dateTime(endTime, 'normal')}</span>
-          </div>
-          <Progress
-            value={progressPercent}
-            color="warning"
-            className="h-2"
-            aria-label={t('Progress')}
-          />
-          <div className="mt-2 text-sm text-gray-600 dark:text-gray-300">
-            <span>
-              {t('EndsIn', {
-                time: format.relativeTime(endTime, now),
-              })}
-            </span>
-          </div>
-        </div>
+        <Card className="mt-4 bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-950/30 dark:to-orange-950/30 border border-amber-200 dark:border-amber-800">
+          <CardBody className="p-4">
+            <div className="flex items-center gap-2 mb-3">
+              <Timer className="h-5 w-5 text-amber-600 dark:text-amber-400" />
+              <span className="font-semibold text-amber-800 dark:text-amber-200">
+                {t('maintenanceInProgress')}
+              </span>
+            </div>
+
+            <div className="space-y-3">
+              <div className="flex justify-between items-center text-sm">
+                <div className="flex items-center gap-2 text-gray-600 dark:text-gray-300">
+                  <Calendar className="h-4 w-4" />
+                  <span>{format.dateTime(startTime, 'normal')}</span>
+                </div>
+                <div className="flex items-center gap-2 text-gray-600 dark:text-gray-300">
+                  <Clock className="h-4 w-4" />
+                  <span>{format.dateTime(endTime, 'normal')}</span>
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm font-medium text-amber-700 dark:text-amber-300">
+                    {t('Progress')}
+                  </span>
+                  <Chip size="sm" color="warning" variant="flat">
+                    {progressPercent}%
+                  </Chip>
+                </div>
+                <Progress
+                  value={progressPercent}
+                  color="warning"
+                  className="h-3"
+                  aria-label={t('Progress')}
+                />
+              </div>
+
+              <div className="flex items-center justify-between pt-2 border-t border-amber-200 dark:border-amber-800">
+                <span className="text-sm text-amber-600 dark:text-amber-400 font-medium">
+                  {t('EndsIn', {
+                    time: format.relativeTime(endTime, now),
+                  })}
+                </span>
+              </div>
+            </div>
+          </CardBody>
+        </Card>
       );
     }
 
     if (isScheduled) {
       return (
-        <div className="mt-2 flex items-center gap-2 text-amber-600 dark:text-amber-400">
-          <Clock size={16} />
-          <span>
-            {t('StartsIn', {
-              time: format.relativeTime(startTime, now),
-            })}
-          </span>
-        </div>
+        <Card className="mt-4 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-950/30 dark:to-indigo-950/30 border border-blue-200 dark:border-blue-800">
+          <CardBody className="p-4">
+            <div className="flex items-center gap-2 mb-3">
+              <Clock className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+              <span className="font-semibold text-blue-800 dark:text-blue-200">
+                {t('scheduledMaintenance')}
+              </span>
+            </div>
+
+            <div className="space-y-3">
+              <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
+                <Calendar className="h-4 w-4" />
+                <span>{format.dateTime(startTime, 'normal')}</span>
+                <span>-</span>
+                <span>{format.dateTime(endTime, 'normal')}</span>
+              </div>
+
+              <div className="flex items-center justify-between pt-2 border-t border-blue-200 dark:border-blue-800">
+                <span className="text-sm text-blue-600 dark:text-blue-400 font-medium">
+                  {t('StartsIn', {
+                    time: format.relativeTime(startTime, now),
+                  })}
+                </span>
+              </div>
+            </div>
+          </CardBody>
+        </Card>
       );
     }
 
@@ -124,19 +176,32 @@ function MaintenanceAlert({ maintenance }: { maintenance: Maintenance }) {
       variant="flat"
       className="mb-8"
       icon={<StatusIcon className="h-5 w-5" />}
+      markdownDescription={true}
     >
-      <div className="flex items-center gap-2 mt-1 mb-8">
-        <span className="font-medium">{statusTitle}</span>
-      </div>
+      <div className="space-y-4">
+        <div className="flex items-center gap-2">
+          <StatusIcon className="h-5 w-5" />
+          <span className="font-medium text-lg">{statusTitle}</span>
+        </div>
 
-      {getMaintenanceTimeInfo()}
+        {/* 渲染 markdown description */}
+        {maintenance.description && (
+          <div
+            className={getMarkdownClasses()}
+            // biome-ignore lint/security/noDangerouslySetInnerHtml: 相信 markdown-it 的安全性
+            dangerouslySetInnerHTML={{ __html: renderedDescription }}
+          />
+        )}
 
-      <div className="flex flex-col items-end gap-1 mt-4">
-        <span className="text-sm text-gray-400 dark:text-gray-500">
-          {t('timezoneInfo', {
-            timezone: maintenance.timezoneOffset || 'UTC',
-          })}
-        </span>
+        {getMaintenanceTimeInfo()}
+
+        <div className="flex flex-col items-end gap-1 mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+          <span className="text-sm text-gray-400 dark:text-gray-500">
+            {t('timezoneInfo', {
+              timezone: maintenance.timezoneOffset || 'UTC',
+            })}
+          </span>
+        </div>
       </div>
     </Alert>
   );

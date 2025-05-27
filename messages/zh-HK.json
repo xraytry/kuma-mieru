@@ -5,7 +5,6 @@
     "back": "返回上一頁",
     "backMonitor": "返回監控列表"
   },
-
   "timer": {
     "pause": "暫停",
     "paused": "已暫停",
@@ -17,20 +16,17 @@
     "pausedInfo": "自動刷新已暫停",
     "resumedInfo": "自動刷新已恢復"
   },
-
   "locale": {
     "changing": "正在切換到 {locale}...",
     "changed": "已切換到 {locale}",
     "changeError": "語言切換失敗"
   },
-
   "error": {
     "unknown": "未知錯誤",
     "refresh": "刷新失敗",
     "monitorNotFound": "未找到監控",
     "requestData": "取得數據失敗"
   },
-
   "node": {
     "search": "搜尋節點...",
     "clearSearch": "清除搜尋",
@@ -59,12 +55,10 @@
       "maintenance": "維護中"
     }
   },
-
   "alert": {
     "createdAt": "發佈於 {time}",
     "updatedAt": "更新於 {time}"
   },
-
   "navbar": {
     "main": "主導航欄",
     "toolbar": "工具列",
@@ -72,21 +66,17 @@
     "mobileNav": "流動版主導航欄",
     "search": "搜尋"
   },
-
   "mode": {
     "light": "淺色模式",
     "dark": "深色模式",
     "system": "跟隨系統"
   },
-
   "noData": "暫無數據",
   "safariWarning": "暫不支援 Safari 瀏覽器",
-
   "view": {
     "switchToLite": "切換至精簡檢視",
     "switchToFull": "切換至完整檢視"
   },
-
   "maintenance": {
     "default": "計劃維護中",
     "InProgress": "維護進行中",
@@ -94,9 +84,10 @@
     "Progress": "維護進度",
     "StartsIn": "預計於 {time} 開始",
     "EndsIn": "預計於 {time} 完結",
-    "timezoneInfo": "時區: {timezone}"
+    "timezoneInfo": "時區: {timezone}",
+    "scheduledMaintenance": "計劃維護",
+    "maintenanceInProgress": "正在維護中"
   },
-
   "status": {
     "loading": "正在載入...",
     "systemNormal": "所有服務運行正常",

@@ -84,7 +84,9 @@
     "Progress": "유지보수 진행률",
     "StartsIn": "{time}에 시작 예정",
     "EndsIn": "{time}에 종료 예정",
-    "timezoneInfo": "시간대: {timezone}"
+    "timezoneInfo": "시간대: {timezone}",
+    "scheduledMaintenance": "계획 유지 보수",
+    "maintenanceInProgress": "유지"
   },
   "status": {
     "loading": "로딩 중...",

@@ -84,7 +84,9 @@
     "Progress": "Прогресс",
     "StartsIn": "Начнётся в {time}",
     "EndsIn": "Закончится в {time}",
-    "timezoneInfo": "Часовой пояс: {timezone}"
+    "timezoneInfo": "Часовой пояс: {timezone}",
+    "scheduledMaintenance": "Планируйте техническое обслуживание",
+    "maintenanceInProgress": "Обслуживание"
   },
   "status": {
     "loading": "Загрузка...",

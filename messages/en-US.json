@@ -5,7 +5,6 @@
     "back": "Go back",
     "backMonitor": "Back to monitor list"
   },
-
   "timer": {
     "pause": "Pause",
     "paused": "Paused",
@@ -17,20 +16,17 @@
     "pausedInfo": "Auto refresh paused",
     "resumedInfo": "Auto refresh resumed"
   },
-
   "locale": {
     "changing": "Switching to {locale}...",
     "changed": "Switched to {locale}",
     "changeError": "Failed to change language"
   },
-
   "error": {
     "unknown": "Unknown error",
     "refresh": "Refresh failed",
     "monitorNotFound": "Monitor not found",
     "requestData": "Failed to fetch data"
   },
-
   "node": {
     "search": "Search monitors...",
     "clearSearch": "Clear search",
@@ -59,12 +55,10 @@
       "maintenance": "Maintenance"
     }
   },
-
   "alert": {
     "createdAt": "Published at {time}",
     "updatedAt": "Updated at {time}"
   },
-
   "navbar": {
     "main": "Main navigation",
     "toolbar": "Toolbar",
@@ -72,21 +66,17 @@
     "mobileNav": "Mobile navigation",
     "search": "Search"
   },
-
   "mode": {
     "light": "Light",
     "dark": "Dark",
     "system": "System"
   },
-
   "noData": "No data available",
   "safariWarning": "Safari browser is not supported yet",
-
   "view": {
     "switchToLite": "Switch to Lite View",
     "switchToFull": "Switch to Full View"
   },
-
   "maintenance": {
     "default": "Under Scheduled Maintenance",
     "InProgress": "Maintenance In Progress",
@@ -94,9 +84,10 @@
     "Progress": "Maintenance Progress",
     "StartsIn": "Scheduled to begin at {time}",
     "EndsIn": "Estimated to end by {time}",
-    "timezoneInfo": "Timezone: {timezone}"
+    "timezoneInfo": "Timezone: {timezone}",
+    "scheduledMaintenance": "Plan maintenance",
+    "maintenanceInProgress": "Maintenance"
   },
-
   "status": {
     "loading": "Loading...",
     "systemNormal": "All systems operational",
