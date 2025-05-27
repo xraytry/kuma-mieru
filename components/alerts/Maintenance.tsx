@@ -8,6 +8,7 @@ import { useFormatter, useTranslations } from 'next-intl';
 import React, { useEffect } from 'react';
 import { dateStringToTimestamp } from '../utils/format';
 import { getMarkdownClasses, useMarkdown } from '../utils/markdown';
+import clsx from 'clsx';
 
 function MaintenanceAlert({ maintenance }: { maintenance: Maintenance }) {
   const t = useTranslations('maintenance');
@@ -87,6 +88,22 @@ function MaintenanceAlert({ maintenance }: { maintenance: Maintenance }) {
               </span>
             </div>
 
+            {/* 渲染 markdown description */}
+            {maintenance.description && (
+              <div
+                className={clsx(
+                  'my-4 w-full rounded-lg border border-amber-200/50 dark:border-amber-700/50 prose-amber prose-sm prose-p:m-0',
+                  getMarkdownClasses()
+                )}
+              >
+                <div
+                  className="prose-amber prose-sm prose-p:m-0 p-4"
+                  // biome-ignore lint/security/noDangerouslySetInnerHtml: 相信 markdown-it 的安全性
+                  dangerouslySetInnerHTML={{ __html: renderedDescription }}
+                />
+              </div>
+            )}
+
             <div className="space-y-3">
               <div className="flex justify-between items-center text-sm">
                 <div className="flex items-center gap-2 text-gray-600 dark:text-gray-300">
@@ -140,6 +157,15 @@ function MaintenanceAlert({ maintenance }: { maintenance: Maintenance }) {
               </span>
             </div>
 
+            {/* 渲染 markdown description */}
+            {maintenance.description && (
+              <div
+                className={`${getMarkdownClasses()} mb-4 p-3 bg-white/50 dark:bg-black/20 rounded-lg border border-blue-200/50 dark:border-blue-700/50`}
+                // biome-ignore lint/security/noDangerouslySetInnerHtml: 相信 markdown-it 的安全性
+                dangerouslySetInnerHTML={{ __html: renderedDescription }}
+              />
+            )}
+
             <div className="space-y-3">
               <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
                 <Calendar className="h-4 w-4" />
@@ -183,15 +209,6 @@ function MaintenanceAlert({ maintenance }: { maintenance: Maintenance }) {
           <StatusIcon className="h-5 w-5" />
           <span className="font-medium text-lg">{statusTitle}</span>
         </div>
-
-        {/* 渲染 markdown description */}
-        {maintenance.description && (
-          <div
-            className={getMarkdownClasses()}
-            // biome-ignore lint/security/noDangerouslySetInnerHtml: 相信 markdown-it 的安全性
-            dangerouslySetInnerHTML={{ __html: renderedDescription }}
-          />
-        )}
 
         {getMaintenanceTimeInfo()}
 
