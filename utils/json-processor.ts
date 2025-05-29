@@ -39,7 +39,7 @@ export const preprocessJson = (str: string): string => {
     const parsed = JSON5.parse(processed);
     return JSON.stringify(parsed);
   } catch (error) {
-    console.debug('尝试使用 JSON5 解析失败，返回原始处理字符串', error);
+    console.debug('Failed to parse JSON5, returning original processed string', error);
     return processed;
   }
 };
@@ -54,11 +54,11 @@ export const extractPreloadData = (jsonStr: string): PreloadData => {
     const result = executePreloadScript(scriptWithContext);
 
     if (validatePreloadData(result as PreloadData)) {
-      console.debug('成功使用 node:vm 解析出 preload 数据');
+      console.debug('Successfully parsed preload data using node:vm');
       return result as PreloadData;
     }
   } catch (error) {
-    console.debug('node:vm 解析 preload 数据失败，尝试其他方法', error);
+    console.debug('Failed to parse preload data using node:vm, trying other methods', error);
   }
 
   // 尝试提取 JS 部分再使用 node:vm
@@ -69,11 +69,11 @@ export const extractPreloadData = (jsonStr: string): PreloadData => {
       const result = executePreloadScript(script);
 
       if (validatePreloadData(result as PreloadData)) {
-        console.debug('通过提取 JS 并使用 VM 执行成功解析数据');
+        console.debug('Successfully parsed preload data by extracting JS and using VM');
         return result as PreloadData;
       }
     } catch (error) {
-      console.debug('提取 JS 并使用 VM 执行解析失败', error);
+      console.debug('Failed to parse preload data by extracting JS and using VM', error);
     }
   }
 
@@ -82,7 +82,7 @@ export const extractPreloadData = (jsonStr: string): PreloadData => {
     const processedJson = preprocessJson(jsonStr);
 
     if (process.env.NODE_ENV === 'development') {
-      console.debug('预处理后的 JSON:', processedJson.slice(0, 200));
+      console.debug('Processed JSON:', processedJson.slice(0, 200));
     }
 
     // 使用标准 JSON 解析
@@ -92,7 +92,7 @@ export const extractPreloadData = (jsonStr: string): PreloadData => {
         return parsed;
       }
     } catch (jsonError) {
-      console.debug('标准 JSON 解析失败，尝试 JSON5:', jsonError);
+      console.debug('Failed to parse JSON, trying JSON5:', jsonError);
 
       // 尝试 JSON5 解析
       const parsed = JSON5.parse(processedJson);
@@ -103,8 +103,8 @@ export const extractPreloadData = (jsonStr: string): PreloadData => {
       }
     }
   } catch (error) {
-    console.debug('传统解析方法失败', error);
+    console.debug('Failed to parse preload data using traditional methods', error);
   }
 
-  throw new ConfigError(`所有解析方法都失败\n清理后的数据: ${jsonStr.slice(0, 200)}...`);
+  throw new ConfigError(`All parsing methods failed\nCleaned data: ${jsonStr.slice(0, 200)}...`);
 };

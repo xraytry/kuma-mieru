@@ -8,39 +8,43 @@ const baseConfig = {
   icon: '/icon.svg',
 } as const;
 
-type NavItem = {
+interface NavItem {
   label: string;
   href: string;
   external: boolean;
-};
+}
 
 const navItems: NavItem[] = [
   {
-    label: 'pageMain',
+    label: 'page.main',
     href: '/',
     external: false,
   },
   {
-    label: 'pageEdit',
+    label: 'page.edit',
     href: `${env.config.baseUrl}/manage-status-page`,
     external: true,
   },
 ];
 
+const resolveIconUrl = (iconPath?: string): string => {
+  if (!iconPath) return baseConfig.icon;
+
+  return iconPath.startsWith('http')
+    ? iconPath
+    : `${env.config.baseUrl}/${iconPath.replace(/^\//, '')}`;
+};
+
+const getVisibleNavItems = (items: NavItem[]): NavItem[] => {
+  return items.filter((item) => (item.label !== 'page.edit' ? true : env.config.isEditThisPage));
+};
+
 export const siteConfig = {
   name: env.config.siteMeta.title || baseConfig.name,
   description: env.config.siteMeta.description || baseConfig.description,
-  icon: env.config.siteMeta.icon
-    ? env.config.siteMeta.icon.startsWith('http')
-      ? env.config.siteMeta.icon
-      : `${env.config.baseUrl}/${env.config.siteMeta.icon.replace(/^\//, '')}`
-    : baseConfig.icon,
-  navItems: navItems.filter((item): item is NavItem =>
-    item.label !== 'pageEdit' ? true : env.config.isEditThisPage,
-  ),
-  navMenuItems: navItems.filter((item): item is NavItem =>
-    item.label !== 'pageEdit' ? true : env.config.isEditThisPage,
-  ),
+  icon: resolveIconUrl(env.config.siteMeta.icon),
+  navItems: getVisibleNavItems(navItems),
+  navMenuItems: getVisibleNavItems(navItems),
   links: {
     github: 'https://github.com/Alice39s/kuma-mieru',
     docs: 'https://github.com/Alice39s/kuma-mieru/blob/main/README.md',

@@ -38,6 +38,7 @@ Kuma Mieru 是一款基于 Next.js 15、TypeScript 和 Recharts 构建的第三�
     - [2. 导入到 Vercel](#2-导入到-vercel)
     - [3. 配置环境变量](#3-配置环境变量)
     - [4. 更新仓库](#4-更新仓库)
+  - [使用 Cloudflare Workers 部署](#使用-cloudflare-workers-部署)
   - [本地部署](#本地部署)
 - [Docker 部署 :whale: (Beta)](#docker-部署-whale-beta)
   - [使用 Docker Compose（推荐）](#使用-docker-compose-推荐)
@@ -107,6 +108,20 @@ Fork 本仓库到您的 GitHub 用户下，如图所示：
 
 1. 进入你 Fork 的 GitHub 仓库，点击 `Sync fork` 按钮
 2. 点击 `Update branch` 按钮，即可自动同步本仓库的最新代码
+
+### 使用 Cloudflare Workers 部署
+
+> [!WARNING]
+> Cloudflare Workers 部署暂未支持，推荐使用 [Vercel 部署](#使用-vercel-部署-推荐) / Netlify 代替。
+>
+> References: [#88](https://github.com/Alice39s/kuma-mieru/issues/88#issuecomment-2919619066)
+
+~~与 [Vercel 部署](#使用-vercel-部署-推荐) 类似，只需将仓库导入到 Cloudflare 即可。~~
+
+~~特别注意：~~
+
+~~1. `Build command` 请使用 `bun run deploy:cloudflare` 命令，否则无法正常部署。~~
+~~2. 一定要配置环境变量，详请参考 [环境变量配置](#环境变量配置) 一节。~~
 
 ### 本地部署
 
@@ -187,19 +202,19 @@ Fork 本仓库到您的 GitHub 用户下，如图所示：
    docker compose up -d
    ```
 
-   > [!NOTE]
-   > 如果需要更新镜像，可以添加 `--build` 参数：
-
-   ```bash
-   docker compose up -d --build
-   ```
-
    服务将在 `http://0.0.0.0:3883` 上运行。
 
 4. **查看日志**
 
    ```bash
    docker compose logs -f
+   ```
+
+5. **更新镜像**
+
+   ```bash
+   docker compose pull
+   docker compose up -d
    ```
 
 ### Docker Run 部署

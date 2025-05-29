@@ -15,7 +15,7 @@ const md = MarkdownIt({
 });
 
 function IncidentMarkdownAlert({ incident }: { incident: Incident }) {
-  const t = useTranslations();
+  const t = useTranslations('alert');
   const format = useFormatter();
   const now = Date.now();
 
@@ -70,13 +70,13 @@ function IncidentMarkdownAlert({ incident }: { incident: Incident }) {
       <div className="flex flex-col items-end gap-1 mt-4">
         {lastUpdatedDate && (
           <span className="text-sm text-gray-400 dark:text-gray-500">
-            {t('alertUpdatedAt', {
+            {t('updatedAt', {
               time: format.relativeTime(dateStringToTimestamp(lastUpdatedDate), now),
             })}
           </span>
         )}
         <span className="text-sm text-gray-400 dark:text-gray-500">
-          {t('alertCreatedAt', {
+          {t('createdAt', {
             time: format.dateTime(dateStringToTimestamp(createdDate), 'normal'),
           })}
         </span>
