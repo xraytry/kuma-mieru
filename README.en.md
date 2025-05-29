@@ -39,6 +39,7 @@ Built with Next.js 15, TypeScript, and Recharts, this project enhances Uptime Ku
     - [2. Import to Vercel](#2-import-to-vercel)
     - [3. Configure Environment Variables](#3-configure-environment-variables)
     - [4. Update Repository](#4-update-repository)
+  - [Cloudflare Workers Deployment](#cloudflare-workers-deployment)
   - [Local Installation](#local-installation)
 - [Docker Deployment :whale: (Beta)](#docker-deployment-whale-beta)
   - [Using Docker Compose (Recommended)](#using-docker-compose-recommended)
@@ -101,6 +102,15 @@ Go to https://vercel.com/new, select **Import** to import the repository you jus
 
 1. Enter your forked GitHub repository, click the `Sync fork` button.
 2. Click the `Update branch` button, and follow the prompts to automatically synchronize the latest code from this repository.
+
+### Cloudflare Workers Deployment
+
+Similar to [Vercel Deployment](#vercel-deployment-recommended), you can deploy to Cloudflare by importing the repository to Cloudflare.
+
+Note:
+
+1. Please use `bun run deploy:cloudflare` as the `Build command`, otherwise the deployment will fail.
+2. Please ensure that the environment variables are configured, please refer to the [Environment Variables](#environment-variables) section for more details.
 
 ### Local Installation
 
