@@ -8,13 +8,5 @@
     "assets": {
         "directory": ".open-next/assets",
         "binding": "ASSETS"
-    },
-    "build": {
-        "command": "bun run build:cloudflare",
-        "cwd": ".",
-        "watch_dir": ".open-next"
-    },
-    "deploy": {
-        "command": "bun run deploy:cloudflare"
     }
 }
