@@ -105,12 +105,17 @@ Go to https://vercel.com/new, select **Import** to import the repository you jus
 
 ### Cloudflare Workers Deployment
 
-Similar to [Vercel Deployment](#vercel-deployment-recommended), you can deploy to Cloudflare by importing the repository to Cloudflare.
+> [!WARNING]
+> Cloudflare Workers deployment is not supported yet, it is recommended to use [Vercel Deployment](#vercel-deployment-recommended) / Netlify instead.
+>
+> References: [#88](https://github.com/Alice39s/kuma-mieru/issues/88#issuecomment-2919619066)
 
-Note:
+~~Similar to [Vercel Deployment](#vercel-deployment-recommended), you can deploy to Cloudflare by importing the repository to Cloudflare.~~
 
-1. Please use `bun run deploy:cloudflare` as the `Build command`, otherwise the deployment will fail.
-2. Please ensure that the environment variables are configured, please refer to the [Environment Variables](#environment-variables) section for more details.
+~~Note:~~
+
+~~1. Please use `bun run deploy:cloudflare` as the `Build command`, otherwise the deployment will fail.~~
+~~2. Please ensure that the environment variables are configured, please refer to the [Environment Variables](#environment-variables) section for more details.~~
 
 ### Local Installation
 

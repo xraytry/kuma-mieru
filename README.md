@@ -111,12 +111,17 @@ Fork 本仓库到您的 GitHub 用户下，如图所示：
 
 ### 使用 Cloudflare Workers 部署
 
-与 [Vercel 部署](#使用-vercel-部署-推荐) 类似，只需将仓库导入到 Cloudflare 即可。
+> [!WARNING]
+> Cloudflare Workers 部署暂未支持，推荐使用 [Vercel 部署](#使用-vercel-部署-推荐) / Netlify 代替。
+>
+> References: [#88](https://github.com/Alice39s/kuma-mieru/issues/88#issuecomment-2919619066)
 
-特别注意：
+~~与 [Vercel 部署](#使用-vercel-部署-推荐) 类似，只需将仓库导入到 Cloudflare 即可。~~
 
-1. `Build command` 请使用 `bun run deploy:cloudflare` 命令，否则无法正常部署。
-2. 一定要配置环境变量，详请参考 [环境变量配置](#环境变量配置) 一节。
+~~特别注意：~~
+
+~~1. `Build command` 请使用 `bun run deploy:cloudflare` 命令，否则无法正常部署。~~
+~~2. 一定要配置环境变量，详请参考 [环境变量配置](#环境变量配置) 一节。~~
 
 ### 本地部署
 
