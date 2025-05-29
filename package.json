@@ -13,6 +13,8 @@
   "scripts": {
     "dev": "bun run linter && next dev --turbopack --port 3881",
     "build": "next build",
+    "build:cloudflare": "opennextjs-cloudflare build",
+    "deploy:cloudflare": "opennextjs-cloudflare deploy",
     "start": "bun .next/standalone/server.js",
     "start:docker": "bun run generate && bun run scripts/docker-init.ts && bun ./server.js",
     "lint": "biome check .",
