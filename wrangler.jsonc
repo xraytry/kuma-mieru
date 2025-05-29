@@ -1,5 +1,4 @@
 {
-    "main": ".open-next/worker.js",
     "name": "uptime-kuma-pages",
     "compatibility_date": "2025-05-29",
     "compatibility_flags": [
