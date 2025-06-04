@@ -5,6 +5,7 @@ export const getStatusColor = (heartbeat: Heartbeat, pingStats: PingStats | null
   const { status, ping } = heartbeat;
 
   if (status === 0) return COLOR_SYSTEM.error;
+  if (status === 3) return COLOR_SYSTEM.maintenance;
   if (status === 2) return COLOR_SYSTEM.warning;
 
   if (!ping || !pingStats) return COLOR_SYSTEM.excellent;

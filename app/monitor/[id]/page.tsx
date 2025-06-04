@@ -89,14 +89,14 @@ export default function MonitorDetail({
         className="flex flex-col items-center justify-center min-h-screen gap-4"
       >
         <p className="text-xl text-gray-500">
-          {error instanceof Error ? error.message : t('errorMonitorNotFound')}
+          {error instanceof Error ? error.message : t('error.monitorNotFound')}
         </p>
         <button
           type="button"
           onClick={handleBack}
           className="px-4 py-2 text-sm text-white bg-blue-500 rounded-md hover:bg-blue-600 transition-colors"
         >
-          {t('pageBack')}
+          {t('page.back')}
         </button>
       </motion.div>
     );
@@ -118,7 +118,7 @@ export default function MonitorDetail({
                 onClick={handleBack}
                 className="px-4 py-2 text-sm text-gray-600 hover:text-gray-900 transition-colors"
               >
-                ← {t('pageBackMonitor')}
+                ← {t('page.backMonitor')}
               </button>
             </motion.div>
             <MonitorCard

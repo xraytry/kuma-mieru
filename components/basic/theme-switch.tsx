@@ -10,15 +10,15 @@ import { useEffect, useState } from 'react';
 const mode = {
   light: {
     icon: <Sun size={22} />,
-    text: 'modeLight',
+    text: 'mode.light',
   },
   dark: {
     icon: <Moon size={22} />,
-    text: 'modeDark',
+    text: 'mode.dark',
   },
   system: {
     icon: <Monitor size={22} />,
-    text: 'modeSystem',
+    text: 'mode.system',
   },
 };
 

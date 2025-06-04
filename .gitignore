@@ -45,8 +45,10 @@ next-env.d.ts
 generated-*.json
 
 dist/
+.open-next/
 
 *.lock
-!bun.lock
+bun.lock
 
 @*.md
+p*.md
