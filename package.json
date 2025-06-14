@@ -85,5 +85,5 @@
     "typescript": "^5.8.3",
     "wrangler": "^4.19.2"
   },
-  "trustedDependencies": ["@biomejs/biome", "@heroui/shared-utils"]
+  "trustedDependencies": ["@biomejs/biome", "@heroui/shared-utils", "esbuild", "sharp", "workerd"]
 }
