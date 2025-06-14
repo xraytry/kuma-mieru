@@ -1,3 +1,5 @@
+import fs from 'node:fs';
+import path from 'node:path';
 import chalk from 'chalk';
 import packageJson from '../package.json';
 
@@ -14,7 +16,7 @@ type ChalkColor = 'green' | 'blue' | 'yellow' | 'red' | 'magenta' | 'cyan' | 'wh
 
 interface ConfigItem {
   name: string;
-  value: string | undefined;
+  value: string | undefined | boolean;
   defaultValue?: string;
 }
 
@@ -25,7 +27,10 @@ interface ConfigGroup {
   items: ConfigItem[];
 }
 
-const getEnvStatus = (value: string | undefined, defaultValue = 'Not configured') => {
+const getEnvStatus = (value: string | undefined | boolean, defaultValue = 'Not configured') => {
+  if (typeof value === 'boolean') {
+    return value ? chalk.green('true') : chalk.yellow('false');
+  }
   return value ? chalk.green(value) : chalk.yellow(defaultValue);
 };
 
@@ -36,6 +41,21 @@ const printConfigGroup = ({ title, icon, color, items }: ConfigGroup) => {
   }
   console.log('');
 };
+
+const getGeneratedConfig = () => {
+  try {
+    const configPath = path.join(process.cwd(), 'config', 'generated-config.json');
+    if (fs.existsSync(configPath)) {
+      const configStr = fs.readFileSync(configPath, 'utf8');
+      return JSON.parse(configStr);
+    }
+  } catch (err) {
+    console.error('[banner] [getGeneratedConfig] [error]', err);
+  }
+  return null;
+};
+
+const generatedConfig = getGeneratedConfig();
 
 const configGroups: ConfigGroup[] = [
   {
@@ -62,11 +82,11 @@ const configGroups: ConfigGroup[] = [
     items: [
       {
         name: 'UPTIME_KUMA_BASE_URL',
-        value: process.env.CI_MODE === 'true' ? 'CI Mode' : process.env.UPTIME_KUMA_BASE_URL,
+        value: generatedConfig?.baseUrl || process.env.UPTIME_KUMA_BASE_URL,
       },
       {
         name: 'PAGE_ID',
-        value: process.env.PAGE_ID,
+        value: generatedConfig?.pageId || process.env.PAGE_ID,
       },
     ],
   },
@@ -77,12 +97,12 @@ const configGroups: ConfigGroup[] = [
     items: [
       {
         name: 'FEATURE_EDIT_THIS_PAGE',
-        value: process.env.FEATURE_EDIT_THIS_PAGE,
+        value: generatedConfig?.isEditThisPage,
         defaultValue: 'false (Default)',
       },
       {
         name: 'FEATURE_SHOW_STAR_BUTTON',
-        value: process.env.FEATURE_SHOW_STAR_BUTTON,
+        value: generatedConfig?.isShowStarButton,
         defaultValue: 'true (Default)',
       },
     ],
@@ -94,17 +114,17 @@ const configGroups: ConfigGroup[] = [
     items: [
       {
         name: 'FEATURE_TITLE',
-        value: process.env.FEATURE_TITLE,
+        value: generatedConfig?.siteMeta?.title,
         defaultValue: 'Using Default',
       },
       {
         name: 'FEATURE_DESCRIPTION',
-        value: process.env.FEATURE_DESCRIPTION,
+        value: generatedConfig?.siteMeta?.description,
         defaultValue: 'Using Default',
       },
       {
         name: 'FEATURE_ICON',
-        value: process.env.FEATURE_ICON,
+        value: generatedConfig?.siteMeta?.icon,
         defaultValue: 'Using Default',
       },
     ],
@@ -114,6 +134,12 @@ const configGroups: ConfigGroup[] = [
 const printStartupInfo = () => {
   console.log(chalk.cyan(banner));
   console.log(chalk.green(`🚀 Kuma Mieru [v${packageJson.version}] is starting...\n`));
+
+  if (generatedConfig) {
+    console.log(chalk.green('[banner] [printStartupInfo] [config file found]\n'));
+  } else {
+    console.log(chalk.yellow('[banner] [printStartupInfo] [config file not found]\n'));
+  }
 
   for (const group of configGroups) {
     printConfigGroup(group);

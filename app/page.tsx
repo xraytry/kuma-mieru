@@ -1,23 +1,32 @@
 'use client';
 
 import AutoRefresh from '@/components/AutoRefresh';
-import { MonitorCard } from '@/components/MonitorCard';
+import FilterResults from '@/components/FilterResults';
+import MonitorGroupList from '@/components/MonitorGroupList';
 import IncidentMarkdownAlert from '@/components/alerts/IncidentMarkdown';
 import MaintenanceAlert from '@/components/alerts/Maintenance';
 import SystemStatusAlert from '@/components/alerts/SystemStatus';
-import { MonitorCardSkeleton } from '@/components/ui/CommonSkeleton';
+import { useNodeSearch } from '@/components/context/NodeSearchContext';
 import {
   revalidateData,
   useConfig,
   useMaintenanceData,
   useMonitorData,
 } from '@/components/utils/swr';
+import { filterMonitorByStatus } from '@/utils/monitorFilters';
 import { Button, Tooltip } from '@heroui/react';
 import { LayoutGrid, LayoutList } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
-const GLOBAL_VIEW_PREFERENCE_KEY = 'global-monitor-card-view-preference';
+import type { Monitor, MonitorGroup } from '@/types/monitor';
+
+const GLOBAL_VIEW_PREFERENCE_KEY = 'view-preference';
+
+interface EnhancedMonitorGroup extends MonitorGroup {
+  isGroupMatched?: boolean;
+  monitorList: Monitor[];
+}
 
 export default function Home() {
   const {
@@ -29,6 +38,10 @@ export default function Home() {
   const { config: globalConfig, isLoading: isLoadingConfig } = useConfig();
   const { maintenanceList, isLoading: isLoadingMaintenance } = useMaintenanceData();
   const [isGlobalLiteView, setIsGlobalLiteView] = useState(false);
+  const { searchTerm, isFiltering, clearSearch, filterStatus, searchInGroup } = useNodeSearch();
+
+  const t = useTranslations();
+  const viewT = useTranslations('view');
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -38,13 +51,12 @@ export default function Home() {
       }
     }
   }, []);
-  const t = useTranslations();
 
   const isLoading = isLoadingMonitors || isLoadingConfig || isLoadingMaintenance;
 
-  // 筛选活动维护计划
+  // Filter active maintenance plans
   const activeMaintenances = maintenanceList.filter(
-    (m) => m.active && (m.status === 'under-maintenance' || m.status === 'scheduled'),
+    m => m.active && (m.status === 'under-maintenance' || m.status === 'scheduled')
   );
 
   useEffect(() => {
@@ -58,8 +70,74 @@ export default function Home() {
   };
 
   const toggleGlobalView = () => {
-    setIsGlobalLiteView((prev) => !prev);
+    setIsGlobalLiteView(prev => !prev);
   };
+
+  const filteredMonitorGroups = useMemo(() => {
+    if (!isFiltering) return monitorGroups as EnhancedMonitorGroup[];
+
+    const searchTermLower = searchTerm.toLowerCase();
+    const hasSearchTerm = searchTermLower.length > 0;
+
+    // pre-filter by status
+    const statusFilter = (monitor: Monitor) =>
+      filterMonitorByStatus(monitor, filterStatus, monitoringData.heartbeatList);
+
+    return monitorGroups
+      .map(group => {
+        const groupNameMatches =
+          searchInGroup && hasSearchTerm && group.name.toLowerCase().includes(searchTermLower);
+
+        if (groupNameMatches) {
+          const statusFilteredMonitors = group.monitorList.filter(statusFilter);
+          return {
+            ...group,
+            monitorList: statusFilteredMonitors,
+            isGroupMatched: true,
+          };
+        }
+
+        const filteredMonitors = group.monitorList.filter(monitor => {
+          if (!statusFilter(monitor)) return false;
+
+          if (!hasSearchTerm) return true;
+
+          return (
+            monitor.name.toLowerCase().includes(searchTermLower) ||
+            monitor.url?.toLowerCase().includes(searchTermLower) ||
+            monitor.tags?.some(
+              tag =>
+                tag.name.toLowerCase().includes(searchTermLower) ||
+                tag.value?.toLowerCase().includes(searchTermLower)
+            )
+          );
+        });
+
+        if (filteredMonitors.length === 0) return null;
+
+        return {
+          ...group,
+          monitorList: filteredMonitors,
+          isGroupMatched: false,
+        };
+      })
+      .filter(Boolean) as EnhancedMonitorGroup[];
+  }, [
+    monitorGroups,
+    searchTerm,
+    isFiltering,
+    filterStatus,
+    searchInGroup,
+    monitoringData.heartbeatList,
+  ]);
+
+  const matchedMonitorsCount = useMemo(() => {
+    if (!isFiltering) return 0;
+
+    return filteredMonitorGroups.reduce((total, group) => {
+      return total + group.monitorList.length;
+    }, 0);
+  }, [filteredMonitorGroups, isFiltering]);
 
   return (
     <>
@@ -69,15 +147,15 @@ export default function Home() {
           <div className="flex justify-between items-center mb-6" suppressHydrationWarning={true}>
             <SystemStatusAlert />
             <Tooltip
-              content={isGlobalLiteView ? t('switchToFullView') : t('switchToLiteView')}
+              content={isGlobalLiteView ? viewT('switchToFull') : viewT('switchToLite')}
               suppressHydrationWarning={true}
             >
               <Button
                 isIconOnly
                 variant="light"
-                onClick={toggleGlobalView}
+                onPress={toggleGlobalView}
                 className="ml-2"
-                aria-label={isGlobalLiteView ? t('switchToFullView') : t('switchToLiteView')}
+                aria-label={isGlobalLiteView ? viewT('switchToFull') : viewT('switchToLite')}
                 suppressHydrationWarning={true}
               >
                 {isGlobalLiteView ? <LayoutGrid size={20} /> : <LayoutList size={20} />}
@@ -86,49 +164,25 @@ export default function Home() {
           </div>
 
           {/* 维护计划显示 */}
-          {activeMaintenances.map((maintenance) => (
+          {activeMaintenances.map(maintenance => (
             <MaintenanceAlert key={maintenance.id} maintenance={maintenance} />
           ))}
 
           {/* 公告显示 */}
           {globalConfig?.incident && <IncidentMarkdownAlert incident={globalConfig.incident} />}
 
+          {/* 搜索筛选提示 */}
+          <FilterResults matchedMonitorsCount={matchedMonitorsCount} />
+
           {/* 监控组和监控项 */}
-          {isLoading ? (
-            // 加载状态显示骨架屏
-            <div className="space-y-8">
-              {[1, 2].map((groupIndex) => (
-                <div key={groupIndex}>
-                  <div className="h-8 w-48 bg-default-100 rounded-lg mb-4" />
-                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-                    {[1, 2, 3].map((cardIndex) => (
-                      <MonitorCardSkeleton key={cardIndex} />
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : (
-            // 实际内容
-            monitorGroups.map((group) => (
-              <div key={group.id} className="mb-8">
-                <h2 className="text-2xl font-bold mb-4">{group.name}</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-                  {group.monitorList.map((monitor) => (
-                    <MonitorCard
-                      key={monitor.id}
-                      monitor={monitor}
-                      heartbeats={monitoringData.heartbeatList[monitor.id] || []}
-                      uptime24h={monitoringData.uptimeList[`${monitor.id}_24`] || 0}
-                      isHome={true}
-                      isLiteView={isGlobalLiteView}
-                      disableViewToggle={true}
-                    />
-                  ))}
-                </div>
-              </div>
-            ))
-          )}
+          <MonitorGroupList
+            isLoading={isLoading}
+            monitorGroups={filteredMonitorGroups}
+            monitoringData={monitoringData}
+            isFiltering={isFiltering}
+            isGlobalLiteView={isGlobalLiteView}
+            clearSearch={clearSearch}
+          />
         </div>
       </AutoRefresh>
     </>

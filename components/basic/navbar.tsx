@@ -12,6 +12,7 @@ import { link as linkStyles } from '@heroui/theme';
 import clsx from 'clsx';
 import Image from 'next/image';
 import NextLink from 'next/link';
+import { useCallback, useEffect, useRef } from 'react';
 
 import { GithubIcon, SearchIcon } from '@/components/basic/icons';
 import { ThemeSwitch } from '@/components/basic/theme-switch';
@@ -21,6 +22,7 @@ import { siteConfig } from '@/config/site';
 import { motion } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { useNodeSearch } from '../context/NodeSearchContext';
 import { I18NSwitch } from './i18n-switch';
 
 const isExternalUrl = (url: string) => {
@@ -29,32 +31,74 @@ const isExternalUrl = (url: string) => {
 
 export const Navbar = () => {
   const t = useTranslations();
+  const { inputValue, setInputValue, clearSearch, isFiltering } = useNodeSearch();
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  // shortcut key (Command+K or Ctrl+K)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        inputRef.current?.focus();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   if (!apiConfig) {
     return <NavbarSkeleton />;
   }
 
+  const handleSearchChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setInputValue(e.target.value);
+    },
+    [setInputValue]
+  );
+
+  const handleCompositionEnd = useCallback(
+    (e: React.CompositionEvent<HTMLInputElement>) => {
+      setInputValue((e.target as HTMLInputElement).value);
+    },
+    [setInputValue]
+  );
+
+  const handleClearSearch = useCallback(() => {
+    clearSearch();
+    inputRef.current?.focus();
+  }, [clearSearch]);
+
   const searchInput = (
-    // TODO: 实现节点过滤器
-    <Input
-      isDisabled
-      aria-label={t('ariaSearch')}
-      classNames={{
-        inputWrapper: 'bg-default-100',
-        input: 'text-sm',
-      }}
-      endContent={
-        <Kbd className="hidden lg:inline-block" keys={['command']}>
-          K
-        </Kbd>
-      }
-      labelPlacement="outside"
-      placeholder={t('nodeSearch')}
-      startContent={
-        <SearchIcon className="text-base text-default-400 pointer-events-none flex-shrink-0" />
-      }
-      type="search"
-    />
+    <div className="relative">
+      <Input
+        aria-label={t('navbar.search')}
+        classNames={{
+          inputWrapper: 'bg-default-100',
+          input: 'text-sm',
+        }}
+        endContent={
+          !isFiltering && (
+            <Kbd className="hidden lg:inline-block" keys={['command']}>
+              K
+            </Kbd>
+          )
+        }
+        ref={inputRef}
+        value={inputValue}
+        onChange={handleSearchChange}
+        onCompositionEnd={handleCompositionEnd}
+        isClearable={isFiltering}
+        onClear={handleClearSearch}
+        labelPlacement="outside"
+        placeholder={t('node.search')}
+        startContent={
+          <SearchIcon className="text-base text-default-400 pointer-events-none flex-shrink-0" />
+        }
+        type="search"
+      />
+    </div>
   );
 
   const starButton = (
@@ -93,14 +137,14 @@ export const Navbar = () => {
             <p className="font-bold text-inherit">{apiConfig.siteMeta.title}</p>
           </NextLink>
         </NavbarBrand>
-        <nav aria-label={t('ariaMainNav')}>
+        <nav aria-label={t('navbar.main')}>
           <ul className="hidden lg:flex gap-4 justify-start ml-2">
-            {siteConfig.navItems.map((item) => (
+            {siteConfig.navItems.map(item => (
               <li key={item.href}>
                 <NextLink
                   className={clsx(
                     linkStyles({ color: 'foreground' }),
-                    'data-[active=true]:text-primary data-[active=true]:font-medium',
+                    'data-[active=true]:text-primary data-[active=true]:font-medium'
                   )}
                   color="foreground"
                   href={item.href}
@@ -115,7 +159,7 @@ export const Navbar = () => {
       </NavbarContent>
 
       <NavbarContent className="hidden sm:flex basis-1/5 sm:basis-full" justify="end">
-        <nav aria-label={t('ariaToolbar')}>
+        <nav aria-label={t('navbar.toolbar')}>
           <ul className="flex items-center gap-4">
             <li>
               <ThemeSwitch />
@@ -123,7 +167,9 @@ export const Navbar = () => {
             <li>
               <I18NSwitch />
             </li>
-            <li className="hidden lg:block">{searchInput}</li>
+            <li className="hidden lg:block">
+              <div className="flex flex-col">{searchInput}</div>
+            </li>
             <li className="hidden sm:block">{apiConfig.isShowStarButton && starButton}</li>
           </ul>
         </nav>
@@ -131,7 +177,7 @@ export const Navbar = () => {
 
       {/* 移动端 */}
       <NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
-        <nav aria-label={t('ariaMobileToolbar')}>
+        <nav aria-label={t('navbar.toolbar')}>
           <ul className="flex items-center gap-2">
             <li>
               <ThemeSwitch />
@@ -141,7 +187,7 @@ export const Navbar = () => {
             </li>
             <li>
               <NavbarMenuToggle
-                icon={(isOpen) => (
+                icon={isOpen => (
                   <motion.div
                     variants={{
                       closed: { rotate: 0, opacity: 1 },
@@ -162,9 +208,9 @@ export const Navbar = () => {
 
       <NavbarMenu className="z-[60]">
         {apiConfig.isShowStarButton && starButton}
-        {searchInput}
-        <nav aria-label={t('ariaMobileNav')}>
-          <ul className="mx-4 mt-2 flex flex-col gap-2">
+        <div className="flex flex-col gap-4">{searchInput}</div>
+        <nav aria-label={t('navbar.mobileNav')}>
+          <ul className="mx-4 mt-4 flex flex-col gap-2">
             {siteConfig.navItems.map((item, index) => (
               <li key={`${item}-${index}`}>
                 <Link

@@ -12,7 +12,7 @@ import { MonitoringChart } from './charts/MonitoringChart';
 import { ResponsStats } from './charts/ResponsStats';
 import { StatusBlockIndicator } from './charts/StatusBlockIndicator';
 
-const VIEW_PREFERENCE_KEY = 'monitor-card-view-preference';
+const VIEW_PREFERENCE_KEY = 'view-preference-monitor-card';
 
 export function MonitorCard({
   monitor,
@@ -78,7 +78,7 @@ export function MonitorCard({
 
   const toggleView = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setLocalLiteView((prev) => !prev);
+    setLocalLiteView(prev => !prev);
   };
 
   if (isLiteView) {
@@ -108,7 +108,7 @@ export function MonitorCard({
         className={clsx(
           'h-full grid grid-rows-[auto_1fr]',
           isHome ? 'w-full' : 'w-full md:w-2/3 mx-auto',
-          isHome && 'cursor-pointer hover:shadow-md transition-all',
+          isHome && 'cursor-pointer hover:shadow-md transition-all'
         )}
       >
         <CardHeader className="grid grid-cols-[1fr_auto] gap-4 items-start">
@@ -122,7 +122,7 @@ export function MonitorCard({
             <div>
               {monitor.tags && monitor.tags.length > 0 && (
                 <div className="flex flex-wrap gap-1">
-                  {monitor.tags.map((tag) => (
+                  {monitor.tags.map(tag => (
                     <Chip
                       key={tag.id}
                       size="sm"
@@ -145,7 +145,7 @@ export function MonitorCard({
               <ResponsStats value={uptimeData[0].value} fill={uptimeData[0].fill} isHome={isHome} />
             </div>
             {!disableViewToggle && (
-              <Tooltip content={t('switchToLiteView')}>
+              <Tooltip content={t('view.switchToLite')}>
                 <Button isIconOnly size="sm" variant="light" onClick={toggleView} className="mt-1">
                   <LayoutList size={16} />
                 </Button>
@@ -164,7 +164,7 @@ export function MonitorCard({
             )}{' '}
             {isSafari && (
               <div className="w-full h-[120px] flex items-center justify-center text-default-500">
-                {t('safariWarning')}
+                {t('view.safariWarning')}
               </div>
             )}
           </div>

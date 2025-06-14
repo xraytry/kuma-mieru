@@ -1,8 +1,8 @@
 import type { Heartbeat } from '@/types/monitor';
-import { Tooltip } from '@heroui/react';
+import { Tooltip as HeroUITooltip } from '@heroui/react';
 import { clsx } from 'clsx';
 import { useTranslations } from 'next-intl';
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { calculatePingMetrics } from '../utils/charts';
 import { getPingColorClass } from '../utils/colors';
 import { formatLatency } from '../utils/format';
@@ -15,15 +15,15 @@ interface PingStatsProps {
 const PING_LABELS = {
   lt: {
     short: 'LT',
-    full: 'nodeLatestPing',
+    full: 'latestPing',
   },
   av: {
-    short: 'AVG',
-    full: 'nodeAvgPing',
+    short: 'AL',
+    full: 'avgPing',
   },
   ta: {
-    short: 'TA',
-    full: 'nodeTrimmedAvgPing',
+    short: 'TR',
+    full: 'trimmedAvgPing',
   },
 } as const;
 
@@ -38,9 +38,9 @@ const SinglePingStat = ({ label, value, isHome, t }: SinglePingStatProps) => {
   return (
     <div className="flex items-center gap-0.5">
       {isHome ? (
-        <Tooltip content={t(label.full)}>
+        <HeroUITooltip content={t(label.full)}>
           <span>{label.short}</span>
-        </Tooltip>
+        </HeroUITooltip>
       ) : (
         t(label.full)
       )}
@@ -53,16 +53,18 @@ const SinglePingStat = ({ label, value, isHome, t }: SinglePingStatProps) => {
 };
 
 export function PingStats({ heartbeats, isHome = false }: PingStatsProps) {
-  const t = useTranslations();
+  const t = useTranslations('node');
   const stats = useMemo(() => calculatePingMetrics(heartbeats), [heartbeats]);
 
   if (!stats) return null;
 
   return (
-    <div className="flex hide-ping-stats items-center gap-1.5 text-xs text-foreground/80 dark:text-foreground/60">
+    <div className="hide-ping-stats ml-1 flex items-center gap-1.5 text-xs text-foreground/80 dark:text-foreground/60">
       <SinglePingStat label={PING_LABELS.lt} value={stats.latestPing} isHome={isHome} t={t} />
       <SinglePingStat label={PING_LABELS.av} value={stats.avgPing} isHome={isHome} t={t} />
-      <SinglePingStat label={PING_LABELS.ta} value={stats.trimmedAvgPing} isHome={isHome} t={t} />
+      {!isHome && (
+        <SinglePingStat label={PING_LABELS.ta} value={stats.trimmedAvgPing} isHome={isHome} t={t} />
+      )}
     </div>
   );
 }

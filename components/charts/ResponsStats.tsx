@@ -1,4 +1,4 @@
-import { Tooltip } from '@heroui/react';
+import { Tooltip as HeroUITooltip } from '@heroui/react';
 import { clsx } from 'clsx';
 import { useTranslations } from 'next-intl';
 import { PolarAngleAxis, RadialBar, RadialBarChart, ResponsiveContainer } from 'recharts';
@@ -12,23 +12,23 @@ interface ResponsStatsProps {
 
 export function ResponsStats({ value, fill, isHome, size = 'md' }: ResponsStatsProps) {
   const data = [{ value, fill }];
-  const t = useTranslations();
+  const t = useTranslations('node');
 
   const tooltipContent = !isHome ? (
     <div className="flex flex-col gap-2">
       <span className="text-md text-gray-500">
-        {t('nodeUptimeStatus')}: {value.toFixed(2)}%
+        {t('uptimeStatus')}: {value.toFixed(2)}%
       </span>
     </div>
   ) : (
-    `${t('nodeUptimeStatus')}: ${value.toFixed(2)}%`
+    `${t('uptimeStatus')}: ${value.toFixed(2)}%`
   );
 
   const chartSize = size === 'sm' ? 'w-6 h-6' : size === 'lg' ? 'w-12 h-12' : 'w-10 h-10';
   const textSize = size === 'sm' ? 'text-xs' : size === 'lg' ? 'text-base' : 'text-sm';
 
   return (
-    <Tooltip
+    <HeroUITooltip
       content={tooltipContent}
       placement="left"
       delay={0}
@@ -72,6 +72,6 @@ export function ResponsStats({ value, fill, isHome, size = 'md' }: ResponsStatsP
         </div>
         <span className={`${textSize} text-gray-500`}>{value.toFixed(2)}%</span>
       </div>
-    </Tooltip>
+    </HeroUITooltip>
   );
 }

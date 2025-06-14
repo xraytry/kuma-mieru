@@ -62,7 +62,7 @@ export function MonitorCardLite({
 
               {monitor.tags && monitor.tags.length > 0 && (
                 <div className="flex-wrap gap-1 ml-2 hidden sm:flex">
-                  {monitor.tags.slice(0, 2).map((tag) => (
+                  {monitor.tags.slice(0, 2).map(tag => (
                     <Chip
                       key={tag.id}
                       size="sm"
@@ -95,7 +95,7 @@ export function MonitorCardLite({
                 />
               </div>
               {!disableViewToggle && (
-                <Tooltip content={t('switchToFullView')}>
+                <Tooltip content={t('view.switchToFull')}>
                   <Button isIconOnly size="sm" variant="light" onClick={onToggleView}>
                     <LayoutGrid size={16} />
                   </Button>

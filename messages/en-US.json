@@ -1,60 +1,83 @@
 {
-  "pageMain": "Home",
-  "pageEdit": "Edit this page",
-  "pageBack": "Go back",
-  "pageBackMonitor": "Back to monitor list",
-
-  "timerPause": "Pause",
-  "timerPaused": "Paused",
-  "timerRefreshing": "Refreshing...",
-  "timerRefreshNow": "Refresh now",
-  "timerLastTime": "Last refresh: {time}",
-  "timerNextTime": "Refresh in {sec} seconds",
-  "timerRefreshSuccess": "Refresh successful",
-  "timerPausedInfo": "Auto refresh paused",
-  "timerResumedInfo": "Auto refresh resumed",
-
-  "localeChanging": "Switching to {locale}...",
-  "localeChanged": "Switched to {locale}",
-  "localeChangeError": "Failed to change language",
-  "errorUnknown": "Unknown error",
-
-  "nodeSearch": "Search (TODO)",
-  "nodeUptimeStatus": "Uptime Status (Daily)",
-
-  "nodeLatestPing": "Latest Ping",
-  "nodeAvgPing": "Average Ping",
-  "nodeTrimmedAvgPing": "Trimmed Average",
-
-  "nodeOnline": "Online",
-  "nodeOffline": "Offline",
-  "nodePending": "Pending",
-  "nodeMaintenance": "Maint.",
-  "nodeCount": "Last {count} times",
-
-  "alertCreatedAt": "Published at {time}",
-  "alertUpdatedAt": "Updated at {time}",
-
-  "errorRefresh": "Refresh failed",
-  "errorMonitorNotFound": "Monitor not found",
-  "errorRequestData": "Failed to fetch data",
-
-  "ariaMainNav": "Main navigation",
-  "ariaToolbar": "Toolbar",
-  "ariaMobileToolbar": "Mobile toolbar",
-  "ariaMobileNav": "Mobile navigation",
-  "ariaSearch": "Search",
-
-  "modeLight": "Light",
-  "modeDark": "Dark",
-  "modeSystem": "System",
-
+  "page": {
+    "main": "Home",
+    "edit": "Edit this page",
+    "back": "Go back",
+    "backMonitor": "Back to monitor list"
+  },
+  "timer": {
+    "pause": "Pause",
+    "paused": "Paused",
+    "refreshing": "Refreshing...",
+    "refreshNow": "Refresh now",
+    "lastTime": "Last refresh: {time}",
+    "nextTime": "Refresh in {sec} seconds",
+    "refreshSuccess": "Refresh successful",
+    "pausedInfo": "Auto refresh paused",
+    "resumedInfo": "Auto refresh resumed"
+  },
+  "locale": {
+    "changing": "Switching to {locale}...",
+    "changed": "Switched to {locale}",
+    "changeError": "Failed to change language"
+  },
+  "error": {
+    "unknown": "Unknown error",
+    "refresh": "Refresh failed",
+    "monitorNotFound": "Monitor not found",
+    "requestData": "Failed to fetch data"
+  },
+  "node": {
+    "search": "Search monitors...",
+    "clearSearch": "Clear search",
+    "filterResults": "Found {count} matching nodes",
+    "noMatchingResults": "No matching monitors found",
+    "clearFilter": "Clear filter",
+    "searchTime": "Time: {time}ms",
+    "uptimeStatus": "Uptime Status (Daily)",
+    "latestPing": "Latest Ping",
+    "avgPing": "Average Ping",
+    "trimmedAvgPing": "Trimmed Average",
+    "online": "Online",
+    "offline": "Offline",
+    "pending": "Pending",
+    "maintenance": "Maint.",
+    "count": "Last {count} times",
+    "allStatus": "All Statuses",
+    "filterByStatus": "Filter by Status",
+    "searchInGroups": "Search in Groups",
+    "filterTooltip": "Enable to search in group names",
+    "groupMatched": "Group matched",
+    "statusFilter": {
+      "up": "Online",
+      "down": "Offline",
+      "pending": "Pending",
+      "maintenance": "Maintenance"
+    }
+  },
+  "alert": {
+    "createdAt": "Published at {time}",
+    "updatedAt": "Updated at {time}"
+  },
+  "navbar": {
+    "main": "Main navigation",
+    "toolbar": "Toolbar",
+    "mobileToolbar": "Mobile toolbar",
+    "mobileNav": "Mobile navigation",
+    "search": "Search"
+  },
+  "mode": {
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
   "noData": "No data available",
   "safariWarning": "Safari browser is not supported yet",
-
-  "switchToLiteView": "Switch to Lite View",
-  "switchToFullView": "Switch to Full View",
-
+  "view": {
+    "switchToLite": "Switch to Lite View",
+    "switchToFull": "Switch to Full View",
+    "safariWarning": "Not supported yet"
+  },
   "maintenance": {
     "default": "Under Scheduled Maintenance",
     "InProgress": "Maintenance In Progress",
@@ -62,16 +85,15 @@
     "Progress": "Maintenance Progress",
     "StartsIn": "Scheduled to begin at {time}",
     "EndsIn": "Estimated to end by {time}",
-    "timezoneInfo": "Timezone: {timezone}"
+    "timezoneInfo": "Timezone: {timezone}",
+    "scheduledMaintenance": "Plan maintenance",
+    "maintenanceInProgress": "Maintenance"
   },
-
   "status": {
     "loading": "Loading...",
     "systemNormal": "All systems operational",
     "systemWarning": "Partial service degradation detected",
     "systemError": "Critical system failure",
     "systemUnknown": "System status unavailable"
-  },
-
-  "": ""
+  }
 }

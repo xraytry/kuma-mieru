@@ -24,16 +24,16 @@ export function ChartTooltip({ active, payload, label }: ChartTooltipProps) {
     let statusText: string;
     switch (status) {
       case 1:
-        statusText = t('nodeOnline');
+        statusText = t('node.online');
         break;
       case 2:
-        statusText = t('nodePending');
+        statusText = t('node.pending');
         break;
       case 3:
-        statusText = t('nodeMaintenance');
+        statusText = t('node.maintenance');
         break;
       default: // 0
-        statusText = t('nodeOffline');
+        statusText = t('node.offline');
     }
 
     let statusColor: string;
@@ -42,7 +42,7 @@ export function ChartTooltip({ active, payload, label }: ChartTooltipProps) {
         statusColor = 'text-success';
         break;
       case 2: // pending
-        statusColor = 'text-warning';
+        statusColor = 'text-pending';
         break;
       case 3: // maintenance
         statusColor = 'text-danger';

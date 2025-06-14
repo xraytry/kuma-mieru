@@ -1,6 +1,12 @@
 'use client';
 
-import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from '@heroui/react';
+import {
+  Button,
+  Dropdown as HeroUIDropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+} from '@heroui/react';
 import { motion } from 'framer-motion';
 import { Monitor, Moon, Sun } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -10,15 +16,15 @@ import { useEffect, useState } from 'react';
 const mode = {
   light: {
     icon: <Sun size={22} />,
-    text: 'modeLight',
+    text: 'mode.light',
   },
   dark: {
     icon: <Moon size={22} />,
-    text: 'modeDark',
+    text: 'mode.dark',
   },
   system: {
     icon: <Monitor size={22} />,
-    text: 'modeSystem',
+    text: 'mode.system',
   },
 };
 
@@ -47,7 +53,7 @@ export const ThemeSwitch = ({
   }
 
   return (
-    <Dropdown aria-label="Switch Theme">
+    <HeroUIDropdown aria-label="Switch Theme">
       <DropdownTrigger>
         <Button isIconOnly variant="light" radius={radius} className="text-default-500">
           {currentTheme === 'system' ? (
@@ -77,6 +83,6 @@ export const ThemeSwitch = ({
           </DropdownItem>
         ))}
       </DropdownMenu>
-    </Dropdown>
+    </HeroUIDropdown>
   );
 };

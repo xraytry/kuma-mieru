@@ -29,13 +29,8 @@ interface ControlButtonProps {
   onClick: () => void;
 }
 
-// unused
-function formatTime(ms: number): string {
-  return dayjs(ms).format('YYYY-MM-DD HH:mm:ss (Z)');
-}
-
 function RefreshButton({ isRefreshing, onClick, children }: RefreshButtonProps) {
-  const t = useTranslations();
+  const t = useTranslations('timer');
   return (
     <button
       type="button"
@@ -51,13 +46,13 @@ function RefreshButton({ isRefreshing, onClick, children }: RefreshButtonProps) 
       <RefreshCw
         className={`h-4 w-4 transition-transform ${isRefreshing ? 'animate-spin' : 'group-hover:rotate-180'}`}
       />
-      {isRefreshing ? t('timerRefreshing') : children}
+      {isRefreshing ? t('refreshing') : children}
     </button>
   );
 }
 
 function ControlButton({ isPaused, onClick }: ControlButtonProps) {
-  const t = useTranslations();
+  const t = useTranslations('timer');
   return (
     <button
       type="button"
@@ -72,13 +67,13 @@ function ControlButton({ isPaused, onClick }: ControlButtonProps) {
       ) : (
         <Pause className="h-4 w-4 transition-transform hover:scale-110" />
       )}
-      {isPaused ? t('timerPaused') : t('timerPause')}
+      {isPaused ? t('paused') : t('pause')}
     </button>
   );
 }
 
 export default function AutoRefresh({ onRefresh, interval = 60000, children }: AutoRefreshProps) {
-  const t = useTranslations();
+  const t = useTranslations('timer');
   const format = useFormatter();
 
   const [isPaused, setIsPaused] = useState<boolean>(false);
@@ -94,22 +89,22 @@ export default function AutoRefresh({ onRefresh, interval = 60000, children }: A
     setShowRefreshAnimation(true);
 
     try {
-      const toastId = toast.loading(t('timerRefreshing'));
+      const toastId = toast.loading(t('refreshing'));
 
       const result = onRefresh();
       if (result instanceof Promise) {
         await result;
       }
 
-      toast.success(t('timerRefreshSuccess'), {
+      toast.success(t('refreshSuccess'), {
         id: toastId,
       });
 
       setLastRefreshTime(dayjs().valueOf());
     } catch (error) {
-      console.error(t('errorRefresh'), ':', error);
+      console.error(t('error.refresh'), ':', error);
       toast.error(
-        `${t('errorRefresh')}: ${error instanceof Error ? error.message : t('errorUnknown')}`,
+        `${t('error.refresh')}: ${error instanceof Error ? error.message : t('error.unknown')}`
       );
     } finally {
       setIsRefreshing(false);
@@ -123,9 +118,9 @@ export default function AutoRefresh({ onRefresh, interval = 60000, children }: A
     setIsPaused(newPausedState);
 
     if (newPausedState) {
-      toast.info(t('timerPausedInfo'));
+      toast.info(t('pausedInfo'));
     } else {
-      toast.info(t('timerResumedInfo'));
+      toast.info(t('resumedInfo'));
     }
   }, [isPaused, t]);
 
@@ -133,7 +128,7 @@ export default function AutoRefresh({ onRefresh, interval = 60000, children }: A
     if (isPaused) return;
 
     const timer = setInterval(() => {
-      setTimeLeft((prev) => {
+      setTimeLeft(prev => {
         if (prev <= 1000) {
           handleRefresh();
           return interval;
@@ -153,7 +148,7 @@ export default function AutoRefresh({ onRefresh, interval = 60000, children }: A
         className={cn(
           'sticky top-0 left-0 right-0',
           'bg-background rounded-b-large',
-          'p-4 space-y-2 z-40',
+          'p-4 space-y-2 z-40'
         )}
       >
         <div className="flex items-center gap-4 max-w-7xl mx-auto">
@@ -174,14 +169,14 @@ export default function AutoRefresh({ onRefresh, interval = 60000, children }: A
           <div className="flex items-center gap-2">
             <ControlButton isPaused={isPaused} onClick={handleTogglePause} />
             <RefreshButton isRefreshing={isRefreshing} onClick={handleRefresh}>
-              {t('timerRefreshNow')}
+              {t('refreshNow')}
             </RefreshButton>
           </div>
         </div>
 
         <div className="flex justify-between text-sm text-gray-500 dark:text-gray-400 max-w-7xl mx-auto transition-colors duration-300">
           <div suppressHydrationWarning={true}>
-            {t('timerLastTime', {
+            {t('lastTime', {
               time: format.dateTime(dayjs(lastRefreshTime).toDate(), {
                 timeZone: dayjs.tz.guess(),
                 hour: 'numeric',
@@ -198,7 +193,7 @@ export default function AutoRefresh({ onRefresh, interval = 60000, children }: A
               suppressHydrationWarning={true}
               className={`transition-opacity duration-300 ${isPaused ? 'opacity-0' : 'opacity-100'}`}
             >
-              {t('timerNextTime', {
+              {t('nextTime', {
                 sec: Math.ceil(timeLeft / 1000),
               })}
             </div>

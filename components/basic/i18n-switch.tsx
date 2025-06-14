@@ -2,7 +2,13 @@
 
 import { type Locale, locales } from '@/utils/i18n/config';
 import { setUserLocale } from '@/utils/i18n/locale';
-import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, cn } from '@heroui/react';
+import {
+  Button,
+  Dropdown as HeroUIDropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+} from '@heroui/react';
 import { Languages, Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
@@ -16,11 +22,11 @@ export const I18NSwitch = () => {
   const handleLocaleChange = (locale: Locale, localeName: string) => {
     startTransition(async () => {
       try {
-        const toastId = toast.loading(t('localeChanging', { locale: localeName }));
+        const toastId = toast.loading(t('locale.changing', { locale: localeName }));
 
         await setUserLocale(locale);
 
-        toast.success(t('localeChanged', { locale: localeName }), {
+        toast.success(t('locale.changed', { locale: localeName }), {
           id: toastId,
         });
 
@@ -30,14 +36,14 @@ export const I18NSwitch = () => {
       } catch (error) {
         console.error('Failed to change locale:', error);
         toast.error(
-          `${t('localeChangeError')}: ${error instanceof Error ? error.message : t('errorUnknown')}`,
+          `${t('locale.changeError')}: ${error instanceof Error ? error.message : t('error.unknown')}`
         );
       }
     });
   };
 
   return (
-    <Dropdown aria-label="Switch Language">
+    <HeroUIDropdown aria-label="Switch Language">
       <DropdownTrigger>
         <Button variant="light" isIconOnly className="text-default-500">
           {isPending ? (
@@ -48,7 +54,7 @@ export const I18NSwitch = () => {
         </Button>
       </DropdownTrigger>
       <DropdownMenu aria-label="Switch Language" variant="faded">
-        {locales.map((item) => (
+        {locales.map(item => (
           <DropdownItem
             key={item.key}
             onPress={() => handleLocaleChange(item.key, item.name)}
@@ -68,6 +74,6 @@ export const I18NSwitch = () => {
           </DropdownItem>
         ))}
       </DropdownMenu>
-    </Dropdown>
+    </HeroUIDropdown>
   );
 };
